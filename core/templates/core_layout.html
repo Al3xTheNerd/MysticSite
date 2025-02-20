@@ -115,7 +115,7 @@
                         </ul>
                     </li>
 
-                    {% for loc, name in [('stats', "Site Stats.")] %}
+                    {% for loc, name in [('stats', "Site Stats."), ('changes', "Changelog")] %}
                     {% if request.path == url_for(loc) %}
                     <li class="nav-item"><a class="nav-link active" aria-current="page"
                             href="{{ url_for(loc) }}">{{name}}</a></li>
