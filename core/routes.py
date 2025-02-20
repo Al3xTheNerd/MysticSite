@@ -4,7 +4,6 @@ from sqlalchemy import text, or_, desc, distinct
 from core import app, db
 from core import config as c
 import git
-
 from core.models.mysticItem import MysticItem
 from core.models.viewTracker import ViewTracker
 
