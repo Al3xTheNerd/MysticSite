@@ -141,7 +141,6 @@ def changes():
     return render_template("changes.html")
 
 
-
 @app.route('/webhook', methods=['POST'])
 def webhook():
     if request.method == 'POST':
@@ -151,6 +150,7 @@ def webhook():
         return '', 200
     else:
         return '', 400
+
 
 from werkzeug.exceptions import HTTPException
 @app.errorhandler(HTTPException)
