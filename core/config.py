@@ -1,4 +1,3 @@
-
 validCrates = {
     "Season 1: Origins" : "Origins",
     "Valerie Collection" : "Valerie",
@@ -48,9 +47,6 @@ armorTypes = [
     "Boots",
     "Elytra"
 ]
-
-
-
 def errorMaker(errorCode: int = "???"):
     return {
         "itemHTML" : f"""
@@ -69,6 +65,3 @@ def errorMaker(errorCode: int = "???"):
 
         """
     }
-    
-    
-    
