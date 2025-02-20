@@ -146,7 +146,7 @@ import git
 @app.route('/webhook', methods=['POST'])
 def webhook():
     if request.method == 'POST':
-        repo = git.Repo('./MysticItem')
+        repo = git.Repo('./MysticSite')
         origin = repo.remotes.main
         repo.create_head('main', 
     origin.refs.main).set_tracking_branch(origin.refs.main).checkout()
