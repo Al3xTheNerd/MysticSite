@@ -4,11 +4,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
 
-      # Upload files
-      # ...
 
       - name: Reload webapp
         uses: jensvog/pythonanywhere-webapp-reload-action@v1
