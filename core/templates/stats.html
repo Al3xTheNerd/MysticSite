@@ -1,0 +1,93 @@
+{% extends "core_layout.html" %}
+{% block content %}
+
+<div class="container text-center results">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 extra-pad-top">
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Page</th>
+                        <th scope="col">Views</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for page in items %}
+                    <tr>
+                        <td>{{ page.pageName }}</td>
+                        <td>{{ page.views }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 extra-pad-top">
+            <div class="give-preview-text-outer">
+                <div class="give-preview-text">
+                    <div class="give-preview-text-inner text-start">
+
+                        <span style="font-weight: bold; color: #7A2F8A; ">☆ </span><span
+                            style="font-weight: bold; color: #873798; ">I</span><span
+                            style="font-weight: bold; color: #8E3BA0; ">t</span><span
+                            style="font-weight: bold; color: #953FA7; ">e</span><span
+                            style="font-weight: bold; color: #9B43AE; ">m </span><span
+                            style="font-weight: bold; color: #A94BBD; ">S</span><span
+                            style="font-weight: bold; color: #AF4FC4; ">t</span><span
+                            style="font-weight: bold; color: #B653CB; ">a</span><span
+                            style="font-weight: bold; color: #AF4FC4; ">t</span><span
+                            style="font-weight: bold; color: #A94BBD; ">i</span><span
+                            style="font-weight: bold; color: #A247B5; ">s</span><span
+                            style="font-weight: bold; color: #9B43AE; ">t</span><span
+                            style="font-weight: bold; color: #953FA7; ">i</span><span
+                            style="font-weight: bold; color: #8E3BA0; ">c</span><span
+                            style="font-weight: bold; color: #873798; ">s </span><span
+                            style="font-weight: bold; color: #7A2F8A; ">☆</span>
+                        <div><span style="color: #55FF55; ">Infinite Blocks {{ stats.infiniteBlocks }}</span></div>
+                        <div><span style="color: #55FF55; ">Helmets {{ stats.helmets }}</span></div>
+                        <div><span style="color: #55FF55; ">Chestplates {{ stats.chestplates }}</span></div>
+                        <div><span style="color: #55FF55; ">Leggings {{ stats.leggings }}</span></div>
+                        <div><span style="color: #55FF55; ">Boots {{ stats.boots }}</span></div>
+                        <div><span style="color: #55FF55; ">Elytras {{ stats.elytra }}</span></div>
+                        <div><span style="color: #55FF55; ">Axe {{ stats.axe }}</span></div>
+                        <div><span style="color: #55FF55; ">Hoe {{ stats.hoe }}</span></div>
+                        <div><span style="color: #55FF55; ">Shovel {{ stats.shovel }}</span></div>
+                        <div><span style="color: #55FF55; ">Pickaxe {{ stats.pickaxe }} </span></div>
+                        <div><span style="color: #55FF55; ">Fishing Rod {{ stats.rod }}</span></div>
+                        <div><span style="color: #55FF55; ">Sword {{ stats.sword }}</span></div>
+                        <div><span style="color: #55FF55; ">Bow {{ stats.bow }}</span></div>
+                        <div><span style="color: #55FF55; ">Crossbow {{ stats.crossbow }}</span></div>
+                        <div><span style="color: #55FF55; ">Trident {{ stats.trident }}</span></div>
+                        <div><span style="color: #55FF55; ">Mace {{ stats.mace }}</span></div>
+                        <div><span style="color: #55FF55; ">Crates {{ stats.crates }}</span></div>
+
+
+
+
+
+                        <div><span style="color: #AAAAAA; ">- - - - - - ▶ </span><span
+                                style="color: #7A2F8A; ">S</span><span style="color: #863697; ">t</span><span
+                                style="color: #923DA4; ">a</span><span style="color: #9E45B1; ">t</span><span
+                                style="color: #AA4CBE; ">i</span><span style="color: #B653CB; ">s</span><span
+                                style="color: #A74ABB; ">t</span><span style="color: #9841AB; ">i</span><span
+                                style="color: #89389A; ">c</span><span style="color: #7A2F8A; ">s</span><span
+                                style="color: #AAAAAA; "> ◀ - - - - - -</span></div>
+                        <div><br></div>
+                        <div><span style="color: #FFFF55; ">There are {{ stats.total }} total Mystic items!</span></div>
+                        <div><br></div>
+                        <div><span style="color: #AAAAAA; ">- - - - - - - - - - - - - - - - - - - - -</span></div>
+                        <div><span style="color: #AAAAAA; ">Rarity: </span><span style="font-weight: bold; color: #5555FF; ">E</span><span style="font-weight: bold; color: #713AE4; ">T</span><span style="font-weight: bold; color: #8C1DC7; ">E</span><span style="font-weight: bold; color: #A802AC; ">R</span><span style="font-weight: bold; color: #8F51C5; ">N</span><span style="font-weight: bold; color: #72A7E2; ">A</span><span style="font-weight: bold; color: #55FEFF; ">L</span></div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>
+
+
+{% endblock %}

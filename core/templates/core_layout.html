@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mystic Items - {{ request.path }}</title>
+    <link rel="icon" type="image/x-ison" href="{{url_for('static', filename='favicons/favicons.png')}}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="{{url_for('static', filename='css/index.css')}}" type="text/css" rel="stylesheet">
+    <meta content="Mystic Items - {{ request.path }}" property="og:title" />
+    <meta content="An easily searchable database of all Mystic Items!" property="og:description" />
+    <meta content="https://www.atn.gg" property="og:url" />
+    <meta content="	https://www.atn.gg/static/images/mysticmc.webp" property="og:image" />
+    <meta content="#43B581" data-react-helmet="true" name="theme-color" />
+</head>
+
+<body>
+    <nav class="navbar navbar-light navbar-expand-sm bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <img src="{{ url_for('static',filename='images/mysticmc.webp') }}" width="32" height="32">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    {% for loc, name in [('index', "All Items"), ('infinite', "Infinite Blocks"), ('quests', "Quests")] %}
+                    {% if request.path == url_for(loc) %}
+                    <li class="nav-item"><a class="nav-link active" aria-current="page"
+                            href="{{ url_for(loc) }}">{{name}}</a></li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for(loc) }}">{{name}}</a></li>
+                    {% endif %}
+                    {% endfor %}
+
+
+                    <!-- Armor -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Armor
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for armorType in armorTypes %}
+                            {% if request.path == url_for('armor', type=armorType) %}
+                            <li><a class="dropdown-item active"
+                                    href="{{ url_for('armor', type=armorType) }}">{{armorType}}</a></li>
+                            {% else %}
+                            <li><a class="dropdown-item" href="{{ url_for('armor', type=armorType) }}">{{armorType}}</a>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <!-- Tools -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Tools
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for toolType in toolTypes %}
+                            {% if request.path == url_for('tool', type=toolType) %}
+                            <li><a class="dropdown-item active"
+                                    href="{{ url_for('tool', type=toolType) }}">{{toolType}}</a></li>
+                            {% else %}
+                            <li><a class="dropdown-item" href="{{ url_for('tool', type=toolType) }}">{{toolType}}</a>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <!-- Weapons -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Weapons
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for weaponType in weaponTypes %}
+                            {% if request.path == url_for('weapon', type=weaponType) %}
+                            <li><a class="dropdown-item active"
+                                    href="{{ url_for('weapon', type=weaponType) }}">{{weaponType}}</a></li>
+                            {% else %}
+                            <li><a class="dropdown-item"
+                                    href="{{ url_for('weapon', type=weaponType) }}">{{weaponType}}</a></li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <!-- Crates -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Crates
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for crateName, tag in validCrates.items() %}
+                            {% if request.path == url_for('crate', crateName=tag) %}
+                            <li><a class="dropdown-item active"
+                                    href="{{ url_for('crate', crateName=tag) }}">{{crateName}}</a></li>
+                            {% else %}
+                            <li><a class="dropdown-item" href="{{ url_for('crate', crateName=tag) }}">{{crateName}}</a>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    {% for loc, name in [('stats', "Site Stats.")] %}
+                    {% if request.path == url_for(loc) %}
+                    <li class="nav-item"><a class="nav-link active" aria-current="page"
+                            href="{{ url_for(loc) }}">{{name}}</a></li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for(loc) }}">{{name}}</a></li>
+                    {% endif %}
+                    {% endfor %}
+
+
+                </ul>
+                <div class="right-side d-flex justify-content-end">
+                    <form class="d-flex" method="post" action="{{ url_for('index')}}">
+                        <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-3">
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+        {% block content %} {% endblock %}
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
