@@ -146,9 +146,7 @@ def changes():
 def webhook():
     if request.method == 'POST':
         repo = git.Repo('./MysticSite')
-        origin = repo.remotes.main
-        repo.create_head('main', 
-    origin.refs.main).set_tracking_branch(origin.refs.main).checkout()
+        origin = repo.remotes.origin
         origin.pull()
         return '', 200
     else:
