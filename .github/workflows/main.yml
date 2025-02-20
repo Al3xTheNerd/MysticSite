@@ -4,8 +4,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-
-
       - name: Reload webapp
         uses: jensvog/pythonanywhere-webapp-reload-action@v1
         with:
