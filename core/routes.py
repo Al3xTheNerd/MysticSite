@@ -155,10 +155,6 @@ def webhook():
     else:
         return '', 400
 
-
-
-
-
 from werkzeug.exceptions import HTTPException
 @app.errorhandler(HTTPException)
 def handle_http_exception(e):
