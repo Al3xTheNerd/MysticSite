@@ -1,0 +1,101 @@
+{% extends "core_layout.html" %}
+{% block content %}
+
+<div class="container text-center results">
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="mb-3">
+                    <textarea class="form-control"id="importCode" value="" rows="5"></textarea>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-danger" onclick="importCode()">
+                        Import from text
+                    </button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-danger" onclick="copyToClipBoard()">
+                        Copy To Clipboard
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        {% for crate, items in sortedItems.items() %}
+
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 extra-pad-top">
+            <div class="give-preview-text-outer">
+                <div class="give-preview-text">
+                    <div class="give-preview-text-inner text-start">
+                        <span class="mc-white">{{ crate }}</span>
+                        <div><br></div>
+                        {% for item in items %}
+                        <div>
+                            <input type="checkbox" name="item" onclick="exportCode()">
+                            <label>
+                                <span class="mc-gold">{{ item.itemName | safe }}</span>
+                            </label>
+                        </div>
+
+
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+
+
+
+    </div>
+</div>
+
+<script>
+    function exportCode() {
+        let checkboxes =
+            document.getElementsByName('item');
+        let result = "";
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                result += 1;
+            } else {
+                result += 0
+            }
+        }
+        document.getElementById("importCode").value = result;
+        console.log(result)
+    }
+    function importCode() {
+        let currentValues = document.getElementById("importCode").value;
+        let checkboxes =
+            document.getElementsByName('item');
+        let result = "";
+        for (var i = 0; i < checkboxes.length; i++) {
+            // If used to be checked
+            if (currentValues[i] == 1) {
+                checkboxes[i].checked = true;
+            } else {
+                checkboxes[i].checked = false;
+            }
+
+        }
+        console.log(currentValues)
+
+    }
+    function copyToClipBoard() {
+        var copyText = document.getElementById("importCode");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value);
+        alert("Copied import code to clipboard.")
+    }
+
+
+
+    exportCode();
+
+</script>
+
+{% endblock %}

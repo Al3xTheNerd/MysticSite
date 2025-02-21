@@ -25,10 +25,10 @@ def trackView():
     if "static" not in path:
         current = ViewTracker.query.filter_by(pageName = path).first()
         if current == None:
-            pass
-            #newPage = ViewTracker(pageName = path, views = 1)
-            #db.session.add(newPage)
-            #db.session.commit()
+            if path == "/itemtracker":
+                newPage = ViewTracker(pageName = path, views = 1)
+                db.session.add(newPage)
+                db.session.commit()
         else:
             current.views += 1
             db.session.commit()
@@ -132,13 +132,28 @@ def stats():
         "crates" : crateCount,
         "total" : items.count()
     }
-    print(stats)
     res = ViewTracker.query.order_by(desc(ViewTracker.views))
     return render_template("stats.html", items = res, stats = stats)
 
 @app.route('/changes')
 def changes():
     return render_template("changes.html")
+
+
+@app.route('/itemtracker')
+def itemtracker():
+    sortedItems = {}
+    crateCount = 0
+    for crate in db.session.query(MysticItem.crateName).distinct():
+        crateCount += 1
+        sortedItems[crate[0]] = MysticItem.query.filter_by(crateName = crate[0])
+    return render_template("itemTracker.html", sortedItems = sortedItems)
+
+
+
+
+
+
 
 
 @app.route('/webhook', methods=['POST'])
