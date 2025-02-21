@@ -146,7 +146,7 @@ def itemtracker():
     crateCount = 0
     for crate in db.session.query(MysticItem.crateName).distinct():
         crateCount += 1
-        sortedItems[crate[0]] = MysticItem.query.filter_by(crateName = crate[0])
+        sortedItems[crate[0]] = MysticItem.query.filter_by(crateName = crate[0]).order_by(MysticItem.id)
     return render_template("itemTracker.html", sortedItems = sortedItems)
 
 
