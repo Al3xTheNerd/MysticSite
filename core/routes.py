@@ -137,9 +137,7 @@ def stats():
     res = ViewTracker.query.order_by(desc(ViewTracker.views))
     return render_template("stats.html", items = res, stats = stats)
 
-@app.route('/changes')
-def changes():
-    return render_template("changes.html")
+
 
 
 @app.route('/itemtracker')
