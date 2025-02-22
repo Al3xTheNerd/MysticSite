@@ -25,7 +25,7 @@ def trackView():
     if "static" not in path:
         current = ViewTracker.query.filter_by(pageName = path).first()
         if current == None:
-            if path == "/itemtracker":
+            if path == "/all":
                 newPage = ViewTracker(pageName = path, views = 1)
                 db.session.add(newPage)
                 db.session.commit()
@@ -35,25 +35,27 @@ def trackView():
             
 
         
-        
-
-
-
 @app.route('/', methods=('GET', 'POST'))
 def index():
     if request.method == 'GET':
-        items = MysticItem.query.order_by(MysticItem.id)
-        return render_template("index.html", mysticItems = items)
+        items = None
     elif request.method == 'POST':
         search = request.form['search']
         if not search: 
             flash("Try entering a query!")
         items = MysticItem.query.filter(MysticItem.rawLore.ilike(f"%{search}%")).all()
         if not items:
-            items = MysticItem.query.order_by(MysticItem.id)
+            items = None
             flash("No results found!")
         
-        return render_template("index.html", mysticItems = items)
+    return render_template("home.html", mysticItems = items)
+
+
+
+@app.route('/all')
+def all():
+    items = MysticItem.query.order_by(MysticItem.id)
+    return render_template("index.html", mysticItems = items)
         
 
 @app.route('/crate/<crateName>')

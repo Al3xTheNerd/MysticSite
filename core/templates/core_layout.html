@@ -29,7 +29,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    {% for loc, name in [('index', "All Items"), ('infinite', "Infinite Blocks"), ('quests', "Quests")] %}
+                    {% for loc, name in [('index', "Home"), ('all', "All Items"), ('infinite', "Infinite Blocks"), ('quests', "Quests")] %}
                     {% if request.path == url_for(loc) %}
                     <li class="nav-item"><a class="nav-link active" aria-current="page"
                             href="{{ url_for(loc) }}">{{name}}</a></li>
@@ -115,7 +115,7 @@
                         </ul>
                     </li>
 
-                    {% for loc, name in [('stats', "Site Stats."), ('itemtracker', "Item Tracker"), ('changes', "Changelog")] %}
+                    {% for loc, name in [('stats', "Site Stats."), ('itemtracker', "Item Tracker")] %}
                     {% if request.path == url_for(loc) %}
                     <li class="nav-item"><a class="nav-link active" aria-current="page"
                             href="{{ url_for(loc) }}">{{name}}</a></li>
