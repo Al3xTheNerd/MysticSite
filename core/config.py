@@ -37,8 +37,7 @@ toolTypes = [
     "Hoe",
     "Shovel",
     "Pickaxe",
-    "Rod",
-    "Miscellaneous"
+    "Rod"
 ]
 armorTypes = [
     "All",

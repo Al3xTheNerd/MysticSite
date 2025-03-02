@@ -29,8 +29,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    {% for loc, name in [('index', "Home"), ('all', "All Items"), ('infinite', "Infinite Blocks"),
-                    ('quests', "Quests")] %}
+                    {% for loc, name in [('index', "Home"), ('all', "All Items")] %}
                     {% if request.path == url_for(loc) %}
                     <li class="nav-item"><a class="nav-link active" aria-current="page"
                             href="{{ url_for(loc) }}">{{name}}</a></li>
@@ -39,13 +38,29 @@
                     {% endif %}
                     {% endfor %}
 
-
-                    <!-- Armor -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            Armor
+                            Item Categories
                         </a>
+                        <ul class="dropdown-menu">
+                            {% for category, name, config, last in [("armor", "Armor", armorTypes, false), ("tool", "Tools", toolTypes, false),
+                            ("weapon", "Weapons", weaponTypes, true)] %}
+                                <a class="dropdown-item disabled" href="#">{{ name }}</a>
+                                {% for type in config %}
+                                    {% if request.path == url_for(category, type=type) %}
+                                        <li><a class="dropdown-item active"
+                                                href="{{ url_for(category, type=type) }}">{{type}}</a></li>
+                                    {% else %}
+                                        <li><a class="dropdown-item" href="{{ url_for(category, type=type) }}">{{type}}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if last is false %}
+                                    <div class="dropdown-divider"></div>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
                         <ul class="dropdown-menu">
                             {% for armorType in armorTypes %}
                             {% if request.path == url_for('armor', type=armorType) %}
@@ -54,44 +69,6 @@
                             {% else %}
                             <li><a class="dropdown-item" href="{{ url_for('armor', type=armorType) }}">{{armorType}}</a>
                             </li>
-                            {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </li>
-
-                    <!-- Tools -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Tools
-                        </a>
-                        <ul class="dropdown-menu">
-                            {% for toolType in toolTypes %}
-                            {% if request.path == url_for('tool', type=toolType) %}
-                            <li><a class="dropdown-item active"
-                                    href="{{ url_for('tool', type=toolType) }}">{{toolType}}</a></li>
-                            {% else %}
-                            <li><a class="dropdown-item" href="{{ url_for('tool', type=toolType) }}">{{toolType}}</a>
-                            </li>
-                            {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </li>
-
-                    <!-- Weapons -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Weapons
-                        </a>
-                        <ul class="dropdown-menu">
-                            {% for weaponType in weaponTypes %}
-                            {% if request.path == url_for('weapon', type=weaponType) %}
-                            <li><a class="dropdown-item active"
-                                    href="{{ url_for('weapon', type=weaponType) }}">{{weaponType}}</a></li>
-                            {% else %}
-                            <li><a class="dropdown-item"
-                                    href="{{ url_for('weapon', type=weaponType) }}">{{weaponType}}</a></li>
                             {% endif %}
                             {% endfor %}
                         </ul>
@@ -120,30 +97,25 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        Trackers
+                        Misc
                     </a>
                     <ul class="dropdown-menu">
-                        {% for loc, name in [('itemtracker', "All Items"), ('itemtracker', "Infinite Blocks")] %}
-                        {% if request.path == url_for(loc) %}
-                        <li><a class="dropdown-item active" href="{{ url_for(loc) }}">{{name}}</a></li>
-                        {% else %}
-                        <li><a class="dropdown-item" href="{{ url_for(loc) }}">{{name}}</a></li>
-                </li>
-                {% endif %}
+                        {% for loc, name in [('itemtracker', "Item Tracker"), ('itemtracker', "Infinite Tacker"), (false, false), ('infinite', "Infinite Blocks"), ('quests', "Quests"), (false, false), ('stats', "Site
+                        Stats")] %}
+                            {% if loc is false %}
+                                <div class="dropdown-divider"></div>
+                            {% else %}
+                                {% if request.path == url_for(loc) %}
+                                    <li><a class="dropdown-item active" href="{{ url_for(loc) }}">{{name}}</a></li>
+                                {% else %}
+                                    <li><a class="dropdown-item" href="{{ url_for(loc) }}">{{name}}</a></li>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
                 {% endfor %}
                 </ul>
                 </li>
 
-
-
-                {% for loc, name in [('stats', "Site Stats.")] %}
-                {% if request.path == url_for(loc) %}
-                <li class="nav-item"><a class="nav-link active" aria-current="page"
-                        href="{{ url_for(loc) }}">{{name}}</a></li>
-                {% else %}
-                <li class="nav-item"><a class="nav-link" href="{{ url_for(loc) }}">{{name}}</a></li>
-                {% endif %}
-                {% endfor %}
 
 
                 </ul>
