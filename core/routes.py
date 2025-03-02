@@ -5,7 +5,6 @@ from core import app, db
 from core import config as c
 import git
 from core.models.mysticItem import MysticItem
-from core.models.viewTracker import ViewTracker
 
 @app.context_processor
 def set_global_html_variable_values():
@@ -18,20 +17,6 @@ def set_global_html_variable_values():
     }
     return config
 
-@app.before_request
-def trackView():
-    """Iterate the views in the viewTracker table for every"""
-    path = request.path
-    if "static" not in path:
-        current = ViewTracker.query.filter_by(pageName = path).first()
-        if current == None:
-            if path == "/all":
-                newPage = ViewTracker(pageName = path, views = 1)
-                db.session.add(newPage)
-                db.session.commit()
-        else:
-            current.views += 1
-            db.session.commit()
             
 
         
@@ -134,8 +119,7 @@ def stats():
         "crates" : crateCount,
         "total" : items.count()
     }
-    res = ViewTracker.query.order_by(desc(ViewTracker.views))
-    return render_template("stats.html", items = res, stats = stats)
+    return render_template("stats.html", stats = stats)
 
 
 

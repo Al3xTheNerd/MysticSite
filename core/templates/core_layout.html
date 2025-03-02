@@ -29,7 +29,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    {% for loc, name in [('index', "Home"), ('all', "All Items"), ('infinite', "Infinite Blocks"), ('quests', "Quests")] %}
+                    {% for loc, name in [('index', "Home"), ('all', "All Items"), ('infinite', "Infinite Blocks"),
+                    ('quests', "Quests")] %}
                     {% if request.path == url_for(loc) %}
                     <li class="nav-item"><a class="nav-link active" aria-current="page"
                             href="{{ url_for(loc) }}">{{name}}</a></li>
@@ -110,25 +111,46 @@
                             {% else %}
                             <li><a class="dropdown-item" href="{{ url_for('crate', crateName=tag) }}">{{crateName}}</a>
                             </li>
-                            {% endif %}
-                            {% endfor %}
-                        </ul>
                     </li>
-
-                    {% for loc, name in [('stats', "Site Stats."), ('itemtracker', "Item Tracker")] %}
-                    {% if request.path == url_for(loc) %}
-                    <li class="nav-item"><a class="nav-link active" aria-current="page"
-                            href="{{ url_for(loc) }}">{{name}}</a></li>
-                    {% else %}
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for(loc) }}">{{name}}</a></li>
                     {% endif %}
                     {% endfor %}
+                </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Trackers
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% for loc, name in [('itemtracker', "All Items"), ('itemtracker', "Infinite Blocks")] %}
+                        {% if request.path == url_for(loc) %}
+                        <li><a class="dropdown-item active" href="{{ url_for(loc) }}">{{name}}</a></li>
+                        {% else %}
+                        <li><a class="dropdown-item" href="{{ url_for(loc) }}">{{name}}</a></li>
+                </li>
+                {% endif %}
+                {% endfor %}
+                </ul>
+                </li>
+
+
+
+                {% for loc, name in [('stats', "Site Stats.")] %}
+                {% if request.path == url_for(loc) %}
+                <li class="nav-item"><a class="nav-link active" aria-current="page"
+                        href="{{ url_for(loc) }}">{{name}}</a></li>
+                {% else %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for(loc) }}">{{name}}</a></li>
+                {% endif %}
+                {% endfor %}
 
 
                 </ul>
                 <div class="right-side d-flex justify-content-end">
                     <form class="d-flex" method="post" action="{{ url_for('index')}}">
-                        <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search">
+                        <input class="form-control me-2" name="search" type="search" placeholder="Search"
+                            aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </div>

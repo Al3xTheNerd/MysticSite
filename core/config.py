@@ -19,7 +19,8 @@ validCrates = {
     "Season 6: Shogun" : "Shogun",
     "Fright Night" : "FrightNight",
     "Snowfall" : "Snowfall",
-    "Season 7: Olympus" : "Olympus"
+    "Season 7: Olympus" : "Olympus",
+    "Multi" : "Multi"
 }
 weaponTypes = [
     "All",

@@ -45,7 +45,13 @@ body {
     padding-top: 12px;
 }
 
+.mc-bold {
+    font-weight: bold;
+}
 
+.mc-italic {
+    font-style: italic;
+}
 
 /* &0 */
 .mc-black {
