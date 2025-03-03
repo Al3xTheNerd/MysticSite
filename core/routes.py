@@ -1,6 +1,5 @@
-from flask import render_template, request, flash, redirect, url_for
-from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy import text, or_, desc, distinct
+from flask import render_template, request, flash
+from sqlalchemy import or_, and_
 from core import app, db
 from core import config as c
 import git
@@ -133,7 +132,18 @@ def itemtracker():
         sortedItems[crate[0]] = MysticItem.query.filter_by(crateName = crate[0]).order_by(MysticItem.id)
     return render_template("itemTracker.html", sortedItems = sortedItems)
 
-
+@app.route('/infinitetracker')
+def infinitetracker():
+    sortedItems = {}
+    crateCount = 0
+    for crate in db.session.query(MysticItem.crateName).distinct():
+        items = MysticItem.query.filter(and_(MysticItem.crateName == crate[0], MysticItem.infiniteBlock == 1)).order_by(MysticItem.id)
+        if items.count() > 0:
+            crateCount += 1
+            sortedItems[crate[0]] = items
+        
+        
+    return render_template("itemTracker.html", sortedItems = sortedItems)
 
 
 
