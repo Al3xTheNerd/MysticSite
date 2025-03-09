@@ -70,8 +70,12 @@
     }
     function loadFromCookie() {
         let oldResults = getCookie({{ page }});
-    document.getElementById("importCode").value = result;
-    console.log(oldResults);
+        if (oldResults == "") {
+            console.log("No old results found.")
+        } else {
+            document.getElementById("importCode").value = result;
+            console.log(oldResults);
+        }
     }
 
 
