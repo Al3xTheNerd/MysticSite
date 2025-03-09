@@ -69,6 +69,7 @@
         return "";
     }
     function loadFromCookie() {
+        console.log("I exist.");
         let oldResults = getCookie({{ page }});
         if (oldResults == "") {
             console.log("No old results found.")
