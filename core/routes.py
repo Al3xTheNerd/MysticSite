@@ -130,7 +130,7 @@ def itemtracker():
     for crate in db.session.query(MysticItem.crateName).distinct():
         crateCount += 1
         sortedItems[crate[0]] = MysticItem.query.filter_by(crateName = crate[0]).order_by(MysticItem.id)
-    return render_template("itemTracker.html", sortedItems = sortedItems)
+    return render_template("itemTracker.html", sortedItems = sortedItems, page="item")
 
 @app.route('/infinitetracker')
 def infinitetracker():
@@ -143,7 +143,7 @@ def infinitetracker():
             sortedItems[crate[0]] = items
         
         
-    return render_template("itemTracker.html", sortedItems = sortedItems)
+    return render_template("itemTracker.html", sortedItems = sortedItems, page="infinite")
 
 
 
