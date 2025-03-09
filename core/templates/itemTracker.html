@@ -5,8 +5,7 @@
         <div class="col-12">
             <div class="row">
                 <div class="mb-3">
-                    <textarea class="form-control" id="importCode" value="" rows="5"
-                        onload="loadFromCookie()"></textarea>
+                    <textarea class="form-control" id="importCode" value="" rows="5"></textarea>
                 </div>
                 <div class="col-6">
                     <button class="btn btn-danger" onclick="importCode()">
@@ -51,7 +50,7 @@
 
     </div>
 </div>
-
+<script onload="loadFromCookie()"></script>
 <script>
     function getCookie(cname) {
         let name = cname + "=";
