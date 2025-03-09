@@ -80,7 +80,7 @@
                 result += 0
             }
         }
-        document.cookie = `{{ page }}=${result};expires=Wed, 18 Dec 2026 12:00:00 GMT&quot;`;
+        document.cookie = `{{ page }}=${result};expires=Wed, 18 Dec 2026 12:00:00 GMT;`;
         document.getElementById("importCode").value = result;
         console.log(result)
     }
