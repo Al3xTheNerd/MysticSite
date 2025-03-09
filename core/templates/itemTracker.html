@@ -5,7 +5,8 @@
         <div class="col-12">
             <div class="row">
                 <div class="mb-3">
-                    <textarea class="form-control"id="importCode" value="" rows="5" onload="loadFromCookie()"></textarea>
+                    <textarea class="form-control" id="importCode" value="" rows="5"
+                        onload="loadFromCookie()"></textarea>
                 </div>
                 <div class="col-6">
                     <button class="btn btn-danger" onclick="importCode()">
@@ -52,20 +53,25 @@
 </div>
 
 <script>
-    function getCookieValue(name) 
-        {
-        const regex = new RegExp(`(^| )${name}=([^;]+)`)
-        const match = document.cookie.match(regex)
-        if (match) {
-            console.log(match[2]);
-            return match[2];
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
         }
-        
+        return "";
     }
     function loadFromCookie() {
-        let oldResults = getCookieValue({{ page }});
-        document.getElementById("importCode").value = result;
-        console.log(oldResults);
+        let oldResults = getCookie({{ page }});
+    document.getElementById("importCode").value = result;
+    console.log(oldResults);
     }
 
 
