@@ -50,7 +50,6 @@
 
     </div>
 </div>
-<script onload="loadFromCookie()"></script>
 <script>
     function getCookie(cname) {
         let name = cname + "=";
@@ -69,7 +68,7 @@
     }
     function loadFromCookie() {
         console.log("I exist.");
-        let oldResults = getCookie({{ page }});
+        let oldResults = getCookie("{{ page }}");
         if (oldResults == "") {
             console.log("No old results found.")
         } else {
