@@ -1,0 +1,2049 @@
+{% extends "core_layout.html" %}
+{% block content %}
+
+<div class="container results">
+    <div class="row">
+        <div class="col-12 bg-dark text-info">
+            <form>
+                <div class="mb-3">
+                    <label for="job-level" class="form-label">Level: <span id="job-level-display">1</span></label>
+                    <input type="range" class="form-range" min="1" max="101" value="1" id="job-level"
+                        oninput="updateValues()" onchange="updateValues()">
+                </div>
+                <div class="mb-3">
+                    <label for="job-bonus" class="form-label">Bonus: <span id="job-bonus-display">0</span>%</label>
+                    <input type="range" class="form-range" min="0" max="40" value="0" step="5" id="job-bonus"
+                        oninput="updateValues()" onchange="updateValues()">
+                </div>
+
+            </form>
+        </div>
+
+
+
+
+
+        <div class="col-12 extra-pad-top">
+            <div class="text-info">
+                <ul class="nav nav-tabs bg-dark" id="myTab" role="tablist" style="border-bottom-color: transparent;">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="digger-tab" data-bs-toggle="tab"
+                            data-bs-target="#digger-tab-pane" type="button" role="tab"
+                            aria-selected="true">Digger</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="farmer-tab" data-bs-toggle="tab" data-bs-target="#farmer-tab-pane"
+                            type="button" role="tab" aria-selected="false">Farmer</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="fisher-tab" data-bs-toggle="tab" data-bs-target="#fisher-tab-pane"
+                            type="button" role="tab" aria-selected="false">Fisher</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="florist-tab" data-bs-toggle="tab"
+                            data-bs-target="#florist-tab-pane" type="button" role="tab"
+                            aria-selected="false">Florist</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="hunter-tab" data-bs-toggle="tab" data-bs-target="#hunter-tab-pane"
+                            type="button" role="tab" aria-selected="false">Hunter</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="miner-tab" data-bs-toggle="tab" data-bs-target="#miner-tab-pane"
+                            type="button" role="tab" aria-selected="false">Miner</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="rancher-tab" data-bs-toggle="tab"
+                            data-bs-target="#rancher-tab-pane" type="button" role="tab"
+                            aria-selected="false">Rancher</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="smelter-tab" data-bs-toggle="tab"
+                            data-bs-target="#smelter-tab-pane" type="button" role="tab"
+                            aria-selected="false">Smelter</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="woodcutter-tab" data-bs-toggle="tab"
+                            data-bs-target="#woodcutter-tab-pane" type="button" role="tab"
+                            aria-selected="false">Woodcutter</button>
+                    </li>
+                </ul>
+                <br>
+                <div class="tab-content" id="myTabContent">
+                    <!-- Digger Tab -->
+                    <div class="tab-pane fade show active" id="digger-tab-pane" role="tabpanel" tabindex="0">
+                        <div class="text-info">
+                            <ul class="nav nav-tabs bg-dark" id="digger" role="tablist"
+                                style="border-bottom-color: transparent;">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="digger-break-tab" data-bs-toggle="tab"
+                                        data-bs-target="#digger-break-tab-pane" type="button" role="tab"
+                                        aria-selected="true">Break</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+
+                                <div class="tab-pane fade show active" id="digger-break-tab-pane" role="tabpanel"
+                                    tabindex="0">
+                                    <br>
+                                    <table class="table table-dark table-striped extra-pad-top">
+                                        <thead>
+                                            <tr id="skip">
+                                                <th scope="col">Item/Entity</th>
+                                                <th scope="col">Base Pay</th>
+                                                <th scope="col">Final Pay</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope='col'>Dirt</th>
+                                                <td scope='col'>$<span id='base'>0.07</span></td>
+                                                <td scope='col'>$<span id='final'>0.07</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Grass Block</th>
+                                                <td scope='col'>$<span id='base'>0.07</span></td>
+                                                <td scope='col'>$<span id='final'>0.07</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Sand</th>
+                                                <td scope='col'>$<span id='base'>0.07</span></td>
+                                                <td scope='col'>$<span id='final'>0.07</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Soul Sand</th>
+                                                <td scope='col'>$<span id='base'>0.1</span></td>
+                                                <td scope='col'>$<span id='final'>0.1</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Soul Soil</th>
+                                                <td scope='col'>$<span id='base'>0.1</span></td>
+                                                <td scope='col'>$<span id='final'>0.1</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Gravel</th>
+                                                <td scope='col'>$<span id='base'>0.15</span></td>
+                                                <td scope='col'>$<span id='final'>0.15</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Snow Block</th>
+                                                <td scope='col'>$<span id='base'>0.15</span></td>
+                                                <td scope='col'>$<span id='final'>0.15</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Red Sand</th>
+                                                <td scope='col'>$<span id='base'>0.13</span></td>
+                                                <td scope='col'>$<span id='final'>0.13</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Coarse Dirt</th>
+                                                <td scope='col'>$<span id='base'>0.2</span></td>
+                                                <td scope='col'>$<span id='final'>0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Podzol</th>
+                                                <td scope='col'>$<span id='base'>0.2</span></td>
+                                                <td scope='col'>$<span id='final'>0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Mud</th>
+                                                <td scope='col'>$<span id='base'>0.2</span></td>
+                                                <td scope='col'>$<span id='final'>0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Muddy mangrove roots</th>
+                                                <td scope='col'>$<span id='base'>0.2</span></td>
+                                                <td scope='col'>$<span id='final'>0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Mycelium</th>
+                                                <td scope='col'>$<span id='base'>0.2</span></td>
+                                                <td scope='col'>$<span id='final'>0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Clay</th>
+                                                <td scope='col'>$<span id='base'>0.25</span></td>
+                                                <td scope='col'>$<span id='final'>0.25</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Farmer Tab -->
+                    <div class="tab-pane fade" id="farmer-tab-pane" role="tabpanel" tabindex="0">
+                        <div class="text-info">
+                            <ul class="nav nav-tabs bg-dark" id="farmer" role="tablist"
+                                style="border-bottom-color: transparent;">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="farmer-break-tab" data-bs-toggle="tab"
+                                        data-bs-target="#farmer-break-tab-pane" type="button" role="tab"
+                                        aria-selected="true">Break</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="farmer-collect-tab" data-bs-toggle="tab"
+                                        data-bs-target="#farmer-collect-tab-pane" type="button" role="tab"
+                                        aria-selected="false">Collect</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+
+                                <div class="tab-pane fade show active" id="farmer-break-tab-pane" role="tabpanel"
+                                    tabindex="0">
+                                    <br>
+                                    <table class="table table-dark table-striped extra-pad-top">
+                                        <thead>
+                                            <tr id="skip">
+                                                <th scope="col">Item/Entity</th>
+                                                <th scope="col">Base Pay</th>
+                                                <th scope="col">Final Pay</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope='col'>Wheat</th>
+                                                <td scope='col'>$<span id='base'>0.25</span></td>
+                                                <td scope='col'>$<span id='final'>0.25</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Beetroots</th>
+                                                <td scope='col'>$<span id='base'>0.25</span></td>
+                                                <td scope='col'>$<span id='final'>0.25</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Carrots</th>
+                                                <td scope='col'>$<span id='base'>0.25</span></td>
+                                                <td scope='col'>$<span id='final'>0.25</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Potatoes</th>
+                                                <td scope='col'>$<span id='base'>0.25</span></td>
+                                                <td scope='col'>$<span id='final'>0.25</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Cocoa</th>
+                                                <td scope='col'>$<span id='base'>0.25</span></td>
+                                                <td scope='col'>$<span id='final'>0.25</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Pumpkin</th>
+                                                <td scope='col'>$<span id='base'>0.2</span></td>
+                                                <td scope='col'>$<span id='final'>0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Melon Block</th>
+                                                <td scope='col'>$<span id='base'>0.2</span></td>
+                                                <td scope='col'>$<span id='final'>0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Sugar Canes</th>
+                                                <td scope='col'>$<span id='base'>0.2</span></td>
+                                                <td scope='col'>$<span id='final'>0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Cactus</th>
+                                                <td scope='col'>$<span id='base'>0.2</span></td>
+                                                <td scope='col'>$<span id='final'>0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Nether Wart</th>
+                                                <td scope='col'>$<span id='base'>0.16</span></td>
+                                                <td scope='col'>$<span id='final'>0.16</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Chorus Plant</th>
+                                                <td scope='col'>$<span id='base'>0.06</span></td>
+                                                <td scope='col'>$<span id='final'>0.06</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Chorus Flower</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Mushroom Stem</th>
+                                                <td scope='col'>$<span id='base'>0.35</span></td>
+                                                <td scope='col'>$<span id='final'>0.35</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Red Mushroom Block</th>
+                                                <td scope='col'>$<span id='base'>0.35</span></td>
+                                                <td scope='col'>$<span id='final'>0.35</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Brown Mushroom Block</th>
+                                                <td scope='col'>$<span id='base'>0.35</span></td>
+                                                <td scope='col'>$<span id='final'>0.35</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="farmer-collect-tab-pane" role="tabpanel" tabindex="0">
+                                    <br>
+                                    <table class="table table-dark table-striped extra-pad-top">
+                                        <thead>
+                                            <tr id="skip">
+                                                <th scope="col">Item/Entity</th>
+                                                <th scope="col">Base Pay</th>
+                                                <th scope="col">Final Pay</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope='col'>Sweet Berries</th>
+                                                <td scope='col'>$<span id='base'>0.2</span></td>
+                                                <td scope='col'>$<span id='final'>0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Bone Meal</th>
+                                                <td scope='col'>$<span id='base'>0.15</span></td>
+                                                <td scope='col'>$<span id='final'>0.15</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Fisher Tab -->
+                    <div class="tab-pane fade" id="fisher-tab-pane" role="tabpanel" tabindex="0">
+                        <div class="text-info">
+                            <ul class="nav nav-tabs bg-dark" id="fisher" role="tablist"
+                                style="border-bottom-color: transparent;">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="fisher-fish-tab" data-bs-toggle="tab"
+                                        data-bs-target="#fisher-fish-tab-pane" type="button" role="tab"
+                                        aria-selected="true">Fish</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="fisher-fish-tab-pane" role="tabpanel"
+                                    tabindex="0">
+                                    <br>
+                                    <table class="table table-dark table-striped extra-pad-top">
+                                        <thead>
+                                            <tr id="skip">
+                                                <th scope="col">Item/Entity</th>
+                                                <th scope="col">Base Pay</th>
+                                                <th scope="col">Final Pay</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope='col'>Raw Cod</th>
+                                                <td scope='col'>$<span id='base'>6.0</span></td>
+                                                <td scope='col'>$<span id='final'>6.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Raw Salmon</th>
+                                                <td scope='col'>$<span id='base'>15.0</span></td>
+                                                <td scope='col'>$<span id='final'>15.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Pufferfish</th>
+                                                <td scope='col'>$<span id='base'>20.0</span></td>
+                                                <td scope='col'>$<span id='final'>20.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Tropical Fish</th>
+                                                <td scope='col'>$<span id='base'>30.0</span></td>
+                                                <td scope='col'>$<span id='final'>30.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Bow</th>
+                                                <td scope='col'>$<span id='base'>20.0</span></td>
+                                                <td scope='col'>$<span id='final'>20.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Enchanted Book</th>
+                                                <td scope='col'>$<span id='base'>20.0</span></td>
+                                                <td scope='col'>$<span id='final'>20.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Fishing Rod</th>
+                                                <td scope='col'>$<span id='base'>20.0</span></td>
+                                                <td scope='col'>$<span id='final'>20.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Name Tag</th>
+                                                <td scope='col'>$<span id='base'>20.0</span></td>
+                                                <td scope='col'>$<span id='final'>20.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Saddle</th>
+                                                <td scope='col'>$<span id='base'>20.0</span></td>
+                                                <td scope='col'>$<span id='final'>20.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Nautilus Shell</th>
+                                                <td scope='col'>$<span id='base'>40.0</span></td>
+                                                <td scope='col'>$<span id='final'>40.0</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Florist Tab -->
+                    <div class="tab-pane fade" id="florist-tab-pane" role="tabpanel" tabindex="0">
+                        <div class="text-info">
+                            <ul class="nav nav-tabs bg-dark" id="florist" role="tablist"
+                                style="border-bottom-color: transparent;">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="florist-break-tab" data-bs-toggle="tab"
+                                        data-bs-target="#florist-break-tab-pane" type="button" role="tab"
+                                        aria-selected="true">Break</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="florist-break-tab-pane" role="tabpanel"
+                                    tabindex="0">
+                                    <br>
+                                    <table class="table table-dark table-striped extra-pad-top">
+                                        <thead>
+                                            <tr id="skip">
+                                                <th scope="col">Item/Entity</th>
+                                                <th scope="col">Base Pay</th>
+                                                <th scope="col">Final Pay</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope='col'>Grass</th>
+                                                <td scope='col'>$<span id='base'>0.2</span></td>
+                                                <td scope='col'>$<span id='final'>0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Tall Grass</th>
+                                                <td scope='col'>$<span id='base'>0.2</span></td>
+                                                <td scope='col'>$<span id='final'>0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Fern</th>
+                                                <td scope='col'>$<span id='base'>0.2</span></td>
+                                                <td scope='col'>$<span id='final'>0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Large Fern</th>
+                                                <td scope='col'>$<span id='base'>0.2</span></td>
+                                                <td scope='col'>$<span id='final'>0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Lily Pad</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Poppy</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Dandelion</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Red Tulip</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Orange Tulip</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>White Tulip</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Pink Tulip</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Pink petals</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Azure Bluet</th>
+                                                <td scope='col'>$<span id='base'>0.5</span></td>
+                                                <td scope='col'>$<span id='final'>0.5</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Oxeye Daisy</th>
+                                                <td scope='col'>$<span id='base'>0.5</span></td>
+                                                <td scope='col'>$<span id='final'>0.5</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Cornflower</th>
+                                                <td scope='col'>$<span id='base'>0.5</span></td>
+                                                <td scope='col'>$<span id='final'>0.5</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Allium</th>
+                                                <td scope='col'>$<span id='base'>0.7</span></td>
+                                                <td scope='col'>$<span id='final'>0.7</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Lily of the Valley</th>
+                                                <td scope='col'>$<span id='base'>0.7</span></td>
+                                                <td scope='col'>$<span id='final'>0.7</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Peony</th>
+                                                <td scope='col'>$<span id='base'>0.7</span></td>
+                                                <td scope='col'>$<span id='final'>0.7</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Rose Bush</th>
+                                                <td scope='col'>$<span id='base'>0.7</span></td>
+                                                <td scope='col'>$<span id='final'>0.7</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Sunflower</th>
+                                                <td scope='col'>$<span id='base'>0.7</span></td>
+                                                <td scope='col'>$<span id='final'>0.7</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Blue Orchid</th>
+                                                <td scope='col'>$<span id='base'>0.7</span></td>
+                                                <td scope='col'>$<span id='final'>0.7</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Azalea</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Flowering azalea</th>
+                                                <td scope='col'>$<span id='base'>1.0</span></td>
+                                                <td scope='col'>$<span id='final'>1.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Azalea leaves</th>
+                                                <td scope='col'>$<span id='base'>0.1</span></td>
+                                                <td scope='col'>$<span id='final'>0.1</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Flowering azalea leaves</th>
+                                                <td scope='col'>$<span id='base'>0.1</span></td>
+                                                <td scope='col'>$<span id='final'>0.1</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Mangrove leaves</th>
+                                                <td scope='col'>$<span id='base'>0.08</span></td>
+                                                <td scope='col'>$<span id='final'>0.08</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Acacia Leaves</th>
+                                                <td scope='col'>$<span id='base'>0.08</span></td>
+                                                <td scope='col'>$<span id='final'>0.08</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Birch Leaves</th>
+                                                <td scope='col'>$<span id='base'>0.08</span></td>
+                                                <td scope='col'>$<span id='final'>0.08</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Oak Leaves</th>
+                                                <td scope='col'>$<span id='base'>0.08</span></td>
+                                                <td scope='col'>$<span id='final'>0.08</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Spruce Leaves</th>
+                                                <td scope='col'>$<span id='base'>0.08</span></td>
+                                                <td scope='col'>$<span id='final'>0.08</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Jungle Leaves</th>
+                                                <td scope='col'>$<span id='base'>0.08</span></td>
+                                                <td scope='col'>$<span id='final'>0.08</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Dark Oak Leaves</th>
+                                                <td scope='col'>$<span id='base'>0.08</span></td>
+                                                <td scope='col'>$<span id='final'>0.08</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Cherry leaves</th>
+                                                <td scope='col'>$<span id='base'>0.08</span></td>
+                                                <td scope='col'>$<span id='final'>0.08</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Small dripleaf</th>
+                                                <td scope='col'>$<span id='base'>3.0</span></td>
+                                                <td scope='col'>$<span id='final'>3.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Big dripleaf</th>
+                                                <td scope='col'>$<span id='base'>0.5</span></td>
+                                                <td scope='col'>$<span id='final'>0.5</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Spore blossom</th>
+                                                <td scope='col'>$<span id='base'>5.0</span></td>
+                                                <td scope='col'>$<span id='final'>5.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Mangrove roots</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Moss block</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Moss carpet</th>
+                                                <td scope='col'>$<span id='base'>0.2</span></td>
+                                                <td scope='col'>$<span id='final'>0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Shroomlight</th>
+                                                <td scope='col'>$<span id='base'>1.0</span></td>
+                                                <td scope='col'>$<span id='final'>1.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Brown Mushroom</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Red Mushroom</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Dead Bush</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Vines</th>
+                                                <td scope='col'>$<span id='base'>0.2</span></td>
+                                                <td scope='col'>$<span id='final'>0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Hanging roots</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Weeping Vines Plant</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Twisting Vines Plant</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Crimson Roots</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Crimson Fungus</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Nether Wart Block</th>
+                                                <td scope='col'>$<span id='base'>0.1</span></td>
+                                                <td scope='col'>$<span id='final'>0.1</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Warped Roots</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Warped Fungus</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Warped Wart Block</th>
+                                                <td scope='col'>$<span id='base'>0.1</span></td>
+                                                <td scope='col'>$<span id='final'>0.1</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Seagrass</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Sea Pickle</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Kelp</th>
+                                                <td scope='col'>$<span id='base'>0.2</span></td>
+                                                <td scope='col'>$<span id='final'>0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Tube Coral</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Tube Coral Fan</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Brain Coral</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Brain Coral Fan</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Bubble Coral</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Bubble Coral Fan</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Fire Coral</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Fire Coral Fan</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Horn Coral</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Horn Coral Fan</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Hunter Tab -->
+                    <div class="tab-pane fade" id="hunter-tab-pane" role="tabpanel" tabindex="0">
+                        <div class="text-info">
+                            <ul class="nav nav-tabs bg-dark" id="hunter" role="tablist"
+                                style="border-bottom-color: transparent;">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="hunter-kill-tab" data-bs-toggle="tab"
+                                        data-bs-target="#hunter-kill-tab-pane" type="button" role="tab"
+                                        aria-selected="true">Kill</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="hunter-kill-tab-pane" role="tabpanel"
+                                    tabindex="0">
+                                    <br>
+                                    <table class="table table-dark table-striped extra-pad-top">
+                                        <thead>
+                                            <tr id="skip">
+                                                <th scope="col">Item/Entity</th>
+                                                <th scope="col">Base Pay</th>
+                                                <th scope="col">Final Pay</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope='col'>Chicken</th>
+                                                <td scope='col'>$<span id='base'>2.0</span></td>
+                                                <td scope='col'>$<span id='final'>2.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Cow</th>
+                                                <td scope='col'>$<span id='base'>6.0</span></td>
+                                                <td scope='col'>$<span id='final'>6.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Mooshroom</th>
+                                                <td scope='col'>$<span id='base'>6.0</span></td>
+                                                <td scope='col'>$<span id='final'>6.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Pig</th>
+                                                <td scope='col'>$<span id='base'>6.0</span></td>
+                                                <td scope='col'>$<span id='final'>6.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Sheep</th>
+                                                <td scope='col'>$<span id='base'>6.0</span></td>
+                                                <td scope='col'>$<span id='final'>6.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Wolf</th>
+                                                <td scope='col'>$<span id='base'>6.0</span></td>
+                                                <td scope='col'>$<span id='final'>6.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Frog</th>
+                                                <td scope='col'>$<span id='base'>6.0</span></td>
+                                                <td scope='col'>$<span id='final'>6.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Tadpole</th>
+                                                <td scope='col'>$<span id='base'>6.0</span></td>
+                                                <td scope='col'>$<span id='final'>6.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Goat</th>
+                                                <td scope='col'>$<span id='base'>6.0</span></td>
+                                                <td scope='col'>$<span id='final'>6.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Fox</th>
+                                                <td scope='col'>$<span id='base'>6.0</span></td>
+                                                <td scope='col'>$<span id='final'>6.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Llama</th>
+                                                <td scope='col'>$<span id='base'>6.0</span></td>
+                                                <td scope='col'>$<span id='final'>6.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Rabbit</th>
+                                                <td scope='col'>$<span id='base'>7.77</span></td>
+                                                <td scope='col'>$<span id='final'>7.77</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Villager</th>
+                                                <td scope='col'>$<span id='base'>8.0</span></td>
+                                                <td scope='col'>$<span id='final'>8.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Bee</th>
+                                                <td scope='col'>$<span id='base'>8.0</span></td>
+                                                <td scope='col'>$<span id='final'>8.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Panda</th>
+                                                <td scope='col'>$<span id='base'>12.0</span></td>
+                                                <td scope='col'>$<span id='final'>12.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Turtle</th>
+                                                <td scope='col'>$<span id='base'>12.0</span></td>
+                                                <td scope='col'>$<span id='final'>12.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Polar Bear</th>
+                                                <td scope='col'>$<span id='base'>12.0</span></td>
+                                                <td scope='col'>$<span id='final'>12.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Horse</th>
+                                                <td scope='col'>$<span id='base'>12.0</span></td>
+                                                <td scope='col'>$<span id='final'>12.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Donkey</th>
+                                                <td scope='col'>$<span id='base'>12.0</span></td>
+                                                <td scope='col'>$<span id='final'>12.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Mule</th>
+                                                <td scope='col'>$<span id='base'>12.0</span></td>
+                                                <td scope='col'>$<span id='final'>12.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Skeleton Horse</th>
+                                                <td scope='col'>$<span id='base'>12.0</span></td>
+                                                <td scope='col'>$<span id='final'>12.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Axolotl</th>
+                                                <td scope='col'>$<span id='base'>12.0</span></td>
+                                                <td scope='col'>$<span id='final'>12.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Dolphin</th>
+                                                <td scope='col'>$<span id='base'>16.0</span></td>
+                                                <td scope='col'>$<span id='final'>16.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Zombie</th>
+                                                <td scope='col'>$<span id='base'>4.0</span></td>
+                                                <td scope='col'>$<span id='final'>4.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Skeleton</th>
+                                                <td scope='col'>$<span id='base'>4.0</span></td>
+                                                <td scope='col'>$<span id='final'>4.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Spider</th>
+                                                <td scope='col'>$<span id='base'>4.0</span></td>
+                                                <td scope='col'>$<span id='final'>4.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Creeper</th>
+                                                <td scope='col'>$<span id='base'>4.0</span></td>
+                                                <td scope='col'>$<span id='final'>4.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Drowned</th>
+                                                <td scope='col'>$<span id='base'>4.0</span></td>
+                                                <td scope='col'>$<span id='final'>4.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Husk</th>
+                                                <td scope='col'>$<span id='base'>4.0</span></td>
+                                                <td scope='col'>$<span id='final'>4.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Stray</th>
+                                                <td scope='col'>$<span id='base'>4.0</span></td>
+                                                <td scope='col'>$<span id='final'>4.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Enderman</th>
+                                                <td scope='col'>$<span id='base'>0.1</span></td>
+                                                <td scope='col'>$<span id='final'>0.1</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Witch</th>
+                                                <td scope='col'>$<span id='base'>8.0</span></td>
+                                                <td scope='col'>$<span id='final'>8.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Guardian</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Shulker</th>
+                                                <td scope='col'>$<span id='base'>0.1</span></td>
+                                                <td scope='col'>$<span id='final'>0.1</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Hoglin</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Piglin</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Zoglin</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Blaze</th>
+                                                <td scope='col'>$<span id='base'>3.0</span></td>
+                                                <td scope='col'>$<span id='final'>3.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Ghast</th>
+                                                <td scope='col'>$<span id='base'>20.0</span></td>
+                                                <td scope='col'>$<span id='final'>20.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Wither Skeleton</th>
+                                                <td scope='col'>$<span id='base'>4.0</span></td>
+                                                <td scope='col'>$<span id='final'>4.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Wither</th>
+                                                <td scope='col'>$<span id='base'>30.0</span></td>
+                                                <td scope='col'>$<span id='final'>30.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Elder Guardian</th>
+                                                <td scope='col'>$<span id='base'>15.0</span></td>
+                                                <td scope='col'>$<span id='final'>15.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Warden</th>
+                                                <td scope='col'>$<span id='base'>10.0</span></td>
+                                                <td scope='col'>$<span id='final'>10.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Ender Dragon</th>
+                                                <td scope='col'>$<span id='base'>100.0</span></td>
+                                                <td scope='col'>$<span id='final'>100.0</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Miner Tab -->
+                    <div class="tab-pane fade" id="miner-tab-pane" role="tabpanel" tabindex="0">
+                        <div class="text-info">
+                            <ul class="nav nav-tabs bg-dark" id="miner" role="tablist"
+                                style="border-bottom-color: transparent;">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="miner-break-tab" data-bs-toggle="tab"
+                                        data-bs-target="#miner-break-tab-pane" type="button" role="tab"
+                                        aria-selected="true">Break</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="miner-break-tab-pane" role="tabpanel"
+                                    tabindex="0">
+                                    <br>
+                                    <table class="table table-dark table-striped extra-pad-top">
+                                        <thead>
+                                            <tr id="skip">
+                                                <th scope="col">Item/Entity</th>
+                                                <th scope="col">Base Pay</th>
+                                                <th scope="col">Final Pay</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope='col'>Stone</th>
+                                                <td scope='col'>$<span id='base'>0.05</span></td>
+                                                <td scope='col'>$<span id='final'>0.05</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Andesite</th>
+                                                <td scope='col'>$<span id='base'>0.06</span></td>
+                                                <td scope='col'>$<span id='final'>0.06</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Granite</th>
+                                                <td scope='col'>$<span id='base'>0.06</span></td>
+                                                <td scope='col'>$<span id='final'>0.06</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Diorite</th>
+                                                <td scope='col'>$<span id='base'>0.06</span></td>
+                                                <td scope='col'>$<span id='final'>0.06</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Deepslate</th>
+                                                <td scope='col'>$<span id='base'>0.07</span></td>
+                                                <td scope='col'>$<span id='final'>0.07</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Tuff</th>
+                                                <td scope='col'>$<span id='base'>0.07</span></td>
+                                                <td scope='col'>$<span id='final'>0.07</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Calcite</th>
+                                                <td scope='col'>$<span id='base'>0.1</span></td>
+                                                <td scope='col'>$<span id='final'>0.1</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Sandstone</th>
+                                                <td scope='col'>$<span id='base'>0.1</span></td>
+                                                <td scope='col'>$<span id='final'>0.1</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Red Sandstone</th>
+                                                <td scope='col'>$<span id='base'>0.1</span></td>
+                                                <td scope='col'>$<span id='final'>0.1</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Mossy Cobblestone</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Amethyst block</th>
+                                                <td scope='col'>$<span id='base'>1.0</span></td>
+                                                <td scope='col'>$<span id='final'>1.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Coal Ore</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Deepslate coal ore</th>
+                                                <td scope='col'>$<span id='base'>0.33</span></td>
+                                                <td scope='col'>$<span id='final'>0.33</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Iron Ore</th>
+                                                <td scope='col'>$<span id='base'>1.0</span></td>
+                                                <td scope='col'>$<span id='final'>1.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Deepslate iron ore</th>
+                                                <td scope='col'>$<span id='base'>1.1</span></td>
+                                                <td scope='col'>$<span id='final'>1.1</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Copper ore</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Deepslate copper ore</th>
+                                                <td scope='col'>$<span id='base'>0.9</span></td>
+                                                <td scope='col'>$<span id='final'>0.9</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Redstone Ore</th>
+                                                <td scope='col'>$<span id='base'>2.0</span></td>
+                                                <td scope='col'>$<span id='final'>2.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Deepslate redstone ore</th>
+                                                <td scope='col'>$<span id='base'>2.2</span></td>
+                                                <td scope='col'>$<span id='final'>2.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Gold Ore</th>
+                                                <td scope='col'>$<span id='base'>6.0</span></td>
+                                                <td scope='col'>$<span id='final'>6.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Deepslate gold ore</th>
+                                                <td scope='col'>$<span id='base'>6.6</span></td>
+                                                <td scope='col'>$<span id='final'>6.6</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Lapis Lazuli Ore</th>
+                                                <td scope='col'>$<span id='base'>12.0</span></td>
+                                                <td scope='col'>$<span id='final'>12.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Deepslate lapis ore</th>
+                                                <td scope='col'>$<span id='base'>13.2</span></td>
+                                                <td scope='col'>$<span id='final'>13.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Diamond Ore</th>
+                                                <td scope='col'>$<span id='base'>16.0</span></td>
+                                                <td scope='col'>$<span id='final'>16.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Deepslate diamond ore</th>
+                                                <td scope='col'>$<span id='base'>17.5</span></td>
+                                                <td scope='col'>$<span id='final'>17.5</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Dripstone block</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Pointed dripstone</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Magma Block</th>
+                                                <td scope='col'>$<span id='base'>0.2</span></td>
+                                                <td scope='col'>$<span id='final'>0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Basalt</th>
+                                                <td scope='col'>$<span id='base'>0.06</span></td>
+                                                <td scope='col'>$<span id='final'>0.06</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Blackstone</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Nether Gold Ore</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Emerald Ore</th>
+                                                <td scope='col'>$<span id='base'>100.0</span></td>
+                                                <td scope='col'>$<span id='final'>100.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Deepslate emerald ore</th>
+                                                <td scope='col'>$<span id='base'>110.0</span></td>
+                                                <td scope='col'>$<span id='final'>110.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Nether Quartz Ore</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Obsidian</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Crying Obsidian</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Gilded Blackstone</th>
+                                                <td scope='col'>$<span id='base'>5.0</span></td>
+                                                <td scope='col'>$<span id='final'>5.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>End Stone</th>
+                                                <td scope='col'>$<span id='base'>0.05</span></td>
+                                                <td scope='col'>$<span id='final'>0.05</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.08</span></td>
+                                                <td scope='col'>$<span id='final'>0.08</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Red Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.1</span></td>
+                                                <td scope='col'>$<span id='final'>0.1</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Orange Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.1</span></td>
+                                                <td scope='col'>$<span id='final'>0.1</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Yellow Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.1</span></td>
+                                                <td scope='col'>$<span id='final'>0.1</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Brown Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.1</span></td>
+                                                <td scope='col'>$<span id='final'>0.1</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>White Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.1</span></td>
+                                                <td scope='col'>$<span id='final'>0.1</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Light Gray Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.1</span></td>
+                                                <td scope='col'>$<span id='final'>0.1</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Ice</th>
+                                                <td scope='col'>$<span id='base'>0.15</span></td>
+                                                <td scope='col'>$<span id='final'>0.15</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Packed Ice</th>
+                                                <td scope='col'>$<span id='base'>0.15</span></td>
+                                                <td scope='col'>$<span id='final'>0.15</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Blue Ice</th>
+                                                <td scope='col'>$<span id='base'>0.15</span></td>
+                                                <td scope='col'>$<span id='final'>0.15</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Rancher Tab -->
+                    <div class="tab-pane fade" id="rancher-tab-pane" role="tabpanel" tabindex="0">
+                        <div class="text-info">
+                            <ul class="nav nav-tabs bg-dark" id="rancher" role="tablist"
+                                style="border-bottom-color: transparent;">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="rancher-breed-tab" data-bs-toggle="tab"
+                                        data-bs-target="#rancher-breed-tab-pane" type="button" role="tab"
+                                        aria-selected="true">Breed</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="rancher-tame-tab" data-bs-toggle="tab"
+                                        data-bs-target="#rancher-tame-tab-pane" type="button" role="tab"
+                                        aria-selected="false">Tame</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="rancher-shear-tab" data-bs-toggle="tab"
+                                        data-bs-target="#rancher-shear-tab-pane" type="button" role="tab"
+                                        aria-selected="false">Shear</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="rancher-milk-tab" data-bs-toggle="tab"
+                                        data-bs-target="#rancher-milk-tab-pane" type="button" role="tab"
+                                        aria-selected="false">Milk</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="rancher-collect-tab" data-bs-toggle="tab"
+                                        data-bs-target="#rancher-collect-tab-pane" type="button" role="tab"
+                                        aria-selected="false">Collect</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="rancher-breed-tab-pane" role="tabpanel"
+                                    tabindex="0">
+                                    <br>
+                                    <table class="table table-dark table-striped extra-pad-top">
+                                        <thead>
+                                            <tr id="skip">
+                                                <th scope="col">Item/Entity</th>
+                                                <th scope="col">Base Pay</th>
+                                                <th scope="col">Final Pay</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope='col'>Cow</th>
+                                                <td scope='col'>$<span id='base'>13.0</span></td>
+                                                <td scope='col'>$<span id='final'>13.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Mooshroom</th>
+                                                <td scope='col'>$<span id='base'>13.0</span></td>
+                                                <td scope='col'>$<span id='final'>13.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Pig</th>
+                                                <td scope='col'>$<span id='base'>13.0</span></td>
+                                                <td scope='col'>$<span id='final'>13.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Sheep</th>
+                                                <td scope='col'>$<span id='base'>13.0</span></td>
+                                                <td scope='col'>$<span id='final'>13.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Wolf</th>
+                                                <td scope='col'>$<span id='base'>13.0</span></td>
+                                                <td scope='col'>$<span id='final'>13.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Llama</th>
+                                                <td scope='col'>$<span id='base'>13.0</span></td>
+                                                <td scope='col'>$<span id='final'>13.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Panda</th>
+                                                <td scope='col'>$<span id='base'>13.0</span></td>
+                                                <td scope='col'>$<span id='final'>13.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Turtle</th>
+                                                <td scope='col'>$<span id='base'>13.0</span></td>
+                                                <td scope='col'>$<span id='final'>13.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Goat</th>
+                                                <td scope='col'>$<span id='base'>13.0</span></td>
+                                                <td scope='col'>$<span id='final'>13.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Frog</th>
+                                                <td scope='col'>$<span id='base'>13.0</span></td>
+                                                <td scope='col'>$<span id='final'>13.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Rabbit</th>
+                                                <td scope='col'>$<span id='base'>13.0</span></td>
+                                                <td scope='col'>$<span id='final'>13.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Fox</th>
+                                                <td scope='col'>$<span id='base'>13.0</span></td>
+                                                <td scope='col'>$<span id='final'>13.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Horse</th>
+                                                <td scope='col'>$<span id='base'>20.0</span></td>
+                                                <td scope='col'>$<span id='final'>20.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Donkey</th>
+                                                <td scope='col'>$<span id='base'>20.0</span></td>
+                                                <td scope='col'>$<span id='final'>20.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Camel</th>
+                                                <td scope='col'>$<span id='base'>20.0</span></td>
+                                                <td scope='col'>$<span id='final'>20.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Axolotl</th>
+                                                <td scope='col'>$<span id='base'>20.0</span></td>
+                                                <td scope='col'>$<span id='final'>20.0</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="rancher-tame-tab-pane" role="tabpanel" tabindex="0">
+                                    <br>
+                                    <table class="table table-dark table-striped extra-pad-top">
+                                        <thead>
+                                            <tr id="skip">
+                                                <th scope="col">Item/Entity</th>
+                                                <th scope="col">Base Pay</th>
+                                                <th scope="col">Final Pay</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope='col'>Parrot</th>
+                                                <td scope='col'>$<span id='base'>8.0</span></td>
+                                                <td scope='col'>$<span id='final'>8.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Wolf</th>
+                                                <td scope='col'>$<span id='base'>10.0</span></td>
+                                                <td scope='col'>$<span id='final'>10.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Ocelot</th>
+                                                <td scope='col'>$<span id='base'>20.0</span></td>
+                                                <td scope='col'>$<span id='final'>20.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Horse</th>
+                                                <td scope='col'>$<span id='base'>30.0</span></td>
+                                                <td scope='col'>$<span id='final'>30.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Donkey</th>
+                                                <td scope='col'>$<span id='base'>30.0</span></td>
+                                                <td scope='col'>$<span id='final'>30.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Mule</th>
+                                                <td scope='col'>$<span id='base'>30.0</span></td>
+                                                <td scope='col'>$<span id='final'>30.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Llama</th>
+                                                <td scope='col'>$<span id='base'>30.0</span></td>
+                                                <td scope='col'>$<span id='final'>30.0</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="rancher-shear-tab-pane" role="tabpanel" tabindex="0">
+                                    <br>
+                                    <table class="table table-dark table-striped extra-pad-top">
+                                        <thead>
+                                            <tr id="skip">
+                                                <th scope="col">Item/Entity</th>
+                                                <th scope="col">Base Pay</th>
+                                                <th scope="col">Final Pay</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope='col'>Red</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Orange</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Yellow</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Green</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Blue</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Light Blue</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Magenta</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Pink</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>White</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Light Gray</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Black</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Brown</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Purple</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Cyan</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Gray</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Lime</th>
+                                                <td scope='col'>$<span id='base'>0.8</span></td>
+                                                <td scope='col'>$<span id='final'>0.8</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="rancher-milk-tab-pane" role="tabpanel" tabindex="0">
+                                    <br>
+                                    <table class="table table-dark table-striped extra-pad-top">
+                                        <thead>
+                                            <tr id="skip">
+                                                <th scope="col">Item/Entity</th>
+                                                <th scope="col">Base Pay</th>
+                                                <th scope="col">Final Pay</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope='col'>Cow</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="rancher-collect-tab-pane" role="tabpanel" tabindex="0">
+                                    <br>
+                                    <table class="table table-dark table-striped extra-pad-top">
+                                        <thead>
+                                            <tr id="skip">
+                                                <th scope="col">Item/Entity</th>
+                                                <th scope="col">Base Pay</th>
+                                                <th scope="col">Final Pay</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope='col'>Honey Bottle</th>
+                                                <td scope='col'>$<span id='base'>1.5</span></td>
+                                                <td scope='col'>$<span id='final'>1.5</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Honeycomb</th>
+                                                <td scope='col'>$<span id='base'>1.5</span></td>
+                                                <td scope='col'>$<span id='final'>1.5</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Smelter Tab -->
+                    <div class="tab-pane fade" id="smelter-tab-pane" role="tabpanel" tabindex="0">
+                        <div class="text-info">
+                            <ul class="nav nav-tabs bg-dark" id="smelter" role="tablist"
+                                style="border-bottom-color: transparent;">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="smelter-smelt-tab" data-bs-toggle="tab"
+                                        data-bs-target="#smelter-smelt-tab-pane" type="button" role="tab"
+                                        aria-selected="true">Smelt</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="smelter-smelt-tab-pane" role="tabpanel"
+                                    tabindex="0">
+                                    <br>
+                                    <table class="table table-dark table-striped extra-pad-top">
+                                        <thead>
+                                            <tr id="skip">
+                                                <th scope="col">Item/Entity</th>
+                                                <th scope="col">Base Pay</th>
+                                                <th scope="col">Final Pay</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope='col'>Stone</th>
+                                                <td scope='col'>$<span id='base'>0.06</span></td>
+                                                <td scope='col'>$<span id='final'>0.06</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Smooth Stone</th>
+                                                <td scope='col'>$<span id='base'>0.06</span></td>
+                                                <td scope='col'>$<span id='final'>0.06</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Glass</th>
+                                                <td scope='col'>$<span id='base'>0.1</span></td>
+                                                <td scope='col'>$<span id='final'>0.1</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Copper ingot</th>
+                                                <td scope='col'>$<span id='base'>0.35</span></td>
+                                                <td scope='col'>$<span id='final'>0.35</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Iron Ingot</th>
+                                                <td scope='col'>$<span id='base'>0.35</span></td>
+                                                <td scope='col'>$<span id='final'>0.35</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Gold Ingot</th>
+                                                <td scope='col'>$<span id='base'>1.8</span></td>
+                                                <td scope='col'>$<span id='final'>1.8</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Netherite Scrap</th>
+                                                <td scope='col'>$<span id='base'>75.0</span></td>
+                                                <td scope='col'>$<span id='final'>75.0</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Smooth Sandstone</th>
+                                                <td scope='col'>$<span id='base'>0.18</span></td>
+                                                <td scope='col'>$<span id='final'>0.18</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Smooth Red Sandstone</th>
+                                                <td scope='col'>$<span id='base'>0.25</span></td>
+                                                <td scope='col'>$<span id='final'>0.25</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Smooth Quartz</th>
+                                                <td scope='col'>$<span id='base'>0.25</span></td>
+                                                <td scope='col'>$<span id='final'>0.25</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Brick</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Nether Brick</th>
+                                                <td scope='col'>$<span id='base'>0.06</span></td>
+                                                <td scope='col'>$<span id='final'>0.06</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Smooth basalt</th>
+                                                <td scope='col'>$<span id='base'>0.06</span></td>
+                                                <td scope='col'>$<span id='final'>0.06</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Cracked Polished Blackstone Bricks</th>
+                                                <td scope='col'>$<span id='base'>0.35</span></td>
+                                                <td scope='col'>$<span id='final'>0.35</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Deepslate</th>
+                                                <td scope='col'>$<span id='base'>0.06</span></td>
+                                                <td scope='col'>$<span id='final'>0.06</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Cracked deepslate bricks</th>
+                                                <td scope='col'>$<span id='base'>0.06</span></td>
+                                                <td scope='col'>$<span id='final'>0.06</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Cracked deepslate tiles</th>
+                                                <td scope='col'>$<span id='base'>0.06</span></td>
+                                                <td scope='col'>$<span id='final'>0.06</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Charcoal</th>
+                                                <td scope='col'>$<span id='base'>0.18</span></td>
+                                                <td scope='col'>$<span id='final'>0.18</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Sponge</th>
+                                                <td scope='col'>$<span id='base'>0.25</span></td>
+                                                <td scope='col'>$<span id='final'>0.25</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Baked Potato</th>
+                                                <td scope='col'>$<span id='base'>0.05</span></td>
+                                                <td scope='col'>$<span id='final'>0.05</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Steak</th>
+                                                <td scope='col'>$<span id='base'>0.05</span></td>
+                                                <td scope='col'>$<span id='final'>0.05</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Cooked Chicken</th>
+                                                <td scope='col'>$<span id='base'>0.05</span></td>
+                                                <td scope='col'>$<span id='final'>0.05</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Cooked Mutton</th>
+                                                <td scope='col'>$<span id='base'>0.05</span></td>
+                                                <td scope='col'>$<span id='final'>0.05</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Cooked Porkchop</th>
+                                                <td scope='col'>$<span id='base'>0.05</span></td>
+                                                <td scope='col'>$<span id='final'>0.05</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Cooked Rabbit</th>
+                                                <td scope='col'>$<span id='base'>0.05</span></td>
+                                                <td scope='col'>$<span id='final'>0.05</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Cooked Fish</th>
+                                                <td scope='col'>$<span id='base'>0.05</span></td>
+                                                <td scope='col'>$<span id='final'>0.05</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Cooked Salmon</th>
+                                                <td scope='col'>$<span id='base'>0.05</span></td>
+                                                <td scope='col'>$<span id='final'>0.05</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Popped Chorus Fruit</th>
+                                                <td scope='col'>$<span id='base'>0.25</span></td>
+                                                <td scope='col'>$<span id='final'>0.25</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>White Glazed Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Orange Glazed Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Magenta Glazed Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Light Blue Glazed Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Yellow Glazed Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Lime Glazed Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Pink Glazed Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Light Gray Glazed Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Gray Glazed Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Cyan Glazed Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Purple Glazed Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Blue Glazed Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Brown Glazed Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Green Glazed Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Red Glazed Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Black Glazed Terracotta</th>
+                                                <td scope='col'>$<span id='base'>0.12</span></td>
+                                                <td scope='col'>$<span id='final'>0.12</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Woodcutter Tab -->
+                    <div class="tab-pane fade" id="woodcutter-tab-pane" role="tabpanel" tabindex="0">
+                        <div class="text-info">
+                            <ul class="nav nav-tabs bg-dark" id="woodcutter" role="tablist"
+                                style="border-bottom-color: transparent;">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="woodcutter-break-tab" data-bs-toggle="tab"
+                                        data-bs-target="#woodcutter-break-tab-pane" type="button" role="tab"
+                                        aria-selected="true">Break</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="woodcutter-strip-tab" data-bs-toggle="tab"
+                                        data-bs-target="#woodcutter-strip-tab-pane" type="button" role="tab"
+                                        aria-selected="false">Strip Logs</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+
+                                <div class="tab-pane fade show active" id="woodcutter-break-tab-pane" role="tabpanel"
+                                    tabindex="0">
+                                    <br>
+                                    <table class="table table-dark table-striped extra-pad-top">
+                                        <thead>
+                                            <tr id="skip">
+                                                <th scope="col">Item/Entity</th>
+                                                <th scope="col">Base Pay</th>
+                                                <th scope="col">Final Pay</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope='col'>Bamboo</th>
+                                                <td scope='col'>$<span id='base'>0.2</span></td>
+                                                <td scope='col'>$<span id='final'>0.2</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Jungle Log</th>
+                                                <td scope='col'>$<span id='base'>0.25</span></td>
+                                                <td scope='col'>$<span id='final'>0.25</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Dark Oak Log</th>
+                                                <td scope='col'>$<span id='base'>0.25</span></td>
+                                                <td scope='col'>$<span id='final'>0.25</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Oak Log</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Spruce Log</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Birch Log</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Crimson Stem</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Warped Stem</th>
+                                                <td scope='col'>$<span id='base'>0.3</span></td>
+                                                <td scope='col'>$<span id='final'>0.3</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Acacia Log</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Cherry log</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Mangrove log</th>
+                                                <td scope='col'>$<span id='base'>0.5</span></td>
+                                                <td scope='col'>$<span id='final'>0.5</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade" id="woodcutter-strip-tab-pane" role="tabpanel" tabindex="0">
+                                    <br>
+                                    <table class="table table-dark table-striped extra-pad-top">
+                                        <thead>
+                                            <tr id="skip">
+                                                <th scope="col">Item/Entity</th>
+                                                <th scope="col">Base Pay</th>
+                                                <th scope="col">Final Pay</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope='col'>Stripped Jungle Log</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Stripped Dark Oak Log</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Stripped Oak Log</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Stripped Spruce Log</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Stripped Birch Log</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Stripped Acacia Log</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Stripped cherry log</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Stripped mangrove log</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Stripped Crimson Stem</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope='col'>Stripped Warped Stem</th>
+                                                <td scope='col'>$<span id='base'>0.4</span></td>
+                                                <td scope='col'>$<span id='final'>0.4</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function updateValues() {
+        // Update Level Display
+        var level = document.getElementById("job-level").value;
+        var levelDisplay = document.getElementById("job-level-display");
+        levelDisplay.textContent = level;
+        // Update Bonus Display
+        var bonus = document.getElementById("job-bonus").value;
+        var bonusDisplay = document.getElementById("job-bonus-display");
+        bonusDisplay.textContent = bonus;
+
+        var rows = document.getElementsByTagName("tr");
+        for (const row of rows){
+            if (row.id != "skip") {
+                let tempBase = row.querySelector("#base").textContent;
+                tempBase = tempBase * (1 + (bonus / 100));
+                console.log(tempBase);
+
+
+                let payout = tempBase + (tempBase * (level - 1) * 0.01);
+                payout = Math.round(payout * 100) / 100
+                let tempFinal = row.querySelector("#final");
+                tempFinal.textContent = payout;
+                
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+        }
+
+
+
+    }
+
+
+
+
+
+</script>
+
+{% endblock %}

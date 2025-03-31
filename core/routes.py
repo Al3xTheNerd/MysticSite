@@ -146,7 +146,9 @@ def infinitetracker():
     return render_template("itemTracker.html", sortedItems = sortedItems, page="infinite")
 
 
-
+@app.route('/jobspayouts')
+def jobsPayouts():
+    return render_template("jobspayout.html")
 
 
 
