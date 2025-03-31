@@ -147,7 +147,7 @@ def infinitetracker():
 
 
 @app.route('/jobspayouts')
-def jobsPayouts():
+def jobspayouts():
     return render_template("jobspayout.html")
 
 
