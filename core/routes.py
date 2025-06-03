@@ -4,6 +4,7 @@ from core import app, db
 from core import config as c
 import git
 from core.models.mysticItem import MysticItem
+from random import choices
 
 @app.context_processor
 def set_global_html_variable_values():
@@ -149,6 +150,29 @@ def infinitetracker():
 @app.route('/jobspayouts')
 def jobspayouts():
     return render_template("jobspayout.html")
+
+
+@app.route('/gamble', methods=['POST', 'GET'])
+def gamble():
+    amount = request.form.get('amount')
+    if not amount: amount = 1
+    amount = int(amount)
+    crate = request.form.get("crate")
+    if not crate: crate = "all"
+    if crate == "all":
+        items = MysticItem.query.order_by(MysticItem.id)
+    else:
+        try:
+            dbCrateName = list(c.validCrates.keys())[list(c.validCrates.values()).index(crate)]
+            items = MysticItem.query.filter_by(crateName = dbCrateName)
+        except:
+            items = [c.errorMaker()]
+    
+    items = [x for x in items]
+    items = choices(items, None, k = amount)
+
+    return render_template("gamble.html", mysticItems = items, amount = amount, crate = crate)
+
 
 
 

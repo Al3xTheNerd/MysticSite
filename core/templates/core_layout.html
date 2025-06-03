@@ -44,21 +44,22 @@
                             Item Categories
                         </a>
                         <ul class="dropdown-menu">
-                            {% for category, name, config, last in [("armor", "Armor", armorTypes, false), ("tool", "Tools", toolTypes, false),
+                            {% for category, name, config, last in [("armor", "Armor", armorTypes, false), ("tool",
+                            "Tools", toolTypes, false),
                             ("weapon", "Weapons", weaponTypes, true)] %}
-                                <a class="dropdown-item disabled" href="#">{{ name }}</a>
-                                {% for type in config %}
-                                    {% if request.path == url_for(category, type=type) %}
-                                        <li><a class="dropdown-item active"
-                                                href="{{ url_for(category, type=type) }}">{{type}}</a></li>
-                                    {% else %}
-                                        <li><a class="dropdown-item" href="{{ url_for(category, type=type) }}">{{type}}</a>
-                                        </li>
-                                    {% endif %}
-                                {% endfor %}
-                                {% if last is false %}
-                                    <div class="dropdown-divider"></div>
-                                {% endif %}
+                            <a class="dropdown-item disabled" href="#">{{ name }}</a>
+                            {% for type in config %}
+                            {% if request.path == url_for(category, type=type) %}
+                            <li><a class="dropdown-item active" href="{{ url_for(category, type=type) }}">{{type}}</a>
+                            </li>
+                            {% else %}
+                            <li><a class="dropdown-item" href="{{ url_for(category, type=type) }}">{{type}}</a>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                            {% if last is false %}
+                            <div class="dropdown-divider"></div>
+                            {% endif %}
                             {% endfor %}
                         </ul>
                         <ul class="dropdown-menu">
@@ -88,31 +89,34 @@
                             {% else %}
                             <li><a class="dropdown-item" href="{{ url_for('crate', crateName=tag) }}">{{crateName}}</a>
                             </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Misc
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for loc, name in [('itemtracker', "Item Tracker"), ('infinitetracker', "Infinite
+                            Tacker"),
+                            (false, false), ('infinite', "Infinite Blocks"), ('quests', "Quests"), (false, false),
+                            ('stats',
+                            "Site
+                            Stats"), ('jobspayouts', "Job Pay Calculator"), ('gamble', "Gambling")] %}
+                            {% if loc is false %}
+                            <div class="dropdown-divider"></div>
+                            {% else %}
+                            {% if request.path == url_for(loc) %}
+                            <li><a class="dropdown-item active" href="{{ url_for(loc) }}">{{name}}</a></li>
+                            {% else %}
+                            <li><a class="dropdown-item" href="{{ url_for(loc) }}">{{name}}</a></li>
                     </li>
                     {% endif %}
+                    {% endif %}
                     {% endfor %}
-                </ul>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Misc
-                    </a>
-                    <ul class="dropdown-menu">
-                        {% for loc, name in [('itemtracker', "Item Tracker"), ('infinitetracker', "Infinite Tacker"), (false, false), ('infinite', "Infinite Blocks"), ('quests', "Quests"), (false, false), ('stats', "Site
-                        Stats"), ('jobspayouts', "Job Pay Calculator")] %}
-                            {% if loc is false %}
-                                <div class="dropdown-divider"></div>
-                            {% else %}
-                                {% if request.path == url_for(loc) %}
-                                    <li><a class="dropdown-item active" href="{{ url_for(loc) }}">{{name}}</a></li>
-                                {% else %}
-                                    <li><a class="dropdown-item" href="{{ url_for(loc) }}">{{name}}</a></li>
-                                    </li>
-                                {% endif %}
-                            {% endif %}
-                {% endfor %}
                 </ul>
                 </li>
 
