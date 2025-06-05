@@ -32,8 +32,8 @@ def index():
         if not items:
             items = None
             flash("No results found!")
-    
-    items = [item for item in items if item.hiddenRepeat == 0]      
+    if items:
+        items = [item for item in items if item.hiddenRepeat == 0]      
     return render_template("home.html", mysticItems = items)
 
 
