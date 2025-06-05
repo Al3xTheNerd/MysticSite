@@ -160,6 +160,7 @@ def gamble():
     amount = request.form.get('amount')
     if not amount: amount = 1
     amount = int(amount)
+    if amount > 10000: amount = 10000
     crate = request.form.get("crate")
     if not crate: crate = "all"
     if crate == "all":
