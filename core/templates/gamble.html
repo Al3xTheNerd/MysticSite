@@ -3,28 +3,34 @@
 
 <div class="container text-center results">
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 extra-pad-top bg-dark text-info">
-            <form method="post" action="{{ url_for('gamble') }}">
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="inputGroupSelect01">Crate</label>
-                    <select name='crate' class="form-select" id="inputGroupSelect01">
-                        <option id='crate' value="all">All</option>
-                        {% for crateName, tag in validCrates.items() %}
-                        {% if crate == tag %}
-                        <option value="{{ tag }}" selected>{{crateName}}</option>
-                        {% else %}
-                        <option value="{{ tag }}">{{crateName}}</option>
-                        {% endif %}
-                        {% endfor %}
-                    </select>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 extra-pad-top">
+            <div class="give-preview-text-outer">
+                <div class="give-preview-text w-100">
+                    <div class="give-preview-text-inner">
+                        <form method="post" action="{{ url_for('gamble') }}">
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="inputGroupSelect01">Crate</label>
+                                <select name='crate' class="form-select" id="inputGroupSelect01">
+                                    <option id='crate' value="all">All</option>
+                                    {% for crateName, tag in validCrates.items() %}
+                                    {% if crate == tag %}
+                                    <option value="{{ tag }}" selected>{{crateName}}</option>
+                                    {% else %}
+                                    <option value="{{ tag }}">{{crateName}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Amount</span>
+                                <input type="text" class="form-control" name="amount" aria-label="Amount to Gamble"
+                                    aria-describedby="inputGroup-sizing-default" value="{{amount}}">
+                            </div>
+                            <button class="btn btn-primary mb-1" type="submit">Roll!</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Amount</span>
-                    <input type="text" class="form-control" name="amount" aria-label="Amount to Gamble"
-                        aria-describedby="inputGroup-sizing-default" value="{{amount}}">
-                </div>
-                <button class="btn btn-primary" type="submit">Submit form</button>
-            </form>
+            </div>
         </div>
         {% for item in mysticItems %}
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 extra-pad-top">

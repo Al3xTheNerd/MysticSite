@@ -30,6 +30,12 @@
     border: 2px solid #2c0863;
     border-radius: 2px;
 }
+.input-group-text, .form-select {
+    font-size: 24px;
+}
+div.input-group input.form-control {
+    font-size: 24px;
+}
 body {
     background-image: url("../images/backgrounds/cryingobby.webp");
     background-size: 32px;
