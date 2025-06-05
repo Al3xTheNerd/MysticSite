@@ -11,6 +11,7 @@ class MysticItem(db.Model):
     itemType = db.Column(db.String) # helmet, pickaxe, etc.
     infiniteBlock = db.Column(db.Integer, default=0) # bool
     notes = db.Column(db.String()) # String
+    percentage = db.Column(db.String()) # String
 
     
     def __repr__(self):

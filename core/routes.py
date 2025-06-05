@@ -169,7 +169,16 @@ def gamble():
             items = [c.errorMaker()]
     
     items = [x for x in items]
-    items = choices(items, None, k = amount)
+    cleanItems = []
+    cleanWeights = []
+    for item in items:
+        if item.percentage == None or item.percentage == 0:
+            continue
+        else:
+            cleanItems.append(item)
+            cleanWeights.append(float(item.percentage))
+            
+    items = choices(cleanItems, cleanWeights, k = amount)
 
     return render_template("gamble.html", mysticItems = items, amount = amount, crate = crate)
 
