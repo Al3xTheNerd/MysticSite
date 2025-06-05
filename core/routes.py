@@ -182,8 +182,24 @@ def gamble():
             cleanWeights.append(float(item.percentage))
             
     items = choices(cleanItems, cleanWeights, k = amount)
+    resultCrates = list(set([item.crateName for item in items]))
+    resultCrates.sort(key = lambda x: list(c.validCrates.keys()).index(x))
+    stats = {}
+    for resultCrate in resultCrates:
+        stats[resultCrate] = {}
+        for item in items:
+            if item.crateName == resultCrate:
+                if item.itemName not in stats[resultCrate].keys():
+                    stats[resultCrate][item.itemName] = 1
+                else:
+                    stats[resultCrate][item.itemName] += 1
+        stats[resultCrate] = {k: v for k,v in sorted(stats[resultCrate].items(), key=lambda i: i[1])}
+    
+    
+    print(stats)
+    
 
-    return render_template("gamble.html", mysticItems = items, amount = amount, crate = crate)
+    return render_template("gamble.html", mysticItems = items, amount = amount, crate = crate, stats = stats)
 
 
 

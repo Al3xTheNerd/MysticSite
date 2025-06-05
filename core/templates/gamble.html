@@ -32,6 +32,48 @@
                 </div>
             </div>
         </div>
+        {% for crate, items in stats.items() %}
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 extra-pad-top">
+            <div class="give-preview-text-outer">
+                <div class="give-preview-text">
+                    <div class="give-preview-text-inner text-start">
+                        <div class="mc-bold mc-italic mc-gold">{{ crate }}</div>
+                        {% for item in items %}
+                            <div class="mc-dark-green">{{ items[item] }} {{ item }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         {% for item in mysticItems %}
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 extra-pad-top">
             <div class="give-preview-text-outer">
