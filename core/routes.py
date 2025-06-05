@@ -32,7 +32,8 @@ def index():
         if not items:
             items = None
             flash("No results found!")
-        
+    
+    items = [item for item in items if item.hiddenRepeat == 0]      
     return render_template("home.html", mysticItems = items)
 
 
@@ -40,6 +41,7 @@ def index():
 @app.route('/all')
 def all():
     items = MysticItem.query.order_by(MysticItem.id)
+    items = [item for item in items if item.hiddenRepeat == 0]  
     return render_template("index.html", mysticItems = items)
         
 
@@ -59,7 +61,7 @@ def armor(type):
             items = MysticItem.query.filter(or_(MysticItem.itemType == x.lower() for x in c.armorTypes))
         else:
             items = MysticItem.query.filter_by(itemType = type.lower())
-            
+    items = [item for item in items if item.hiddenRepeat == 0]  
     return render_template("index.html", mysticItems = items)
             
 @app.route('/weapon/<type>')
@@ -69,7 +71,7 @@ def weapon(type):
             items = MysticItem.query.filter(or_(MysticItem.itemType == x.lower() for x in c.weaponTypes))
         else:
             items = MysticItem.query.filter_by(itemType = type.lower())
-            
+    items = [item for item in items if item.hiddenRepeat == 0]     
     return render_template("index.html", mysticItems = items)
         
 @app.route('/tool/<type>')
@@ -78,8 +80,8 @@ def tool(type):
         if type.lower() == "all":
             items = MysticItem.query.filter(or_(MysticItem.itemType == x.lower() for x in c.toolTypes))
         else:
-            items = MysticItem.query.filter_by(itemType = type.lower())
-            
+            items = MysticItem.query.filter_by(itemType = type.lower())      
+    items = [item for item in items if item.hiddenRepeat == 0]  
     return render_template("index.html", mysticItems = items)
 
 
@@ -130,7 +132,8 @@ def itemtracker():
     crateCount = 0
     for crate in db.session.query(MysticItem.crateName).distinct():
         crateCount += 1
-        sortedItems[crate[0]] = MysticItem.query.filter_by(crateName = crate[0]).order_by(MysticItem.id)
+        sortedItems[crate[0]] = MysticItem.query.filter(and_(MysticItem.crateName == crate[0], MysticItem.hiddenRepeat == 0)).order_by(MysticItem.id)
+        #sortedItems[crate[0]] = MysticItem.query.filter_by(crateName = crate[0]).order_by(MysticItem.id)
     return render_template("itemTracker.html", sortedItems = sortedItems, page="item")
 
 @app.route('/infinitetracker')

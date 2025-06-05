@@ -21,8 +21,7 @@ validCrates = {
     "Snowfall" : "Snowfall",
     "Season 7: Olympus" : "Olympus",
     "Trickster" : "Trickster",
-    "Bloomfall" : "Bloomfall",
-    "Multi" : "Multi"
+    "Bloomfall" : "Bloomfall"
 }
 weaponTypes = [
     "All",
