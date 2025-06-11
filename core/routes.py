@@ -195,11 +195,6 @@ def gamble():
                 else:
                     stats[resultCrate][item.itemName] += 1
         stats[resultCrate] = {k: v for k,v in sorted(stats[resultCrate].items(), key=lambda i: i[1])}
-    
-    
-    print(stats)
-    
-
     return render_template("gamble.html", mysticItems = items, amount = amount, crate = crate, stats = stats)
 
 
