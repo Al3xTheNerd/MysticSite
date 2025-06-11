@@ -1,5 +1,4 @@
 __pycache__/
 *.py[cod]
-database.db
 Item Parsing/
 c.py
