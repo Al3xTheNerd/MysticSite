@@ -49,7 +49,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" data-masonry='{"percentPosition": true }'>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 extra-pad-top">
             <div class="give-preview-text-outer">
                 <div class="give-preview-text w-100">
@@ -60,6 +60,7 @@
                             <li class="mc-gold">Corrected Bunny Helmet not showing up under <a href="{{ url_for('armor', type='Helmet') }}">Helmets</a>.</li>
                             <li class="mc-gold">Adjusted CSS (stupid fucking bootstrap) to be a bit more consistent and readable across the site.</li>
                             <li class="mc-gold">Made it so crate summaries for <a href="{{ url_for('gamble') }}">Gambling</a> show the colored item names.</li>
+                            <li class="mc-gold">Removed the silly gap space between tiles. (I'm still unsure if I like this better or not, may be reverted :s)</li>
                         </ul>
                     </div>
                 </div>
