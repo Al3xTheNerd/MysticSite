@@ -190,10 +190,10 @@ def gamble():
         stats[resultCrate] = {}
         for item in items:
             if item.crateName == resultCrate:
-                if item.itemName not in stats[resultCrate].keys():
-                    stats[resultCrate][item.itemName] = 1
+                if item.itemNameHTML not in stats[resultCrate].keys():
+                    stats[resultCrate][item.itemNameHTML] = 1
                 else:
-                    stats[resultCrate][item.itemName] += 1
+                    stats[resultCrate][item.itemNameHTML] += 1
         stats[resultCrate] = {k: v for k,v in sorted(stats[resultCrate].items(), key=lambda i: i[1])}
     return render_template("gamble.html", mysticItems = items, amount = amount, crate = crate, stats = stats)
 

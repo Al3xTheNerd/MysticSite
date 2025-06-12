@@ -13,6 +13,7 @@ class MysticItem(db.Model):
     notes = db.Column(db.String()) # String
     percentage = db.Column(db.String()) # String
     hiddenRepeat = db.Column(db.Integer, default=0) # bool
+    itemNameHTML = db.Column(db.String()) # String
 
     
     def __repr__(self):
