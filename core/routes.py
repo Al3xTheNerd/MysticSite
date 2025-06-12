@@ -5,6 +5,7 @@ from core import config as c
 import git
 from core.models.mysticItem import MysticItem
 from random import choices
+from sys import platform
 
 @app.context_processor
 def set_global_html_variable_values():
@@ -13,7 +14,6 @@ def set_global_html_variable_values():
         'armorTypes' : c.armorTypes,
         'weaponTypes' : c.weaponTypes,
         'toolTypes' : c.toolTypes
-        
     }
     return config
 
@@ -160,7 +160,7 @@ def gamble():
     amount = request.form.get('amount')
     if not amount: amount = 1
     amount = int(amount)
-    if amount > 10000: amount = 10000
+    if platform != "win32" and amount > 10000: amount = 10000
     crate = request.form.get("crate")
     if not crate: crate = "all"
     if crate == "all":
