@@ -126,6 +126,10 @@ Changelog = {
         ("mc-gold", "Made it so crate summaries for <a href=\"{{ url_for('gamble') }}\">Gambling</a> show the colored item names."),
         ("mc-gold", "Removed the silly gap space between tiles. (I'm still unsure if I like this better or not, may be reverted :s)")
     ],
+    "6/14/2025" : [
+        ("mc-gold", "Cleaned up some more HTML code."),
+        ("mc-gold", "Standardized the code for displaying items into one file, to be shared across the site.")
+    ]
     
 }
 Changelog = dict(reversed(list(Changelog.items())))
