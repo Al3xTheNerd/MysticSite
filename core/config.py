@@ -67,3 +67,65 @@ def errorMaker(errorCode: int = "???"):
 
         """
     }
+    
+Changelog = {
+    "2/19/2025" : [
+        ("mc-gold", "Added missing Olympus Quests."),
+        ("mc-gold", "Corrected spelling mistake on Stats page."),
+        ("mc-gold", "Setup auto deployment from dev environment.")
+    ],
+    "2/21/2025" : [
+        ("mc-gold", "Added Item Tracker! Thank you SaltyAssassin for the suggestion!"),
+        ("mc-gold", "Added Missing item (Mystic Boots)")
+    ],
+    "2/22/2025" : [
+        ("mc-gold", "Moved the page showing all items to a secondary page, in an effort to help people with less than stellar internet connections still use the site. Thank you KaylaKrow for the suggestion!"),
+        ("mc-gold", "Moved changelog to the main page.")
+    ],
+    "3/2/2025" : [
+        ("mc-gold", "Reworked Navbar to bring me more joy."),
+        ("mc-gold", "Added Infinite specific item tracker."),
+        ("mc-gold", "Reworked database and created a database builder to make it easier to modify items."),
+        ("mc-gold", "Added Elysium Pickaxe."),
+        
+    ],
+    "3/8/2025" : [
+        ("mc-gold", "Cosmic/Arcane Picks Win Chance 0.1%->0.06%")
+    ],
+    "3/9/2025" : [
+        ("mc-gold", "Item/Infinite trackers now persistently store your items! Thank you Katie for the suggestion!")
+    ],
+    "3/16/2025" : [
+        ("mc-gold", "Corrected a database error leading to no swords being listed under <a href=\"{{ url_for('weapon', type='Sword') }}\">Swords</a>, thank you LostWoodsOne for bringing this to my attention!")
+    ],
+    "3/30/2025" : [
+        ("mc-gold", "Added a <a href=\"{{ url_for('jobspayouts') }}\">Jobs Payout Calculator</a>!"),
+        ("mc-gold", "Added the new <a href=\"{{ url_for('crate', crateName='Trickster') }}\">Trickster Crate</a>!"),
+        ("mc-gold", "Updated the Eternal Icesight to the new version!")
+    ],
+    "5/11/2025" : [
+        ("mc-gold", "Added the new <a href=\"{{ url_for('crate', crateName='Bloomfall') }}\">Bloomfall Crate</a>!")
+    ],
+    "6/3/2025" : [
+        ("mc-gold", "Added <a href=\"{{ url_for('gamble') }}\">Gambling</a>! Thank you BR_MarkoTheGamer for the suggestion!"),
+        ("mc-gold", "Removed some redundant HTML tags (why were there 47 extra &lt;/li&gt; tags in the navbar??)"),
+        ("mc-gold", "Added a Page View Tracker (again)")
+    ],
+    "6/5/2025" : [
+        ("mc-gold", "<a href=\"{{ url_for('gamble') }}\">Gambling</a> is now weighted as it is in-game!"),
+        ("mc-gold", "Cleaned up the Gambling Menu."),
+        ("mc-gold", "Added overviews to the gambling menu, so you can see what you got at a glance instead of looking through individually."),
+        ("mc-gold", "Added a limit to how many rolls you could do at once. (turns out things get a bit wild when you try and roll 1,000,000 items :p)"),
+        ("mc-gold", "Corrected a bug where the changelog would break if you didn't also search for an item."),
+        ("mc-gold", "Pickaxes that appear in multiple crates now appear on their crate pages, they can also be pulled during gambling.")
+    ],
+    "6/11/2025" : [
+        ("mc-gold", "Added the new <a href=\"{{ url_for('crate', crateName='Astral') }}\">Season 8: Astral</a> crate!"),
+        ("mc-gold", "Corrected Bunny Helmet not showing up under <a href=\"{{ url_for('armor', type='Helmet') }}\">Helmets</a>."),
+        ("mc-gold", "Adjusted CSS (stupid fucking bootstrap) to be a bit more consistent and readable across the site."),
+        ("mc-gold", "Made it so crate summaries for <a href=\"{{ url_for('gamble') }}\">Gambling</a> show the colored item names."),
+        ("mc-gold", "Removed the silly gap space between tiles. (I'm still unsure if I like this better or not, may be reverted :s)")
+    ],
+    
+}
+Changelog = dict(reversed(list(Changelog.items())))
