@@ -1,0 +1,13 @@
+<div class="row" data-masonry='{"percentPosition": true }'>
+    {% for item in mysticItems %}
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 extra-pad-top">
+        <div class="give-preview-text-outer">
+            <div class="give-preview-text w-100">
+                <div class="give-preview-text-inner text-start">
+                    {{ item.itemHTML | safe }}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
