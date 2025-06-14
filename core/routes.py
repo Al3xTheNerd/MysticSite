@@ -34,7 +34,7 @@ def index():
             flash("No results found!")
     if items:
         items = [item for item in items if item.hiddenRepeat == 0]      
-    return render_template("home.html", mysticItems = items)
+    return render_template("changelog.html", mysticItems = items)
 
 
 
