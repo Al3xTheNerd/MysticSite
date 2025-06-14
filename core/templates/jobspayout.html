@@ -2007,43 +2007,19 @@
         var bonus = document.getElementById("job-bonus").value;
         var bonusDisplay = document.getElementById("job-bonus-display");
         bonusDisplay.textContent = bonus;
-
         var rows = document.getElementsByTagName("tr");
-        for (const row of rows){
+        for (const row of rows) {
             if (row.id != "skip") {
                 let tempBase = row.querySelector("#base").textContent;
                 tempBase = tempBase * (1 + (bonus / 100));
                 console.log(tempBase);
-
-
                 let payout = tempBase + (tempBase * (level - 1) * 0.01);
                 payout = Math.round(payout * 100) / 100
                 let tempFinal = row.querySelector("#final");
                 tempFinal.textContent = payout;
-                
-
-
-
-
-
-
-
-
-
-
-
 
             }
         }
-
-
-
     }
-
-
-
-
-
 </script>
-
 {% endblock %}
