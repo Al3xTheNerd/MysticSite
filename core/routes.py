@@ -197,7 +197,9 @@ def gamble():
         stats[resultCrate] = {k: v for k,v in sorted(stats[resultCrate].items(), key=lambda i: i[1])}
     return render_template("gamble.html", mysticItems = items, amount = amount, crate = crate, stats = stats)
 
-
+@app.route('/test', methods=['POST', 'GET'])
+def test():
+    return render_template("test.html")
 
 
 @app.route('/webhook', methods=['POST'])

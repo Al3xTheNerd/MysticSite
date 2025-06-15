@@ -1,0 +1,312 @@
+{% extends "core_layout.html" %}
+{% block content %}
+
+<div class="cont text-center results">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 extra-pad-top">
+            <div class="give-preview-text-outer">
+                <div class="give-preview-text w-100">
+                    <div class="give-preview-text-inner">
+                        <form>
+                            <div class="">
+                                <textarea class="form-control" id="rawData" rows="20"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 extra-pad-top">
+            <div class="give-preview-text-outer">
+                <div class="give-preview-text w-100">
+                    <div class="give-preview-text-inner text-start" id="itemPreview">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 extra-pad-top">
+            <div class="give-preview-text-outer">
+                <div class="give-preview-text w-100">
+                    <div class="give-preview-text-inner">
+                        <form method="post" action="{{ url_for('gamble') }}">
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="inputGroupSelect01">Crate</label>
+                                <select name='crate' class="form-select" id="inputGroupSelect01">
+                                    <option id='crate' value="all">All</option>
+                                    {% for crateName, tag in validCrates.items() %}
+                                    {% if crate == tag %}
+                                    <option value="{{ tag }}" selected>{{crateName}}</option>
+                                    {% else %}
+                                    <option value="{{ tag }}">{{crateName}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Amount</span>
+                                <input type="text" class="form-control" name="amount" aria-label="Amount to Gamble"
+                                    aria-describedby="inputGroup-sizing-default" value="{{amount}}">
+                            </div>
+                            <button class="btn btn-primary mb-1" type="submit">Roll!</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+</div>
+<script>
+    var rawDataTextarea = document.getElementById("rawData");
+    if (rawDataTextarea.addEventListener) {
+        rawDataTextarea.addEventListener('input', function () {
+            UpdatePreview();
+        }, false);
+    }
+
+
+    /* Converts the silly minecraft types to my own more easily usable ones. */
+    const EnchantmentsList = {
+        "aqua_affinity": "Aqua Affinity",
+        "bane_of_arthropods": "Bane of Arthropods",
+        "binding_curse": "Curse of Binding",
+        "blast_protection": "Blast Protection",
+        "breach": "Breach",
+        "channeling": "Channeling",
+        "density": "Density",
+        "depth_strider": "Depth Strider",
+        "efficiency": "Efficiency",
+        "feather_falling": "Feather Falling",
+        "fire_aspect": "Fire Aspect",
+        "fire_protection": "Fire Protection",
+        "flame": "Flame",
+        "fortune": "Fortune",
+        "frost_walker": "Frost Walker",
+        "impaling": "Impaling",
+        "infinity": "Infinity",
+        "knockback": "Knockback",
+        "looting": "Looting",
+        "loyalty": "Loyalty",
+        "luck_of_the_sea": "Luck of the Sea",
+        "lure": "Lure",
+        "mending": "Mending",
+        "multishot": "Multishot",
+        "piercing": "Piercing",
+        "power": "Power",
+        "projectile_protection": "Projectile Protection",
+        "protection": "Protection",
+        "punch": "Punch",
+        "quick_charge": "Quick Charge",
+        "respiration": "Respiration",
+        "riptide": "Riptide",
+        "sharpness": "Sharpness",
+        "silk_touch": "Silk Touch",
+        "smite": "Smite",
+        "soul_speed": "Soul Speed",
+        "sweeping_edge": "Sweeping Edge",
+        "swift_sneak": "Swift Sneak",
+        "thorns": "Thorns",
+        "unbreaking": "Unbreaking",
+        "vanishing_curse": "Curse of Vanishing",
+        "wind_burst": "Wind Burst",
+        "thrifty": "Thrifty",
+        "tunnel": "Tunnel",
+        "smelter": "Smelter",
+        "flame_walker": "Flame Walker"
+    };
+
+    const EnchantmentsLevelOneMaxList = [
+        "mending", "vanishing_curse", "aqua_affinity", "binding_curse", "channeling",
+        "flame", "infinity", "multishot", "silk_touch", "smelter", "flame_walker"
+    ];
+
+    const ColorCodes = {
+        "black": "mc-black",
+        "dark_blue": "mc-dark-blue",
+        "dark_green": "mc-dark-green",
+        "dark_aqua": "mc-dark-aqua",
+        "dark_red": "mc-dark-red",
+        "dark_purple": "mc-dark-purple",
+        "gold": "mc-gold",
+        "gray": "mc-gray",
+        "dark_gray": "mc-dark-gray",
+        "blue": "mc-blue",
+        "green": "mc-green",
+        "aqua": "mc-aqua",
+        "red": "mc-red",
+        "light_purple": "mc-light-purple",
+        "yellow": "mc-yellow",
+        "white": "mc-white"
+    };
+
+    function convertMCLineToHumanReadable(line) {
+        const parsedLine = JSON.parse(line);
+
+        if (typeof parsedLine !== "object" || parsedLine === null || !("extra" in parsedLine)) {
+            return "";
+        }
+
+        return parsedLine.extra.map(group => group.text).join("");
+    }
+
+    function convertMCLineToHTML(line) {
+        const parsedLine = JSON.parse(line);
+        if (typeof parsedLine !== "object" || parsedLine === null || !("extra" in parsedLine)) {
+            return "<br>";
+        }
+
+        return parsedLine.extra.map(textGroup => {
+            let classes = [];
+            let style = "";
+
+            if (textGroup.italic) classes.push("mc-italic");
+            if (textGroup.bold) classes.push("mc-bold");
+
+            const color = textGroup.color;
+            if (color) {
+                if (ColorCodes[color]) {
+                    classes.push(ColorCodes[color]);
+                } else {
+                    style = ` style=\"color: ${color}\"`;
+                }
+            }
+
+            return `<span class=\"${classes.join(" ")}\"${style}>${textGroup.text}</span>`;
+        }).join("");
+    }
+
+    function convertEnchantmentsToHTML(enchantments, bypass = false) {
+        return Object.entries(enchantments).reduce((acc, [enchant, level]) => {
+            let name = enchant.replace("minecraft:", "");
+            if (!bypass && name === "feather_falling" && level === 6) return acc;
+
+            let label = EnchantmentsList[name] || name;
+            let display = EnchantmentsLevelOneMaxList.includes(name) ? label : `${label} ${level}`;
+
+            if (!EnchantmentsList[name]) console.warn(`Unknown enchantment encountered: ${name} ${level}`);
+
+            acc.push(`<span class=\"mc-green\">${display}</span>`);
+            return acc;
+        }, []);
+    }
+
+    function convertEnchantmentsToHumanReadable(enchantments, bypass = false) {
+        return Object.entries(enchantments).reduce((acc, [enchant, level]) => {
+            let name = enchant.replace("minecraft:", "");
+            if (!bypass && name === "feather_falling" && level === 6) return acc;
+
+            let label = EnchantmentsList[name] || name;
+            let display = EnchantmentsLevelOneMaxList.includes(name) ? label : `${label} ${level}`;
+
+            if (!EnchantmentsList[name]) console.warn(`Unknown enchantment encountered: ${name} ${level}`);
+
+            acc.push(display);
+            return acc;
+        }, []);
+    }
+
+    function convertItemTypes(itemType) {
+        const itemTypesToCheck = [
+            "helmet", "chestplate", "leggings", "boots", "elytra", "pickaxe",
+            "axe", "hoe", "shovel", "rod", "sword", "crossbow", "bow", "trident", "mace"
+        ];
+
+        const cleanType = itemType.replace("minecraft:", "");
+
+        for (const type of itemTypesToCheck) {
+            if (type === "rod" && cleanType === "fishing_rod") return "rod";
+            if (type === "rod" && cleanType !== "fishing_rod") continue;
+            if (cleanType.includes(type)) return type;
+        }
+
+        return cleanType;
+    }
+
+    function extractWinChanceFromLore(ItemLoreHuman) {
+        for (const line of ItemLoreHuman) {
+            if (line.includes("Win Chance: ")) {
+                return line.replace("Win Chance: ", "").replace("%", "");
+            }
+        }
+        return null;
+    }
+    function extractRarityFromLore(ItemLoreHuman) {
+        for (const line of ItemLoreHuman) {
+            if (line.includes("Rarity: ")) {
+                return line.replace("Rarity: ", "");
+            }
+        }
+        return null;
+    }
+
+    function UpdatePreview() {
+        var rawData = JSON.parse(rawDataTextarea.value);
+        var finalItemType = convertItemTypes(rawData['id']);
+        var itemName = rawData['components']['minecraft:custom_name'];
+        var finalItemNameHTML = convertMCLineToHTML(itemName);
+        var finalItemNameHuman = convertMCLineToHumanReadable(itemName)
+        let EnchantmentsHTML = [];
+        let EnchantmentsHuman = [];
+        if ("minecraft:enchantments" in rawData["components"]) {
+            const enchantments = rawData["components"]["minecraft:enchantments"]["levels"];
+            EnchantmentsHTML = convertEnchantmentsToHTML(enchantments);
+            EnchantmentsHuman = convertEnchantmentsToHumanReadable(enchantments);
+        } else {
+            EnchantmentsHTML = [];
+            EnchantmentsHuman = [];
+        }
+        // Get Item Lore
+        let ItemLoreHTML = [];
+        let ItemLoreHuman = [];
+        for (const loreLine of rawData["components"]["minecraft:lore"]) {
+            ItemLoreHTML.push(convertMCLineToHTML(loreLine));
+            ItemLoreHuman.push(convertMCLineToHumanReadable(loreLine));
+        }
+        // Check for Unbreakable
+        const Unbreakable = "minecraft:unbreakable" in rawData["components"];
+
+
+
+        // Build final HTML
+        let finalHTML = `<div>${finalItemNameHTML}</div>`;
+        for (const enchant of EnchantmentsHTML) {
+            finalHTML += `<div>${enchant}</div>`;
+        }
+        for (const line of ItemLoreHTML) {
+            finalHTML += `<div>${line}</div>`;
+        }
+        if (Unbreakable) {
+            finalHTML += `<div><span class="mc-blue">Unbreakable</span></div>`;
+        }
+
+        // Build Final Human Readable
+        let finalHuman = `${finalItemNameHuman} `;
+        finalHuman += EnchantmentsHuman.join(" ");
+        finalHuman += ItemLoreHuman.join(" ");
+        if (Unbreakable) {
+            finalHuman += " Unbreakable";
+        }
+        WinPercentage = extractWinChanceFromLore(ItemLoreHuman)
+        RarityHuman = extractRarityFromLore(ItemLoreHuman)
+        RarityHTML = extractRarityFromLore(ItemLoreHTML)
+
+        document.getElementById("itemPreview").innerHTML = finalHTML;
+
+        console.log(WinPercentage);
+        console.log(RarityHTML);
+        console.log(RarityHuman);
+        console.log(finalItemType);
+
+    }
+
+
+
+
+</script>
+
+
+{% endblock %}

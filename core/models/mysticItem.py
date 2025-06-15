@@ -1,8 +1,29 @@
 from core import db
 
-
 class MysticItem(db.Model):
     id = db.Column(db.Integer, primary_key=True) # Integer
+    
+    """
+    RawData
+    ItemType
+    CrateName
+    WinPercentage
+    RarityHuman
+    
+    RarityHTML
+    ItemNameHTML
+    ItemNameHuman
+    
+    ItemHTML
+    ItemHuman
+    
+    InfiniteItem
+    Notes
+    HiddenRepeat # This would need to be checked upon adding the item, serverside
+    """
+    
+    
+    
     # Item Information
     itemName = db.Column(db.String()) # String
     itemHTML = db.Column(db.String()) # String
