@@ -28,26 +28,59 @@
             <div class="give-preview-text-outer">
                 <div class="give-preview-text w-100">
                     <div class="give-preview-text-inner">
-                        <form method="post" action="{{ url_for('gamble') }}">
+                        <form method="post" action="">
                             <div class="input-group mb-3">
                                 <label class="input-group-text" for="inputGroupSelect01">Crate</label>
                                 <select name='crate' class="form-select" id="inputGroupSelect01">
-                                    <option id='crate' value="all">All</option>
-                                    {% for crateName, tag in validCrates.items() %}
-                                    {% if crate == tag %}
-                                    <option value="{{ tag }}" selected>{{crateName}}</option>
-                                    {% else %}
-                                    <option value="{{ tag }}">{{crateName}}</option>
-                                    {% endif %}
-                                    {% endfor %}
+                                    <option value="" selected>Most Recent</option>
+                                    <option value="">2nd Most Recent</option>
+                                    <option value="">3rd Most Recent</option>
                                 </select>
                             </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="inputGroup-sizing-default">Amount</span>
-                                <input type="text" class="form-control" name="amount" aria-label="Amount to Gamble"
-                                    aria-describedby="inputGroup-sizing-default" value="{{amount}}">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" name='ItemType' id="ItemTypeGroup"
+                                    placeholder="Item Type">
+                                <label for="ItemTypeGroup">Item Type</label>
                             </div>
-                            <button class="btn btn-primary mb-1" type="submit">Roll!</button>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" name='WinPercentage' id="WinPercentageGroup"
+                                    placeholder="Win Percentage">
+                                <label for="WinPercentageGroup">Win Percentage</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" name='Rarity' id="RarityGroup"
+                                    placeholder="Rarity">
+                                <label for="RarityGroup">Rarity</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" name='RarityHTML' id="RarityHTMLGroup"
+                                    placeholder="Rarity HTML">
+                                <label for="RarityHTMLGroup">Rarity HTML</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" name='ItemName' id="ItemNameGroup"
+                                    placeholder="Item Name">
+                                <label for="ItemNameGroup">Item Name</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" name='ItemNameHTML' id="ItemNameHTMLGroup"
+                                    placeholder="Item Name HTML">
+                                <label for="ItemNameHTMLGroup">Item Name HTML</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" name='InfiniteBlock' id="InfiniteBlockGroup"
+                                    aria-label="Infinite Block">
+                                    <option value='0'>False</option>
+                                    <option value="1">True</option>
+                                </select>
+                                <label for="InfiniteBlockGroup">Infinite Block</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" name='Notes' placeholder="Item Notes" id="NotesGroup"
+                                    style="height: 100px"></textarea>
+                                <label for="NotesGroup">Notes</label>
+                            </div>
+                            <button class="btn btn-primary mb-1" type="submit">Add to DB!</button>
                         </form>
                     </div>
                 </div>
@@ -174,8 +207,11 @@
                     style = ` style=\"color: ${color}\"`;
                 }
             }
-
-            return `<span class=\"${classes.join(" ")}\"${style}>${textGroup.text}</span>`;
+            if (!textGroup.text) {
+                return `<br>`
+            } else {
+                return `<span class=\"${classes.join(" ")}\"${style}>${textGroup.text}</span>`;
+            }
         }).join("");
     }
 
@@ -243,6 +279,20 @@
         return null;
     }
 
+    function detectInfiniteBlock(ItemLoreHTML, ItemNameHuman) {
+        let InfiniteBlock = 0;
+        for (const line of ItemLoreHTML) {
+            if (line.toLowerCase().includes("infinite")) {
+                InfiniteBlock = 1;
+            }
+        }
+        if ((ItemNameHuman.toLowerCase().includes("infinite") || ItemNameHuman.toLowerCase().includes("paint")) &&
+            ItemNameHuman !== "✦ Quest - PAINT CYCLER ✦") {
+            InfiniteBlock = 1;
+        }
+        return InfiniteBlock;
+    }
+
     function UpdatePreview() {
         var rawData = JSON.parse(rawDataTextarea.value);
         var finalItemType = convertItemTypes(rawData['id']);
@@ -282,7 +332,8 @@
         if (Unbreakable) {
             finalHTML += `<div><span class="mc-blue">Unbreakable</span></div>`;
         }
-
+        finalHTML += `<div><span class='mc-dark-gray'>${rawData['id']}</span></div>`;
+        infinteBlock = detectInfiniteBlock(ItemLoreHuman, finalItemNameHuman);
         // Build Final Human Readable
         let finalHuman = `${finalItemNameHuman} `;
         finalHuman += EnchantmentsHuman.join(" ");
@@ -295,11 +346,14 @@
         RarityHTML = extractRarityFromLore(ItemLoreHTML)
 
         document.getElementById("itemPreview").innerHTML = finalHTML;
+        document.getElementById('ItemTypeGroup').value = finalItemType;
+        document.getElementById('WinPercentageGroup').value = WinPercentage;
+        document.getElementById('RarityGroup').value = RarityHuman;
+        document.getElementById('RarityHTMLGroup').value = RarityHTML;
+        document.getElementById('ItemNameGroup').value = finalItemNameHuman;
+        document.getElementById('ItemNameHTMLGroup').value = finalItemNameHTML;
+        document.getElementById('InfiniteBlockGroup').value = infinteBlock;
 
-        console.log(WinPercentage);
-        console.log(RarityHTML);
-        console.log(RarityHuman);
-        console.log(finalItemType);
 
     }
 

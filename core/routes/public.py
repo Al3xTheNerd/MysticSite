@@ -2,23 +2,13 @@ from flask import render_template, request, flash
 from sqlalchemy import or_, and_
 from core import app, db
 from core import config as c
-import git
 from core.models.mysticItem import MysticItem
 from random import choices
 from sys import platform
 
-@app.context_processor
-def set_global_html_variable_values():
-    config = {
-        'validCrates' : c.validCrates,
-        'armorTypes' : c.armorTypes,
-        'weaponTypes' : c.weaponTypes,
-        'toolTypes' : c.toolTypes
-    }
-    return config
 
-            
 
+    
         
 @app.route('/', methods=('GET', 'POST'))
 def index():
@@ -34,7 +24,7 @@ def index():
             flash("No results found!")
     if items:
         items = [item for item in items if item.hiddenRepeat == 0]      
-    return render_template("changelog.html", mysticItems = items, ChangeLog = c.Changelog)
+    return render_template("public/changelog.html", mysticItems = items, ChangeLog = c.Changelog)
 
 
 
@@ -42,7 +32,7 @@ def index():
 def all():
     items = MysticItem.query.order_by(MysticItem.id)
     items = [item for item in items if item.hiddenRepeat == 0]  
-    return render_template("index.html", mysticItems = items)
+    return render_template("public/index.html", mysticItems = items)
         
 
 @app.route('/crate/<crateName>')
@@ -52,7 +42,7 @@ def crate(crateName):
         items = MysticItem.query.filter_by(crateName = dbCrateName)
     except:
         items = [c.errorMaker()]
-    return render_template("index.html", mysticItems = items)
+    return render_template("public/index.html", mysticItems = items)
 
 @app.route('/armor/<type>')
 def armor(type):
@@ -62,7 +52,7 @@ def armor(type):
         else:
             items = MysticItem.query.filter_by(itemType = type.lower())
     items = [item for item in items if item.hiddenRepeat == 0]  
-    return render_template("index.html", mysticItems = items)
+    return render_template("public/index.html", mysticItems = items)
             
 @app.route('/weapon/<type>')
 def weapon(type):
@@ -72,7 +62,7 @@ def weapon(type):
         else:
             items = MysticItem.query.filter_by(itemType = type.lower())
     items = [item for item in items if item.hiddenRepeat == 0]     
-    return render_template("index.html", mysticItems = items)
+    return render_template("public/index.html", mysticItems = items)
         
 @app.route('/tool/<type>')
 def tool(type):
@@ -82,18 +72,18 @@ def tool(type):
         else:
             items = MysticItem.query.filter_by(itemType = type.lower())      
     items = [item for item in items if item.hiddenRepeat == 0]  
-    return render_template("index.html", mysticItems = items)
+    return render_template("public/index.html", mysticItems = items)
 
 
 @app.route('/infinite')
 def infinite():
     items = MysticItem.query.filter_by(infiniteBlock = 1)
-    return render_template("index.html", mysticItems = items)
+    return render_template("public/index.html", mysticItems = items)
 
 @app.route('/quests')
 def quests():
     items = MysticItem.query.filter_by(itemType = 'quest')
-    return render_template("index.html", mysticItems = items)
+    return render_template("public/index.html", mysticItems = items)
 
 @app.route('/stats')
 def stats():
@@ -121,7 +111,7 @@ def stats():
         "crates" : crateCount,
         "total" : items.count()
     }
-    return render_template("stats.html", stats = stats)
+    return render_template("public/stats.html", stats = stats)
 
 
 
@@ -134,7 +124,7 @@ def itemtracker():
         crateCount += 1
         sortedItems[crate[0]] = MysticItem.query.filter(and_(MysticItem.crateName == crate[0], MysticItem.hiddenRepeat == 0)).order_by(MysticItem.id)
         #sortedItems[crate[0]] = MysticItem.query.filter_by(crateName = crate[0]).order_by(MysticItem.id)
-    return render_template("itemTracker.html", sortedItems = sortedItems, page="item")
+    return render_template("public/itemTracker.html", sortedItems = sortedItems, page="item")
 
 @app.route('/infinitetracker')
 def infinitetracker():
@@ -147,12 +137,12 @@ def infinitetracker():
             sortedItems[crate[0]] = items
         
         
-    return render_template("itemTracker.html", sortedItems = sortedItems, page="infinite")
+    return render_template("public/itemTracker.html", sortedItems = sortedItems, page="infinite")
 
 
 @app.route('/jobspayouts')
 def jobspayouts():
-    return render_template("jobspayout.html")
+    return render_template("public/jobspayout.html")
 
 
 @app.route('/gamble', methods=['POST', 'GET'])
@@ -195,29 +185,8 @@ def gamble():
                 else:
                     stats[resultCrate][item.itemNameHTML] += 1
         stats[resultCrate] = {k: v for k,v in sorted(stats[resultCrate].items(), key=lambda i: i[1])}
-    return render_template("gamble.html", mysticItems = items, amount = amount, crate = crate, stats = stats)
-
-@app.route('/test', methods=['POST', 'GET'])
-def test():
-    return render_template("test.html")
+    return render_template("public/gamble.html", mysticItems = items, amount = amount, crate = crate, stats = stats)
 
 
-@app.route('/webhook', methods=['POST'])
-def webhook():
-    if request.method == 'POST':
-        repo = git.Repo('./MysticSite')
-        origin = repo.remotes.origin
-        origin.pull()
-        return '', 200
-    else:
-        return '', 400
 
 
-from werkzeug.exceptions import HTTPException
-@app.errorhandler(HTTPException)
-def handle_http_exception(e):
-    """Return JSON instead of HTML for HTTP errors."""
-    response = e.get_response()
-    response.content_type = "application/json"
-    items = [c.errorMaker(errorCode = e.code)]
-    return render_template("index.html", mysticItems = items)

@@ -129,6 +129,9 @@ Changelog = {
     "6/14/2025" : [
         ("mc-gold", "Cleaned up some more HTML code."),
         ("mc-gold", "Standardized the code for displaying items into one file, to be shared across the site.")
+    ],
+    "6/17/2025" : [
+        ("mc-gold", "Adding Item Type to all Item Displays")
     ]
     
 }

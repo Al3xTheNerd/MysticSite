@@ -4,6 +4,9 @@ class MysticItem(db.Model):
     id = db.Column(db.Integer, primary_key=True) # Integer
     
     """
+    ItemOrder
+    HiddenRepeat # This would need to be checked upon adding the item, serverside
+    
     RawData
     ItemType
     CrateName
@@ -19,7 +22,6 @@ class MysticItem(db.Model):
     
     InfiniteItem
     Notes
-    HiddenRepeat # This would need to be checked upon adding the item, serverside
     """
     
     
