@@ -4,28 +4,25 @@ class MysticItem(db.Model):
     id = db.Column(db.Integer, primary_key=True) # Integer
     
     """
-    ItemOrder
+    ItemOrder = db.Column(db.String())
     HiddenRepeat # This would need to be checked upon adding the item, serverside
     
-    RawData
-    ItemType
-    CrateName
-    WinPercentage
-    RarityHuman
+    RawData = db.Column(db.String())
+    ItemTypePrimary = db.Column(db.String())
+    ItemTypeSecondary = db.Column(db.String())
+    CrateName = db.Column(db.String())
+    WinPercentage = db.Column(db.String())
+    RarityHuman = db.Column(db.String())
     
-    RarityHTML
-    ItemNameHTML
-    ItemNameHuman
+    RarityHTML = db.Column(db.String())
+    ItemNameHTML = db.Column(db.String())
+    ItemNameHuman = db.Column(db.String())
     
-    ItemHTML
-    ItemHuman
+    ItemHTML = db.Column(db.String())
+    ItemHuman = db.Column(db.String())
     
-    InfiniteItem
-    Notes
+    Notes = db.Column(db.String())
     """
-    
-    
-    
     # Item Information
     itemName = db.Column(db.String()) # String
     itemHTML = db.Column(db.String()) # String

@@ -2,9 +2,16 @@ from flask import render_template, request
 from core import app
 import git
 
-@app.route('/test', methods=['POST', 'GET'])
-def test():
+@app.route('/admin/additem', methods=['POST', 'GET'])
+def addItem():
     return render_template("admin/addItem.html")
+
+@app.route('/admin/managecrates', methods=['POST', 'GET'])
+def manageCrates():
+    if request.method == 'POST':
+        return True
+    return False
+
 
 
 @app.route('/webhook', methods=['POST'])
