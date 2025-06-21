@@ -55,6 +55,13 @@ div.cont {
     padding-left: calc(var(--bs-gutter-x) * .5);
 }
 
+div.form-floating input.form-control {
+    font-size: 24px;
+}
+
+
+
+
 .extra-pad-top {
     padding-top: 12px;
 }

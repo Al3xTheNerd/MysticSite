@@ -67,7 +67,38 @@ def errorMaker(errorCode: int = "???"):
 
         """
     }
-    
+
+tags = {
+    "Armor" : [
+        "Helmet",
+        "Chestplate",
+        "Leggings",
+        "Boots",
+        "Elytra"
+    ],
+    "Tools" : [
+        "Axe",
+        "Hoe",
+        "Shovel",
+        "Pickaxe",
+        "Rod"
+    ],
+    "Weapons" : [
+        "Sword",
+        "Axe",
+        "Bow",
+        "Crossbow",
+        "Trident",
+        "Mace"
+    ]
+}
+nonCatTags = [
+    "Infinite",
+    "Offhand",
+    "Hotbar",
+    "Inventory"
+]
+
 Changelog = {
     "2/19/2025" : [
         ("mc-gold", "Added missing Olympus Quests."),

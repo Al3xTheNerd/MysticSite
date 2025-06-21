@@ -1,0 +1,119 @@
+{% extends "core_layout.html" %}
+{% block content %}
+
+<div class="cont text-center results">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 extra-pad-top">
+            <div class="give-preview-text-outer">
+                <div class="give-preview-text w-100">
+                    <div class="give-preview-text-inner">
+                        <form method="post" action="">
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="CrateSelectEdit">Crate</label>
+                                <select name='crate' class="form-select" id="CrateSelectEdit" onchange="updateCrateEdit()">
+                                    {% if currentCrates is none %}
+                                    <option value="">No Current Crates</option>
+                                    {% else %}
+                                    {% for id, details in currentCrates.items() %}
+                                    <option value="{{ id }}">{{ details["CrateName"] }}</option>
+                                    {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" name='CrateName' id="CrateNameGroup"
+                                    placeholder="Crate Name">
+                                <label for="CrateNameGroup">Crate Name</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" name='ReleaseDate' id="ReleaseDateGroup"
+                                    placeholder="Release Date">
+                                <label for="ReleaseDateGroup">Release Date</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" name='CrateTag' id="CrateTagGroup"
+                                    placeholder="Crate Tag">
+                                <label for="CrateTagGroup">Crate Tag</label>
+                            </div>
+                            <button class="btn btn-primary mb-1" name="Edit" type="submit">Edit Crate!</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 extra-pad-top">
+            <div class="give-preview-text-outer">
+                <div class="give-preview-text w-100">
+                    <div class="give-preview-text-inner">
+                        <form method="post" action="">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" name='CrateName' id="CrateNameGroup"
+                                    placeholder="Crate Name">
+                                <label for="CrateNameGroup">Crate Name</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" name='ReleaseDate' id="ReleaseDateGroup"
+                                    placeholder="Release Date">
+                                <label for="ReleaseDateGroup">Release Date</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" name='CrateTag' id="CrateTagGroup"
+                                    placeholder="Crate Tag">
+                                <label for="CrateTagGroup">Crate Tag</label>
+                            </div>
+                            <button class="btn btn-primary mb-1" name="New" type="submit">Add Crate!</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 extra-pad-top">
+            <div class="give-preview-text-outer">
+                <div class="give-preview-text w-100">
+                    <div class="give-preview-text-inner">
+                        <form method="post" action="">
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="CrateSelectEdit">Crate</label>
+                                <select name='crate' class="form-select" id="CrateSelectEdit" onchange="updateCrateEdit()">
+                                    {% if currentCrates is none %}
+                                    <option value="">No Current Crates</option>
+                                    {% else %}
+                                    {% for id, details in currentCrates.items() %}
+                                    <option value="{{ id }}">{{ details["CrateName"] }}</option>
+                                    {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <button class="btn btn-primary mb-1" name="Delete" type="submit">Delete Crate.</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+const currentCrates = {{ currentCrates | tojson }};
+
+
+function updateCrateEdit() {
+    selectedValue = document.getElementById("CrateSelectEdit").value;
+    document.getElementById("CrateNameGroup").value = currentCrates[selectedValue]["CrateName"];
+    document.getElementById("ReleaseDateGroup").value = currentCrates[selectedValue]["ReleaseDate"];
+    document.getElementById("CrateTagGroup").value = currentCrates[selectedValue]["URLTag"];
+    console.log(currentCrates[selectedValue])
+
+
+
+
+}
+
+
+updateCrateEdit()
+</script>
+
+
+
+
+
+{% endblock %}

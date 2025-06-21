@@ -7,6 +7,19 @@ class Crate(db.Model):
     ReleaseDate = db.Column(db.String())
     URLTag = db.Column(db.String())
 
-    def __repr__(self):
-        return self.URLTag
 
+    def toDict(self):
+        ret = {
+            self.id : {
+                "CrateName" : self.CrateName,
+                "ReleaseDate" : self.ReleaseDate,
+                "URLTag" : self.URLTag
+            }
+        }
+        return ret
+    
+    def __repr__(self):
+        return f"{self.URLTag} | {self.CrateName} | {self.ReleaseDate}"
+
+test = {"test" : "test"}
+test.keys()

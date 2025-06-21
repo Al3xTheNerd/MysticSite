@@ -8,8 +8,8 @@ class MysticItem(db.Model):
     HiddenRepeat # This would need to be checked upon adding the item, serverside
     
     RawData = db.Column(db.String())
-    ItemTypePrimary = db.Column(db.String())
-    ItemTypeSecondary = db.Column(db.String())
+    TagPrimary = db.Column(db.String())
+    TagSecondary = db.Column(db.String())
     CrateName = db.Column(db.String())
     WinPercentage = db.Column(db.String())
     RarityHuman = db.Column(db.String())
