@@ -148,40 +148,41 @@ def gamble():
     amount = int(amount)
     if platform != "win32" and amount > 10000: amount = 10000
     crate = request.form.get("crate")
-    if not crate: crate = "all"
-    if crate == "all":
-        items = Item.query.order_by(Item.id)
+    if not crate or crate == "all":
+        crate = "all"
+        items = Item.query.order_by(Item.id).all()
     else:
         try:
-            dbCrateName = list(c.validCrates.keys())[list(c.validCrates.values()).index(crate)]
-            items = Item.query.filter_by(crateName = dbCrateName)
+            crate = str(crate)
+            items = Item.query.filter_by(CrateName = crate).all()
         except:
             items = [c.errorMaker()]
-    
-    items = [x for x in items]
     cleanItems = []
     cleanWeights = []
     for item in items:
-        if item.percentage == None or item.percentage == 0:
+        if item.WinPercentage == None or item.WinPercentage == 0:
             continue
         else:
             cleanItems.append(item)
-            cleanWeights.append(float(item.percentage))
-            
+            cleanWeights.append(float(item.WinPercentage))
     items = choices(cleanItems, cleanWeights, k = amount)
-    resultCrates = list(set([item.crateName for item in items]))
-    resultCrates.sort(key = lambda x: list(c.validCrates.keys()).index(x))
+    
+    resultCrates = list(set([item.CrateName for item in items]))
+    print(resultCrates)
+    resultCrates.sort()
     stats = {}
     for resultCrate in resultCrates:
+        res = resultCrate
+        resultCrate = Crate.query.filter_by(id = resultCrate).one().CrateName
         stats[resultCrate] = {}
         for item in items:
-            if item.crateName == resultCrate:
-                if item.itemNameHTML not in stats[resultCrate].keys():
-                    stats[resultCrate][item.itemNameHTML] = 1
+            if item.CrateName == res:
+                if item.ItemNameHTML not in stats[resultCrate].keys():
+                    stats[resultCrate][item.ItemNameHTML] = 1
                 else:
-                    stats[resultCrate][item.itemNameHTML] += 1
+                    stats[resultCrate][item.ItemNameHTML] += 1
         stats[resultCrate] = {k: v for k,v in sorted(stats[resultCrate].items(), key=lambda i: i[1])}
-    return render_template("public/gamble.html", Items = items, amount = amount, crate = crate, stats = stats)
+    return render_template("public/gamble.html", Items = items, amount = amount, recentCrate = crate, stats = stats)
 
 
 
