@@ -1,11 +1,11 @@
-from flask import render_template, request, flash
+from flask import render_template, request, flash, url_for
 from sqlalchemy import or_, and_
 from core import app, db
 from core import config as c
-from core.models.mysticItem import MysticItem
+from core.models.item import Item
+from core.models.crates import Crate
 from random import choices
 from sys import platform
-
 
 
     
@@ -18,100 +18,88 @@ def index():
         search = request.form['search']
         if not search: 
             flash("Try entering a query!")
-        items = MysticItem.query.filter(MysticItem.rawLore.ilike(f"%{search}%")).all()
+        items = Item.query.filter(Item.ItemHuman.ilike(f"%{search}%")).all()
         if not items:
             items = None
             flash("No results found!")
     if items:
-        items = [item for item in items if item.hiddenRepeat == 0]      
-    return render_template("public/changelog.html", mysticItems = items, ChangeLog = c.Changelog)
+        pass#items = [item for item in items if item.hiddenRepeat == 0]      
+    return render_template("public/changelog.html", Items = items, ChangeLog = c.Changelog)
 
-
+def noDupes(items: list[Item]):
+    names = []
+    returnItems = []
+    for item in items:
+        if item.ItemName not in names:
+            names.append(item.ItemName)
+            returnItems.append(item)
+    return returnItems
 
 @app.route('/all')
 def all():
-    items = MysticItem.query.order_by(MysticItem.id)
-    items = [item for item in items if item.hiddenRepeat == 0]  
-    return render_template("public/index.html", mysticItems = items)
+    items = noDupes(Item.query.order_by(Item.id).all())
+    return render_template("public/index.html", Items = items)
         
 
 @app.route('/crate/<crateName>')
 def crate(crateName):
     try:
-        dbCrateName = list(c.validCrates.keys())[list(c.validCrates.values()).index(crateName)]
-        items = MysticItem.query.filter_by(crateName = dbCrateName)
+        items = Item.query.filter_by(CrateName = crateName)
     except:
         items = [c.errorMaker()]
-    return render_template("public/index.html", mysticItems = items)
+    return render_template("public/index.html", Items = items)
 
-@app.route('/armor/<type>')
-def armor(type):
-    if type.lower() in [x.lower() for x in c.armorTypes]:
-        if type.lower() == "all":
-            items = MysticItem.query.filter(or_(MysticItem.itemType == x.lower() for x in c.armorTypes))
+@app.route('/tag/<cat>/<tag>')
+def tag(cat, tag):
+    items = None
+    if cat in c.tags:
+        if tag == "all":
+            items = Item.query.filter(
+                or_(
+                    or_(Item.TagPrimary == x for x in c.tags[cat]),
+                    or_(Item.TagSecondary == x for x in c.tags[cat])
+                )
+            ).all()
         else:
-            items = MysticItem.query.filter_by(itemType = type.lower())
-    items = [item for item in items if item.hiddenRepeat == 0]  
-    return render_template("public/index.html", mysticItems = items)
-            
-@app.route('/weapon/<type>')
-def weapon(type):
-    if type.lower() in [x.lower() for x in c.weaponTypes]:
-        if type.lower() == "all":
-            items = MysticItem.query.filter(or_(MysticItem.itemType == x.lower() for x in c.weaponTypes))
-        else:
-            items = MysticItem.query.filter_by(itemType = type.lower())
-    items = [item for item in items if item.hiddenRepeat == 0]     
-    return render_template("public/index.html", mysticItems = items)
-        
-@app.route('/tool/<type>')
-def tool(type):
-    if type.lower() in [x.lower() for x in c.toolTypes]:
-        if type.lower() == "all":
-            items = MysticItem.query.filter(or_(MysticItem.itemType == x.lower() for x in c.toolTypes))
-        else:
-            items = MysticItem.query.filter_by(itemType = type.lower())      
-    items = [item for item in items if item.hiddenRepeat == 0]  
-    return render_template("public/index.html", mysticItems = items)
+            items = Item.query.filter(
+                or_(
+                    Item.TagPrimary == tag,
+                    Item.TagSecondary == tag
+                )
+            ).all()
+    if cat == 'Misc':
+        items = Item.query.filter(
+            or_(
+                Item.TagPrimary == tag,
+                Item.TagSecondary == tag
+            )
+        ).all()
+    return render_template("public/index.html", Items = items)
 
 
 @app.route('/infinite')
 def infinite():
-    items = MysticItem.query.filter_by(infiniteBlock = 1)
-    return render_template("public/index.html", mysticItems = items)
+    items = Item.query.filter_by(infiniteBlock = 1)
+    return render_template("public/index.html", Items = items)
 
 @app.route('/quests')
 def quests():
-    items = MysticItem.query.filter_by(itemType = 'quest')
-    return render_template("public/index.html", mysticItems = items)
+    items = Item.query.filter_by(itemType = 'quest')
+    return render_template("public/index.html", Items = items)
 
 @app.route('/stats')
 def stats():
-    items = MysticItem.query
-    crateCount = 0
-    for crate in db.session.query(MysticItem.crateName).distinct():
-        crateCount += 1
-    stats = {
-        "infiniteBlocks" : items.filter_by(infiniteBlock = 1).count(),
-        "helmets" : items.filter_by(itemType = "helmet").count(),
-        "chestplates" : items.filter_by(itemType = "chestplate").count(),
-        "leggings" : items.filter_by(itemType = "leggings").count(),
-        "boots" : items.filter_by(itemType = "boots").count(),
-        "elytra" : items.filter_by(itemType = "elytra").count(),
-        "axe" : items.filter_by(itemType = "axe").count(),
-        "hoe" : items.filter_by(itemType = "hoe").count(),
-        "shovel" : items.filter_by(itemType = "shovel").count(),
-        "pickaxe" : items.filter_by(itemType = "pickaxe").count(),
-        "rod" : items.filter_by(itemType = "rod").count(),
-        "sword" : items.filter_by(itemType = "sword").count(),
-        "bow" : items.filter_by(itemType = "bow").count(),
-        "crossbow" : items.filter_by(itemType = "crossbow").count(),
-        "trident" : items.filter_by(itemType = "trident").count(),
-        "mace" : items.filter_by(itemType = "mace").count(),
-        "crates" : crateCount,
-        "total" : items.count()
-    }
-    return render_template("public/stats.html", stats = stats)
+    items = Item.query
+    stats = {}
+    for tag in c.validTags:
+        stats[tag] = items.filter(
+            or_(
+                Item.TagPrimary == tag,
+                Item.TagSecondary == tag
+            )
+        ).count()
+    stats["Crate"] = Crate.query.order_by(Crate.id).count()
+    return render_template("public/stats.html", stats = stats, total=items.count())
 
 
 
@@ -120,21 +108,29 @@ def stats():
 def itemtracker():
     sortedItems = {}
     crateCount = 0
-    for crate in db.session.query(MysticItem.crateName).distinct():
+    for crate in Crate.query.order_by(Crate.id).all():
         crateCount += 1
-        sortedItems[crate[0]] = MysticItem.query.filter(and_(MysticItem.crateName == crate[0], MysticItem.hiddenRepeat == 0)).order_by(MysticItem.id)
-        #sortedItems[crate[0]] = MysticItem.query.filter_by(crateName = crate[0]).order_by(MysticItem.id)
+        sortedItems[crate.CrateName] = Item.query.filter(and_(Item.CrateName == crate.id, 
+                                                       Item.TagPrimary != "Repeat Appearance",
+                                                       Item.TagSecondary != "Repeat Appearance")).order_by(Item.id)
+        #sortedItems[crate[0]] = Item.query.filter_by(crateName = crate[0]).order_by(Item.id)
     return render_template("public/itemTracker.html", sortedItems = sortedItems, page="item")
 
 @app.route('/infinitetracker')
 def infinitetracker():
     sortedItems = {}
     crateCount = 0
-    for crate in db.session.query(MysticItem.crateName).distinct():
-        items = MysticItem.query.filter(and_(MysticItem.crateName == crate[0], MysticItem.infiniteBlock == 1)).order_by(MysticItem.id)
+    
+    for crate in Crate.query.order_by(Crate.id).all():
+        items = Item.query.filter(and_(Item.CrateName == crate.id, 
+                                       or_(
+                                           Item.TagPrimary == "Infinite",
+                                           Item.TagSecondary == "Infinite"
+                                       )
+                                       )).order_by(Item.id)
         if items.count() > 0:
             crateCount += 1
-            sortedItems[crate[0]] = items
+            sortedItems[crate.CrateName] = items
         
         
     return render_template("public/itemTracker.html", sortedItems = sortedItems, page="infinite")
@@ -154,11 +150,11 @@ def gamble():
     crate = request.form.get("crate")
     if not crate: crate = "all"
     if crate == "all":
-        items = MysticItem.query.order_by(MysticItem.id)
+        items = Item.query.order_by(Item.id)
     else:
         try:
             dbCrateName = list(c.validCrates.keys())[list(c.validCrates.values()).index(crate)]
-            items = MysticItem.query.filter_by(crateName = dbCrateName)
+            items = Item.query.filter_by(crateName = dbCrateName)
         except:
             items = [c.errorMaker()]
     
@@ -185,7 +181,7 @@ def gamble():
                 else:
                     stats[resultCrate][item.itemNameHTML] += 1
         stats[resultCrate] = {k: v for k,v in sorted(stats[resultCrate].items(), key=lambda i: i[1])}
-    return render_template("public/gamble.html", mysticItems = items, amount = amount, crate = crate, stats = stats)
+    return render_template("public/gamble.html", Items = items, amount = amount, crate = crate, stats = stats)
 
 
 

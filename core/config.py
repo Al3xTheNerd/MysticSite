@@ -77,17 +77,17 @@ tags = {
         "Elytra"
     ],
     "Tools" : [
+        "Pickaxe",
         "Axe",
         "Hoe",
         "Shovel",
-        "Pickaxe",
         "Rod"
     ],
     "Weapons" : [
+        "Crossbow",
         "Sword",
         "Axe",
         "Bow",
-        "Crossbow",
         "Trident",
         "Mace"
     ]
@@ -96,8 +96,20 @@ nonCatTags = [
     "Infinite",
     "Offhand",
     "Hotbar",
-    "Inventory"
+    "Inventory",
+    "Quest",
+    "Repeat Appearance"
 ]
+validTags = []
+for category, tagList in tags.items():
+    for tag in tagList:
+        if tag not in validTags:
+            validTags.append(tag)
+for tag in nonCatTags:
+    if tag not in validTags:
+        validTags.append(tag)
+
+
 
 Changelog = {
     "2/19/2025" : [

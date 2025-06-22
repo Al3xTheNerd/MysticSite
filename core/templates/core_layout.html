@@ -41,60 +41,61 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            Item Categories
+                            Item Tags
                         </a>
                         <ul class="dropdown-menu">
-                            {% for category, name, config, last in [("armor", "Armor", armorTypes, false), ("tool",
-                            "Tools", toolTypes, false),
-                            ("weapon", "Weapons", weaponTypes, true)] %}
-                            <a class="dropdown-item disabled" href="#">{{ name }}</a>
-                            {% for type in config %}
-                            {% if request.path == url_for(category, type=type) %}
+                            {% for Type, TagsList in Tags.items() %}
+                            <a class="dropdown-item disabled" href="#">{{ Type }}</a>
                             <li>
-                                <a class="dropdown-item active" href="{{ url_for(category, type=type) }}">{{type}}</a>
+                                <a class="dropdown-item {% if request.path == url_for('tag', cat = Type, tag = 'all') %}active{% endif %}"
+                                    href="{{ url_for('tag', cat=Type, tag='all') }}">All</a>
                             </li>
-                            {% else %}
+                            {% for tag in TagsList %}
                             <li>
-                                <a class="dropdown-item" href="{{ url_for(category, type=type) }}">{{type}}</a>
+                                <a class="dropdown-item {% if request.path == url_for('tag', cat = Type, tag = tag) %}active{% endif %}"
+                                    href="{{ url_for('tag', cat=Type, tag=tag) }}">{{ tag }}</a>
                             </li>
-                            {% endif %}
                             {% endfor %}
-                            {% if last is false %}
+                            {% if not loop.last %}
                             <div class="dropdown-divider"></div>
                             {% endif %}
                             {% endfor %}
                         </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class='nav-link dropdown-toggle' href='#' role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Misc. Tags
+                        </a>
                         <ul class="dropdown-menu">
-                            {% for armorType in armorTypes %}
-                            {% if request.path == url_for('armor', type=armorType) %}
-                            <li><a class="dropdown-item active"
-                                    href="{{ url_for('armor', type=armorType) }}">{{armorType}}</a></li>
-                            {% else %}
-                            <li><a class="dropdown-item" href="{{ url_for('armor', type=armorType) }}">{{armorType}}</a>
+                            {% for tag in UncategorizedTags %}
+                            <li>
+                                <a class="dropdown-item {% if request.path == url_for('tag', cat='Misc', tag=tag) %}active{% endif %}"
+                                    href="{{ url_for('tag', cat='Misc', tag=tag) }}">{{tag}}</a>
                             </li>
-                            {% endif %}
                             {% endfor %}
                         </ul>
                     </li>
 
-                    <!-- Crates -->
+
+
+
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        <a class='nav-link dropdown-toggle' href='#' role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             Crates
                         </a>
                         <ul class="dropdown-menu">
-                            {% for crateName, tag in validCrates.items() %}
-                            {% if request.path == url_for('crate', crateName=tag) %}
-                            <li><a class="dropdown-item active"
-                                    href="{{ url_for('crate', crateName=tag) }}">{{crateName}}</a></li>
-                            {% else %}
-                            <li><a class="dropdown-item" href="{{ url_for('crate', crateName=tag) }}">{{crateName}}</a>
+                            {% for crate in Crates %}
+                            <li>
+                                <a class="dropdown-item {% if request.path == url_for('crate', crateName=crate.id) %}active{% endif %}"
+                                    href="{{ url_for('crate', crateName=crate.id) }}">{{crate.CrateName}}</a>
                             </li>
-                            {% endif %}
                             {% endfor %}
                         </ul>
                     </li>
+
+
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -102,12 +103,7 @@
                             Misc
                         </a>
                         <ul class="dropdown-menu">
-                            {% for loc, name in [('itemtracker', "Item Tracker"), ('infinitetracker', "Infinite
-                            Tacker"),
-                            (false, false), ('infinite', "Infinite Blocks"), ('quests', "Quests"), (false, false),
-                            ('stats',
-                            "Site
-                            Stats"), ('jobspayouts', "Job Pay Calculator"), ('gamble', "Gambling")] %}
+                            {% for loc, name in [('itemtracker', "Item Tracker"), ('infinitetracker', "Infinite Tracker"), (false, false), ('stats', "Site Stats"), ('jobspayouts', "Job Pay Calculator"), ('gamble', "Gambling")] %}
                             {% if loc is false %}
                             <div class="dropdown-divider"></div>
                             {% else %}
@@ -136,8 +132,8 @@
         </div>
     </nav>
     <div class="cont mt-3">
-        {% for message in get_flashed_messages() %}
-        <div class="alert alert-danger">{{ message }}</div>
+        {% for category, message in get_flashed_messages(with_categories=true) %}
+        <div class="alert alert-{{ category }}">{{ message | safe }}</div>
         {% endfor %}
         {% block content %} {% endblock %}
     </div>

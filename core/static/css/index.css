@@ -73,6 +73,9 @@ div.form-floating input.form-control {
 .mc-italic {
     font-style: italic;
 }
+.mc-underlined {
+    text-decoration: underline;
+}
 
 /* &0 */
 .mc-black {

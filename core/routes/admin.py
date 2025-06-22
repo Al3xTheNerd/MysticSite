@@ -1,7 +1,7 @@
 from flask import render_template, request, flash
-from core import app, db
+from core import app, db, config
 import git
-from core.models import Tag, Crate, MysticItem
+from core.models import Crate, Item
 from sqlalchemy import desc
 
 def verifyCrate(form):
@@ -28,7 +28,36 @@ def currentCrateData():
 
 @app.route('/admin/additem', methods=['POST', 'GET'])
 def addItem():
-    return render_template("admin/addItem.html")
+    if request.method == 'POST':
+        form = request.form.to_dict()
+        newItem = Item()
+        newItem.CrateName = form["Crate"]
+        newItem.TagPrimary = form["PrimaryTag"]
+        newItem.TagSecondary = form["SecondaryTag"]
+        newItem.WinPercentage = form["WinPercentage"]
+        newItem.RarityHuman = form["Rarity"]
+        newItem.RarityHTML = form["RarityHTML"]
+        newItem.ItemName = form["ItemName"]
+        newItem.ItemNameHTML = form["ItemNameHTML"]
+        newItem.Notes = form["Notes"]
+        newItem.RawData = form["RawData"]
+        newItem.ItemHuman = form["HumanData"]
+        newItem.ItemHTML = form["HTMLData"]
+        try:
+            db.session.add(newItem)
+            db.session.commit()
+            flash(f"{newItem.ItemNameHTML} added to {newItem.CrateName}", "success")
+        except Exception as e:
+            flash(f"Someting went wrong ({e})", "warning")
+            
+        
+        
+        
+        
+    formattedCrates = currentCrateData()
+    return render_template("admin/addItem.html", 
+                           validTags = config.validTags,
+                           currentCrates = formattedCrates)
 
 @app.route('/admin/managecrates', methods=['POST', 'GET'])
 def manageCrates():
@@ -47,18 +76,18 @@ def manageCrates():
                 crateToEdit.ReleaseDate = forms['ReleaseDate']
                 crateToEdit.URLTag = forms["CrateTag"]
                 db.session.commit()
-                print(crateToEdit)
                 queries += 2
             if "Delete" in forms and forms['crate']:
-                print(forms['crate'])
                 Crate.query.filter_by(id=forms['crate']).delete()
+                db.session.execute(
+                    db.delete(Item).filter_by(CrateName = forms["crate"])
+                )
                 db.session.commit()
                 queries += 1
         if queries == 0:
             flash("Something Went Wrong.", "info")
     formattedCrates = currentCrateData()
     queries += 1
-    print(formattedCrates)
 
     return render_template("admin/manageCrates.html", currentCrates = formattedCrates)
 

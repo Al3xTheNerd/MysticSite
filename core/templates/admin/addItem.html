@@ -30,17 +30,34 @@
                     <div class="give-preview-text-inner">
                         <form method="post" action="">
                             <div class="input-group mb-3">
-                                <label class="input-group-text" for="inputGroupSelect01">Crate</label>
-                                <select name='crate' class="form-select" id="inputGroupSelect01">
-                                    <option value="" selected>Most Recent</option>
-                                    <option value="">2nd Most Recent</option>
-                                    <option value="">3rd Most Recent</option>
+                                <label class="input-group-text" for="CrateSelectEdit">Crate</label>
+                                <select name='Crate' class="form-select" id="CrateSelectEdit">
+                                    {% if currentCrates is none %}
+                                    <option value="">Create a new Crate First!</option>
+                                    {% else %}
+                                    {% for id, details in currentCrates.items() %}
+                                    <option value="{{ id }}">{{ details["CrateName"] }}</option>
+                                    {% endfor %}
+                                    {% endif %}
                                 </select>
                             </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" name='ItemType' id="ItemTypeGroup"
-                                    placeholder="Item Type">
-                                <label for="ItemTypeGroup">Item Type</label>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="PrimaryTagGroup">Primary Tag</label>
+                                <select name='PrimaryTag' class="form-select" id="PrimaryTagGroup">
+                                    <option value="">None</option>
+                                    {% for tag in validTags %}
+                                    <option value="{{ tag }}">{{ tag }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="SecondaryTagGroup">Secondary Tag</label>
+                                <select name='SecondaryTag' class="form-select" id="SecondaryTagGroup">
+                                    <option value="">None</option>
+                                    {% for tag in validTags %}
+                                    <option value="{{ tag }}">{{ tag }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" name='WinPercentage' id="WinPercentageGroup"
@@ -68,18 +85,14 @@
                                 <label for="ItemNameHTMLGroup">Item Name HTML</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <select class="form-select" name='InfiniteBlock' id="InfiniteBlockGroup"
-                                    aria-label="Infinite Block">
-                                    <option value='0'>False</option>
-                                    <option value="1">True</option>
-                                </select>
-                                <label for="InfiniteBlockGroup">Infinite Block</label>
-                            </div>
-                            <div class="form-floating mb-3">
                                 <textarea class="form-control" name='Notes' placeholder="Item Notes" id="NotesGroup"
                                     style="height: 100px"></textarea>
                                 <label for="NotesGroup">Notes</label>
                             </div>
+                            <input type='text' name="RawData" id="RawData" hidden>
+                            <input type='text' name="HumanData" id="HumanData" hidden>
+                            <input type='text' name="HTMLData" id="HTMLData" hidden>
+
                             <button class="btn btn-primary mb-1" type="submit">Add to DB!</button>
                         </form>
                     </div>
@@ -100,7 +113,7 @@
             UpdatePreview();
         }, false);
     }
-
+    const validTags = {{ validTags | tojson }};
 
     /* Converts the silly minecraft types to my own more easily usable ones. */
     const EnchantmentsList = {
@@ -198,6 +211,7 @@
 
             if (textGroup.italic) classes.push("mc-italic");
             if (textGroup.bold) classes.push("mc-bold");
+            if (textGroup.underlined) classes.push('mc-underlined')
 
             const color = textGroup.color;
             if (color) {
@@ -253,13 +267,13 @@
 
         const cleanType = itemType.replace("minecraft:", "");
 
-        for (const type of itemTypesToCheck) {
+        for (const type of validTags) {
             if (type === "rod" && cleanType === "fishing_rod") return "rod";
             if (type === "rod" && cleanType !== "fishing_rod") continue;
-            if (cleanType.includes(type)) return type;
+            if (cleanType.includes(type.toLowerCase())) return type;
         }
 
-        return cleanType;
+        return null;
     }
 
     function extractWinChanceFromLore(ItemLoreHuman) {
@@ -333,7 +347,9 @@
             finalHTML += `<div><span class="mc-blue">Unbreakable</span></div>`;
         }
         finalHTML += `<div><span class='mc-dark-gray'>${rawData['id']}</span></div>`;
-        infinteBlock = detectInfiniteBlock(ItemLoreHuman, finalItemNameHuman);
+        if (detectInfiniteBlock(ItemLoreHuman, finalItemNameHuman) == 1) {
+            finalItemType = "Infinite";
+        };
         // Build Final Human Readable
         let finalHuman = `${finalItemNameHuman} `;
         finalHuman += EnchantmentsHuman.join(" ");
@@ -346,13 +362,18 @@
         RarityHTML = extractRarityFromLore(ItemLoreHTML)
 
         document.getElementById("itemPreview").innerHTML = finalHTML;
-        document.getElementById('ItemTypeGroup').value = finalItemType;
+        console.log(finalItemType);
+        if (finalItemType) {
+            document.getElementById('PrimaryTagGroup').value = finalItemType;
+        };
         document.getElementById('WinPercentageGroup').value = WinPercentage;
         document.getElementById('RarityGroup').value = RarityHuman;
         document.getElementById('RarityHTMLGroup').value = RarityHTML;
         document.getElementById('ItemNameGroup').value = finalItemNameHuman;
         document.getElementById('ItemNameHTMLGroup').value = finalItemNameHTML;
-        document.getElementById('InfiniteBlockGroup').value = infinteBlock;
+        document.getElementById('RawData').value = JSON.stringify(rawData);
+        document.getElementById('HumanData').value = finalHuman;
+        document.getElementById('HTMLData').value = finalHTML;
 
 
     }

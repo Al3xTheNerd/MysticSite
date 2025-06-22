@@ -24,23 +24,9 @@
                             style="font-weight: bold; color: #8E3BA0; ">c</span><span
                             style="font-weight: bold; color: #873798; ">s </span><span
                             style="font-weight: bold; color: #7A2F8A; ">☆</span>
-                        <div><span style="color: #55FF55; ">Infinite Blocks {{ stats.infiniteBlocks }}</span></div>
-                        <div><span style="color: #55FF55; ">Helmets {{ stats.helmets }}</span></div>
-                        <div><span style="color: #55FF55; ">Chestplates {{ stats.chestplates }}</span></div>
-                        <div><span style="color: #55FF55; ">Leggings {{ stats.leggings }}</span></div>
-                        <div><span style="color: #55FF55; ">Boots {{ stats.boots }}</span></div>
-                        <div><span style="color: #55FF55; ">Elytras {{ stats.elytra }}</span></div>
-                        <div><span style="color: #55FF55; ">Axe {{ stats.axe }}</span></div>
-                        <div><span style="color: #55FF55; ">Hoe {{ stats.hoe }}</span></div>
-                        <div><span style="color: #55FF55; ">Shovel {{ stats.shovel }}</span></div>
-                        <div><span style="color: #55FF55; ">Pickaxe {{ stats.pickaxe }} </span></div>
-                        <div><span style="color: #55FF55; ">Fishing Rod {{ stats.rod }}</span></div>
-                        <div><span style="color: #55FF55; ">Sword {{ stats.sword }}</span></div>
-                        <div><span style="color: #55FF55; ">Bow {{ stats.bow }}</span></div>
-                        <div><span style="color: #55FF55; ">Crossbow {{ stats.crossbow }}</span></div>
-                        <div><span style="color: #55FF55; ">Trident {{ stats.trident }}</span></div>
-                        <div><span style="color: #55FF55; ">Mace {{ stats.mace }}</span></div>
-                        <div><span style="color: #55FF55; ">Crates {{ stats.crates }}</span></div>
+                        {% for tag, number in stats.items() %}
+                        <div><span class="mc-green">{{tag}}s: {{number}}</span></div>
+                        {% endfor %}
                         <div><span style="color: #AAAAAA; ">- - - - - - ▶ </span><span
                                 style="color: #7A2F8A; ">S</span><span style="color: #863697; ">t</span><span
                                 style="color: #923DA4; ">a</span><span style="color: #9E45B1; ">t</span><span
@@ -49,7 +35,7 @@
                                 style="color: #89389A; ">c</span><span style="color: #7A2F8A; ">s</span><span
                                 style="color: #AAAAAA; "> ◀ - - - - - -</span></div>
                         <div><br></div>
-                        <div><span style="color: #FFFF55; ">There are {{ stats.total }} total Mystic items!</span></div>
+                        <div><span style="color: #FFFF55; ">There are {{ total }} total Mystic items!</span></div>
                         <div><br></div>
                         <div><span style="color: #AAAAAA; ">- - - - - - - - - - - - - - - - - - - - -</span></div>
                         <div><span style="color: #AAAAAA; ">Rarity: </span>
