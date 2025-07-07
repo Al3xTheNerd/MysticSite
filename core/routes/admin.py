@@ -2,8 +2,7 @@ from flask import render_template, request, flash
 from core import app, db, config
 import git
 from core.models import Crate, Item
-from sqlalchemy import desc
-
+from sqlalchemy import desc, func
 def verifyCrate(form):
     if form["CrateName"] == "":
         return False
@@ -26,12 +25,20 @@ def currentCrateData():
         return formattedCrates
     return None
 
-@app.route('/admin/additem', methods=['POST', 'GET'])
+def currentItemsByCrate():
+    crates= Crate.query.order_by(Crate.id)
+    sortedItems = {}
+    for crate in crates.all():
+        sortedItems[crate.CrateName] = Item.query.filter_by(CrateID = crate.id).order_by(Item.id).all()
+    return sortedItems
+
+@app.route('/admin/additem', methods=['POST', 'GET']) # type: ignore
 def addItem():
+    formattedCrates = currentCrateData()
     if request.method == 'POST':
         form = request.form.to_dict()
         newItem = Item()
-        newItem.CrateName = form["Crate"]
+        newItem.CrateID = form["Crate"]
         newItem.TagPrimary = form["PrimaryTag"]
         newItem.TagSecondary = form["SecondaryTag"]
         newItem.WinPercentage = form["WinPercentage"]
@@ -43,21 +50,26 @@ def addItem():
         newItem.RawData = form["RawData"]
         newItem.ItemHuman = form["HumanData"]
         newItem.ItemHTML = form["HTMLData"]
-        try:
-            db.session.add(newItem)
-            db.session.commit()
-            flash(f"{newItem.ItemNameHTML} added to {newItem.CrateName}", "success")
-        except Exception as e:
-            flash(f"Someting went wrong ({e})", "warning")
+        #try:
+        db.session.add(newItem)
+        db.session.commit()
+        flash(f"{newItem.ItemNameHTML} added to {formattedCrates[int(newItem.CrateID)]["CrateName"]}", "success")
+        #except Exception as e:
+        #    flash(f"Someting went wrong ({e})", "warning")
             
-        
-        
-        
-        
-    formattedCrates = currentCrateData()
     return render_template("admin/addItem.html", 
                            validTags = config.validTags,
                            currentCrates = formattedCrates)
+
+@app.route('/admin/itemlist', methods=['POST', 'GET']) # type: ignore
+def itemList():
+    currentItems = currentItemsByCrate()
+    for crate, items in currentItems.items():
+        for item in items:
+            print(f"{crate} - {item.ItemName}")
+    return render_template('admin/itemList.html', currentItems = currentItems)
+
+
 
 @app.route('/admin/managecrates', methods=['POST', 'GET'])
 def manageCrates():
@@ -65,7 +77,7 @@ def manageCrates():
     if request.method == 'POST':
         forms = request.form.to_dict()
         if "New" in forms and verifyCrate(forms):
-            newCrate = Crate(CrateName=forms["CrateName"], ReleaseDate=forms["ReleaseDate"], URLTag=forms["CrateTag"])
+            newCrate = Crate(CrateName=forms["CrateName"], ReleaseDate=forms["ReleaseDate"], URLTag=forms["CrateTag"]) # type: ignore
             db.session.add(newCrate)
             db.session.commit()
             queries += 1
@@ -80,7 +92,7 @@ def manageCrates():
             if "Delete" in forms and forms['crate']:
                 Crate.query.filter_by(id=forms['crate']).delete()
                 db.session.execute(
-                    db.delete(Item).filter_by(CrateName = forms["crate"])
+                    db.delete(Item).filter_by(CrateID = forms["crate"])
                 )
                 db.session.commit()
                 queries += 1

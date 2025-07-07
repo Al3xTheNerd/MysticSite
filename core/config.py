@@ -1,4 +1,5 @@
-def errorMaker(errorCode: int = "???"):
+from typing import Dict
+def errorMaker(errorCode: int | str = "???") -> Dict[str, str]:
     return {
         "itemHTML" : f"""
                         <div><span style="color: #FF6CE9; ">☆ </span><span style="color: #CE9DDA; ">O</span><span style="color: #B6B6D3; ">o</span><span style="color: #9DCECC; ">p</span><span style="color: #85E7C4; ">s</span><span style="color: #6CFFBD; ">i</span><span style="color: #89E2C6; ">e</span><span style="color: #A7C4CF; ">s</span><span style="color: #C4A7D7; ">! </span><span style="color: #FF6CE9; ">☆</span></div>

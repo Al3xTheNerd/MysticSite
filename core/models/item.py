@@ -3,9 +3,8 @@ from core import db
 class Item(db.Model):
     """Minecraft Item"""
     id = db.Column(db.Integer(), primary_key=True) # Integer
-    ItemOrder = db.Column(db.Integer(), autoincrement=True)
     
-    CrateName = db.Column(db.String())
+    CrateID = db.Column(db.String())
     TagPrimary = db.Column(db.String())
     TagSecondary = db.Column(db.String())    
     WinPercentage = db.Column(db.String())

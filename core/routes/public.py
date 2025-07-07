@@ -1,20 +1,18 @@
-from flask import render_template, request, flash, url_for
+from flask import render_template, request, flash
 from sqlalchemy import or_, and_
-from core import app, db
+from core import app
 from core import config as c
 from core.models.item import Item
 from core.models.crates import Crate
 from random import choices
 from sys import platform
 
-
     
         
 @app.route('/', methods=('GET', 'POST'))
 def index():
-    if request.method == 'GET':
-        items = None
-    elif request.method == 'POST':
+    items = None
+    if request.method == 'POST':
         search = request.form['search']
         if not search: 
             flash("Try entering a query!")
@@ -26,7 +24,7 @@ def index():
         pass#items = [item for item in items if item.hiddenRepeat == 0]      
     return render_template("public/changelog.html", Items = items, ChangeLog = c.Changelog)
 
-def noDupes(items: list[Item]):
+def noDupes(items: list[Item]) -> list[Item]:
     names = []
     returnItems = []
     for item in items:
@@ -41,10 +39,10 @@ def all():
     return render_template("public/index.html", Items = items)
         
 
-@app.route('/crate/<crateName>')
-def crate(crateName):
+@app.route('/crate/<crateID>')
+def crate(crateID):
     try:
-        items = Item.query.filter_by(CrateName = crateName)
+        items = Item.query.filter_by(CrateID = crateID)
     except:
         items = [c.errorMaker()]
     return render_template("public/index.html", Items = items)
@@ -56,8 +54,8 @@ def tag(cat, tag):
         if tag == "all":
             items = Item.query.filter(
                 or_(
-                    or_(Item.TagPrimary == x for x in c.tags[cat]),
-                    or_(Item.TagSecondary == x for x in c.tags[cat])
+                    or_(Item.TagPrimary == x for x in c.tags[cat]), # type: ignore
+                    or_(Item.TagSecondary == x for x in c.tags[cat]) # type: ignore
                 )
             ).all()
         else:
@@ -110,7 +108,7 @@ def itemtracker():
     crateCount = 0
     for crate in Crate.query.order_by(Crate.id).all():
         crateCount += 1
-        sortedItems[crate.CrateName] = Item.query.filter(and_(Item.CrateName == crate.id, 
+        sortedItems[crate.CrateName] = Item.query.filter(and_(Item.CrateID == crate.id, 
                                                        Item.TagPrimary != "Repeat Appearance",
                                                        Item.TagSecondary != "Repeat Appearance")).order_by(Item.id)
         #sortedItems[crate[0]] = Item.query.filter_by(crateName = crate[0]).order_by(Item.id)
@@ -122,7 +120,7 @@ def infinitetracker():
     crateCount = 0
     
     for crate in Crate.query.order_by(Crate.id).all():
-        items = Item.query.filter(and_(Item.CrateName == crate.id, 
+        items = Item.query.filter(and_(Item.CrateID == crate.id, 
                                        or_(
                                            Item.TagPrimary == "Infinite",
                                            Item.TagSecondary == "Infinite"
@@ -160,14 +158,14 @@ def gamble():
     cleanItems = []
     cleanWeights = []
     for item in items:
-        if item.WinPercentage == None or item.WinPercentage == 0:
+        if item.WinPercentage == None or item.WinPercentage == 0: # type: ignore
             continue
         else:
             cleanItems.append(item)
-            cleanWeights.append(float(item.WinPercentage))
+            cleanWeights.append(float(item.WinPercentage)) # type: ignore
     items = choices(cleanItems, cleanWeights, k = amount)
     
-    resultCrates = list(set([item.CrateName for item in items]))
+    resultCrates = list(set([item.CrateID for item in items]))
     print(resultCrates)
     resultCrates.sort()
     stats = {}
@@ -176,14 +174,10 @@ def gamble():
         resultCrate = Crate.query.filter_by(id = resultCrate).one().CrateName
         stats[resultCrate] = {}
         for item in items:
-            if item.CrateName == res:
+            if item.CrateID == res:
                 if item.ItemNameHTML not in stats[resultCrate].keys():
                     stats[resultCrate][item.ItemNameHTML] = 1
                 else:
                     stats[resultCrate][item.ItemNameHTML] += 1
         stats[resultCrate] = {k: v for k,v in sorted(stats[resultCrate].items(), key=lambda i: i[1])}
     return render_template("public/gamble.html", Items = items, amount = amount, recentCrate = crate, stats = stats)
-
-
-
-

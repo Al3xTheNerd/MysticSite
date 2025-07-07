@@ -20,6 +20,3 @@ class Crate(db.Model):
     
     def __repr__(self):
         return f"{self.URLTag} | {self.CrateName} | {self.ReleaseDate}"
-
-test = {"test" : "test"}
-test.keys()
