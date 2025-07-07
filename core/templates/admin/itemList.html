@@ -34,7 +34,7 @@
                                             <td scope="col">{{item.ItemNameHTML | safe}}</td>
                                             <td scope="col">{{item.TagPrimary}}</td>
                                             <td scope="col">{{item.TagSecondary}}</td>
-                                            <td scope="col"><a href="#{{item.id}}">Manage Item</a></td>
+                                            <td scope="col"><a href="{{url_for('manageItem', itemID = item.id)}}">Manage Item</a></td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>

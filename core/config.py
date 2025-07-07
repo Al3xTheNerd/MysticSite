@@ -31,7 +31,8 @@ tags = {
         "Axe",
         "Hoe",
         "Shovel",
-        "Rod"
+        "Rod",
+        "Shield"
     ],
     "Weapons" : [
         "Crossbow",
@@ -48,7 +49,9 @@ nonCatTags = [
     "Hotbar",
     "Inventory",
     "Quest",
-    "Repeat Appearance"
+    "Disguise",
+    "Repeat Appearance",
+    "Unbreakable Kit"
 ]
 validTags = []
 for category, tagList in tags.items():

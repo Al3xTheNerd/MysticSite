@@ -60,7 +60,10 @@ div.form-floating input.form-control {
 }
 
 
-
+div.alert {
+    background-color: #373b3e;
+    color: white;
+}
 
 .extra-pad-top {
     padding-top: 12px;

@@ -1,8 +1,9 @@
-from flask import render_template, request, flash
+from flask import render_template, request, flash, redirect
 from core import app, db, config
 import git
 from core.models import Crate, Item
-from sqlalchemy import desc, func
+from sqlalchemy import desc
+from flask_login import login_required
 def verifyCrate(form):
     if form["CrateName"] == "":
         return False
@@ -33,6 +34,7 @@ def currentItemsByCrate():
     return sortedItems
 
 @app.route('/admin/additem', methods=['POST', 'GET']) # type: ignore
+@login_required
 def addItem():
     formattedCrates = currentCrateData()
     if request.method == 'POST':
@@ -50,18 +52,19 @@ def addItem():
         newItem.RawData = form["RawData"]
         newItem.ItemHuman = form["HumanData"]
         newItem.ItemHTML = form["HTMLData"]
-        #try:
-        db.session.add(newItem)
-        db.session.commit()
-        flash(f"{newItem.ItemNameHTML} added to {formattedCrates[int(newItem.CrateID)]["CrateName"]}", "success")
-        #except Exception as e:
-        #    flash(f"Someting went wrong ({e})", "warning")
+        try:
+            db.session.add(newItem)
+            db.session.commit()
+            flash(f"{newItem.ItemNameHTML} added to {formattedCrates[int(newItem.CrateID)]["CrateName"]}", "dark") # type: ignore
+        except Exception as e:
+            flash(f"Someting went wrong ({e})", "dark")
             
     return render_template("admin/addItem.html", 
                            validTags = config.validTags,
                            currentCrates = formattedCrates)
 
 @app.route('/admin/itemlist', methods=['POST', 'GET']) # type: ignore
+@login_required
 def itemList():
     currentItems = currentItemsByCrate()
     for crate, items in currentItems.items():
@@ -69,9 +72,31 @@ def itemList():
             print(f"{crate} - {item.ItemName}")
     return render_template('admin/itemList.html', currentItems = currentItems)
 
+@app.route('/admin/manageitem/<itemID>', methods=['GET', 'POST']) # type: ignore
+@login_required
+def manageItem(itemID):
+    item: Item = Item.query.filter_by(id = itemID).one()
+    if not item:
+        flash("Could Not Find Item.", "warning")
+        return redirect("/admin/itemlist")
+    else:
+        if request.method == 'POST':
+            forms = request.form.to_dict()
+            item.TagPrimary = forms["PrimaryTag"]
+            item.TagSecondary = forms["SecondaryTag"]
+            item.WinPercentage = forms["WinPercentage"]
+            item.Notes = forms["Notes"]
+            db.session.commit()
+            flash(f"{item.ItemNameHTML} updated successfully!", "dark")
+            return redirect("/admin/itemlist")
+    return render_template("admin/manageItem.html", 
+                           item = item,
+                           validTags = config.validTags)
+        
 
 
 @app.route('/admin/managecrates', methods=['POST', 'GET'])
+@login_required
 def manageCrates():
     queries = 0
     if request.method == 'POST':
@@ -97,19 +122,11 @@ def manageCrates():
                 db.session.commit()
                 queries += 1
         if queries == 0:
-            flash("Something Went Wrong.", "info")
+            flash("Something Went Wrong.", "dark")
     formattedCrates = currentCrateData()
     queries += 1
 
     return render_template("admin/manageCrates.html", currentCrates = formattedCrates)
-
-
-
-
-
-
-
-
 
 
 

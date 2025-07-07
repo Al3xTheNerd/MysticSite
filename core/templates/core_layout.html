@@ -103,7 +103,9 @@
                             Misc
                         </a>
                         <ul class="dropdown-menu">
-                            {% for loc, name in [('itemtracker', "Item Tracker"), ('infinitetracker', "Infinite Tracker"), (false, false), ('stats', "Site Stats"), ('jobspayouts', "Job Pay Calculator"), ('gamble', "Gambling")] %}
+                            {% for loc, name in [('itemtracker', "Item Tracker"), ('infinitetracker', "Infinite
+                            Tracker"), (false, false), ('stats', "Site Stats"), ('jobspayouts', "Job Pay Calculator"),
+                            ('gamble', "Gambling")] %}
                             {% if loc is false %}
                             <div class="dropdown-divider"></div>
                             {% else %}
@@ -111,12 +113,36 @@
                             <li><a class="dropdown-item active" href="{{ url_for(loc) }}">{{name}}</a></li>
                             {% else %}
                             <li><a class="dropdown-item" href="{{ url_for(loc) }}">{{name}}</a></li>
+                            {% endif %}
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
                     </li>
-                    {% endif %}
-                    {% endif %}
-                    {% endfor %}
-                </ul>
-                </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Admin
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% if current_user.is_authenticated %}
+                                {% set l = [('manageCrates', "Manage Crates"), ('addItem', "Add Items"), ('itemList', "Item List"), (false, false), ('logout', "Logout")] | list%}
+                            {% else %}
+                                {% set l = [('login', "Login")] %}
+                            {%endif%}
+                            {% for loc, name in l %}
+                            {% if loc is false %}
+                            <div class="dropdown-divider"></div>
+                            {% else %}
+                            {% if request.path == url_for(loc) %}
+                            <li><a class="dropdown-item active" href="{{ url_for(loc) }}">{{name}}</a></li>
+                            {% else %}
+                            <li><a class="dropdown-item" href="{{ url_for(loc) }}">{{name}}</a></li>
+                            {% endif %}
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+
 
 
 

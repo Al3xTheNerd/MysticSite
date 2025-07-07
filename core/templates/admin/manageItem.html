@@ -1,0 +1,62 @@
+{% extends "core_layout.html" %}
+{% block content %}
+
+<div class="cont text-center results">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 extra-pad-top">
+            <div class="give-preview-text-outer">
+                <div class="give-preview-text w-100">
+                    <div class="give-preview-text-inner text-start" id="itemPreview">
+                    {{ item.ItemHTML | safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 extra-pad-top">
+            <div class="give-preview-text-outer">
+                <div class="give-preview-text w-100">
+                    <div class="give-preview-text-inner">
+                        <form method="post" action="">
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="PrimaryTagGroup">Primary Tag</label>
+                                <select name='PrimaryTag' class="form-select" id="PrimaryTagGroup">
+                                    <option value="">None</option>
+                                    {% for tag in validTags %}
+                                    <option value="{{ tag }}"{% if item.TagPrimary == tag %} selected{% endif %}>{{ tag }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="SecondaryTagGroup">Secondary Tag</label>
+                                <select name='SecondaryTag' class="form-select" id="SecondaryTagGroup">
+                                    <option value="">None</option>
+                                    {% for tag in validTags %}
+                                    <option value="{{ tag }}"{% if item.TagSecondary == tag %} selected{% endif %}>{{ tag }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" name='WinPercentage' id="WinPercentageGroup"
+                                    placeholder="Win Percentage" value="{{item.WinPercentage}}">
+                                <label for="WinPercentageGroup">Win Percentage</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" name='Notes' placeholder="Item Notes" id="NotesGroup"
+                                    style="height: 100px">{{item.Notes}}</textarea>
+                                <label for="NotesGroup">Notes</label>
+                            </div>
+
+                            <button class="btn btn-primary mb-1" type="submit">Submit Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+</div>
+{% endblock %}
