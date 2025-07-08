@@ -53,7 +53,8 @@ nonCatTags = [
     "Repeat Appearance",
     "Unbreakable Kit",
     "Head Dropping",
-    "Egg Dropping"
+    "Egg Dropping",
+    "Mob Capturing"
 ]
 validTags = []
 for category, tagList in tags.items():
