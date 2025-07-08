@@ -3,3 +3,4 @@ __pycache__/
 Item Parsing/
 atn.py
 .VSCodeCounter
+database.db
