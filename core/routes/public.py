@@ -39,9 +39,10 @@ def all():
     return render_template("public/index.html", Items = items)
         
 
-@app.route('/crate/<crateID>')
-def crate(crateID):
+@app.route('/crate/<crateTag>')
+def crate(crateTag):
     try:
+        crateID = Crate.query.filter_by(URLTag = crateTag).first().id
         items = Item.query.filter_by(CrateID = crateID)
     except:
         items = [c.errorMaker()]

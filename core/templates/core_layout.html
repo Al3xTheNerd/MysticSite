@@ -88,8 +88,8 @@
                         <ul class="dropdown-menu">
                             {% for crate in Crates %}
                             <li>
-                                <a class="dropdown-item {% if request.path == url_for('crate', crateID=crate.id) %}active{% endif %}"
-                                    href="{{ url_for('crate', crateID=crate.id) }}">{{crate.CrateName}}</a>
+                                <a class="dropdown-item {% if request.path == url_for('crate', crateTag=crate.URLTag) %}active{% endif %}"
+                                    href="{{ url_for('crate', crateTag=crate.URLTag) }}">{{crate.CrateName}}</a>
                             </li>
                             {% endfor %}
                         </ul>
