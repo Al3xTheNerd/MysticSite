@@ -41,7 +41,7 @@ def all():
 def crate(crateTag):
     try:
         crateID = Crate.query.filter_by(URLTag = crateTag).first().id # type: ignore
-        items = noDupes(Item.query.filter_by(CrateID = crateID)) # type: ignore
+        items = Item.query.filter_by(CrateID = crateID) # type: ignore
     except:
         items = [c.errorMaker()]
     return render_template("public/index.html", Items = items)
