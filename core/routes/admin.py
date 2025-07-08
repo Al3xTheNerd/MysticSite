@@ -55,7 +55,7 @@ def addItem():
         try:
             db.session.add(newItem)
             db.session.commit()
-            flash(f"{newItem.ItemNameHTML} added to {formattedCrates[int(newItem.CrateID)]["CrateName"]}", "dark") # type: ignore
+            flash(f"{newItem.ItemNameHTML} added to {formattedCrates[int(newItem.CrateID)]['CrateName']}", "dark") # type: ignore
         except Exception as e:
             flash(f"Someting went wrong ({e})", "dark")
             

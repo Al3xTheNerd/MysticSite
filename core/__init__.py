@@ -19,7 +19,6 @@ from core.models import *
 with app.app_context():
     db.create_all()
 
-from core.models import User
 login_manager = LoginManager(app=app)
 login_manager.login_view = '/login' # type: ignore
 
@@ -28,7 +27,6 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-from core.models import Crate
 from core.routes import *
 @app.context_processor
 def navbarItems():
