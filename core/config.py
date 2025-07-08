@@ -33,7 +33,8 @@ tags = {
         "Hoe",
         "Shovel",
         "Rod",
-        "Shield"
+        "Shield",
+        "Shears"
     ],
     "Weapons" : [
         "Crossbow",
