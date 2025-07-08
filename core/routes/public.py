@@ -7,8 +7,13 @@ from core.models.crates import Crate
 from random import choices
 from sys import platform
 
-    
-        
+def noDupes(items: list[Item]) -> list[Item]:
+    returnItems = []
+    for item in items:
+        if item.TagPrimary != "Repeat Appearance" and item.TagSecondary != "Repeat Appearance":
+            returnItems.append(item)
+    return returnItems    
+
 @app.route('/', methods=('GET', 'POST'))
 def index():
     items = None
@@ -21,17 +26,10 @@ def index():
             items = None
             flash("No results found!")
     if items:
+        items = noDupes(items)
         pass#items = [item for item in items if item.hiddenRepeat == 0]      
     return render_template("public/changelog.html", Items = items, ChangeLog = c.Changelog)
 
-def noDupes(items: list[Item]) -> list[Item]:
-    names = []
-    returnItems = []
-    for item in items:
-        if item.ItemName not in names:
-            names.append(item.ItemName)
-            returnItems.append(item)
-    return returnItems
 
 @app.route('/all')
 def all():
@@ -43,7 +41,7 @@ def all():
 def crate(crateTag):
     try:
         crateID = Crate.query.filter_by(URLTag = crateTag).first().id # type: ignore
-        items = Item.query.filter_by(CrateID = crateID)
+        items = noDupes(Item.query.filter_by(CrateID = crateID)) # type: ignore
     except:
         items = [c.errorMaker()]
     return render_template("public/index.html", Items = items)
@@ -73,7 +71,7 @@ def tag(cat, tag):
                 Item.TagSecondary == tag
             )
         ).all()
-    return render_template("public/index.html", Items = items)
+    return render_template("public/index.html", Items = noDupes(items)) # type: ignore
 
 
 @app.route('/infinite')
