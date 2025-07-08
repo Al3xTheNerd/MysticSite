@@ -167,11 +167,11 @@ def gamble():
             cleanWeights.append(float(item.WinPercentage)) # type: ignore
     items = choices(cleanItems, cleanWeights, k = amount)
     
-    resultCrates = list(set([item.CrateID for item in items]))
+    resultCrates = list(set([int(item.CrateID) for item in items]))
     resultCrates.sort()
     stats = {}
     for resultCrate in resultCrates:
-        res = resultCrate
+        res = str(resultCrate)
         resultCrate = Crate.query.filter_by(id = resultCrate).one().CrateName
         stats[resultCrate] = {}
         for item in items:
