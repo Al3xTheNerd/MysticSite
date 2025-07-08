@@ -153,13 +153,14 @@ def gamble():
     else:
         try:
             crate = str(crate)
-            items = Item.query.filter_by(CrateName = crate).all()
+            items = Item.query.filter_by(CrateID = crate).all()
         except:
             items = [c.errorMaker()]
     cleanItems = []
     cleanWeights = []
+    invalidValues = [None, 0, '']
     for item in items:
-        if item.WinPercentage == None or item.WinPercentage == 0: # type: ignore
+        if item.WinPercentage in invalidValues : # type: ignore
             continue
         else:
             cleanItems.append(item)
