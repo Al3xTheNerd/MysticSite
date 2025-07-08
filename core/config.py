@@ -20,6 +20,7 @@ def errorMaker(errorCode: int | str = "???") -> Dict[str, str]:
 
 tags = {
     "Armor" : [
+        "Hat",
         "Helmet",
         "Chestplate",
         "Leggings",
