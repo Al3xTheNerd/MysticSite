@@ -92,23 +92,23 @@ Changelog = {
         ("mc-gold", "Item/Infinite trackers now persistently store your items! Thank you Katie for the suggestion!")
     ],
     "3/16/2025" : [
-        ("mc-gold", "Corrected a database error leading to no swords being listed under <a href=\"{{ url_for('weapon', type='Sword') }}\">Swords</a>, thank you LostWoodsOne for bringing this to my attention!")
+        ("mc-gold", "Corrected a database error leading to no swords being listed under <a href=\"/tag/Weapons/Sword\">Swords</a>, thank you LostWoodsOne for bringing this to my attention!")
     ],
     "3/30/2025" : [
-        ("mc-gold", "Added a <a href=\"{{ url_for('jobspayouts') }}\">Jobs Payout Calculator</a>!"),
-        ("mc-gold", "Added the new <a href=\"{{ url_for('crate', crateName='Trickster') }}\">Trickster Crate</a>!"),
+        ("mc-gold", "Added a <a href=\"/jobspayouts\">Jobs Payout Calculator</a>!"),
+        ("mc-gold", "Added the new Trickster Crate!"),
         ("mc-gold", "Updated the Eternal Icesight to the new version!")
     ],
     "5/11/2025" : [
-        ("mc-gold", "Added the new <a href=\"{{ url_for('crate', crateName='Bloomfall') }}\">Bloomfall Crate</a>!")
+        ("mc-gold", "Added the newBloomfall Crate!")
     ],
     "6/3/2025" : [
-        ("mc-gold", "Added <a href=\"{{ url_for('gamble') }}\">Gambling</a>! Thank you BR_MarkoTheGamer for the suggestion!"),
+        ("mc-gold", "Added <a href=\"/gamble\">Gambling</a>! Thank you BR_MarkoTheGamer for the suggestion!"),
         ("mc-gold", "Removed some redundant HTML tags (why were there 47 extra &lt;/li&gt; tags in the navbar??)"),
         ("mc-gold", "Added a Page View Tracker (again)")
     ],
     "6/5/2025" : [
-        ("mc-gold", "<a href=\"{{ url_for('gamble') }}\">Gambling</a> is now weighted as it is in-game!"),
+        ("mc-gold", "<a href=\"/gamble\">Gambling</a> is now weighted as it is in-game!"),
         ("mc-gold", "Cleaned up the Gambling Menu."),
         ("mc-gold", "Added overviews to the gambling menu, so you can see what you got at a glance instead of looking through individually."),
         ("mc-gold", "Added a limit to how many rolls you could do at once. (turns out things get a bit wild when you try and roll 1,000,000 items :p)"),
@@ -116,10 +116,10 @@ Changelog = {
         ("mc-gold", "Pickaxes that appear in multiple crates now appear on their crate pages, they can also be pulled during gambling.")
     ],
     "6/11/2025" : [
-        ("mc-gold", "Added the new <a href=\"{{ url_for('crate', crateName='Astral') }}\">Season 8: Astral</a> crate!"),
-        ("mc-gold", "Corrected Bunny Helmet not showing up under <a href=\"{{ url_for('armor', type='Helmet') }}\">Helmets</a>."),
+        ("mc-gold", "Added the new Season 8: Astral crate!"),
+        ("mc-gold", "Corrected Bunny Helmet not showing up under <a href=\"/tag/Armor/Helmet\">Helmets</a>."),
         ("mc-gold", "Adjusted CSS (stupid fucking bootstrap) to be a bit more consistent and readable across the site."),
-        ("mc-gold", "Made it so crate summaries for <a href=\"{{ url_for('gamble') }}\">Gambling</a> show the colored item names."),
+        ("mc-gold", f"Made it so crate summaries for <a href=\"/gamble\">Gambling</a> show the colored item names."),
         ("mc-gold", "Removed the silly gap space between tiles. (I'm still unsure if I like this better or not, may be reverted :s)")
     ],
     "6/14/2025" : [
@@ -128,7 +128,17 @@ Changelog = {
     ],
     "6/17/2025" : [
         ("mc-gold", "Adding Item Type to all Item Displays")
+    ],
+    "7/7/2025" : [
+        ("mc-gold", "New tagging system, all items can now have up to 2 'keywords' (Offhand, Helmet) for better organization. This should help to narrow down searches a bit more."),
+        ("mc-gold", "Fully rewrote backend to support adding new items directly to the site. I was fully rebuilding the database previously with the old system."),
+        ("mc-gold", "More navbar shenanigans!"),
+        ("mc-gold", "Updated Jobs Payouts values as per <a href='https://discord.com/channels/1044076495095738408/1044080696915918848/1390464294331748482'>this update.</a>."),
+        ("mc-gold", "Added item type to all items(minecraft:bow), should improve readability of site."),
+        ("mc-gold", "Slightly more automated changelog.")
     ]
     
 }
+
+        
 Changelog = dict(reversed(list(Changelog.items())))
