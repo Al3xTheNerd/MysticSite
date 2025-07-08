@@ -58,7 +58,6 @@ def addItem():
             flash(f"{newItem.ItemNameHTML} added to {formattedCrates[int(newItem.CrateID)]['CrateName']}", "dark") # type: ignore
         except Exception as e:
             flash(f"Someting went wrong ({e})", "dark")
-            
     return render_template("admin/addItem.html", 
                            validTags = config.validTags,
                            currentCrates = formattedCrates)
