@@ -66,9 +66,6 @@ def addItem():
 @login_required
 def itemList():
     currentItems = currentItemsByCrate()
-    for crate, items in currentItems.items():
-        for item in items:
-            print(f"{crate} - {item.ItemName}")
     return render_template('admin/itemList.html', currentItems = currentItems)
 
 @app.route('/admin/manageitem/<itemID>', methods=['GET', 'POST']) # type: ignore
