@@ -168,7 +168,6 @@ def gamble():
     items = choices(cleanItems, cleanWeights, k = amount)
     
     resultCrates = list(set([item.CrateID for item in items]))
-    print(resultCrates)
     resultCrates.sort()
     stats = {}
     for resultCrate in resultCrates:
