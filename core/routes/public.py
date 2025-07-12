@@ -76,17 +76,6 @@ def tag(cat, tag):
         ).all()
     return render_template("public/index.html", Items = noDupes(items)) # type: ignore
 
-
-@app.route('/infinite')
-def infinite():
-    items = Item.query.filter_by(infiniteBlock = 1)
-    return render_template("public/index.html", Items = items)
-
-@app.route('/quests')
-def quests():
-    items = Item.query.filter_by(itemType = 'quest')
-    return render_template("public/index.html", Items = items)
-
 @app.route('/stats')
 def stats():
     items = Item.query
