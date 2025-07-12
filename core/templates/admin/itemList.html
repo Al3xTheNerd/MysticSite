@@ -25,6 +25,7 @@
                                             <th scope="col">Item Name ({{ currentItems[keysList[num]] | length}})</th>
                                             <th scope="col">Primary Tag</th>
                                             <th scope="col">Secondary Tag</th>
+                                            <th scope="col">Tertiary Tag</th>
                                             <th scope="col">Win Percentage</th>
                                             <th scope="col">Manage Item</th>
                                         </tr>
@@ -35,6 +36,7 @@
                                             <td scope="col">{{item.ItemNameHTML | safe}}</td>
                                             <td scope="col">{{item.TagPrimary}}</td>
                                             <td scope="col">{{item.TagSecondary}}</td>
+                                            <td scope="col">{{item.TagTertiary}}</td>
                                             <td scope="col">{{item.WinPercentage}}</td>
                                             <td scope="col"><a href="{{url_for('manageItem', itemID = item.id)}}">Manage Item</a></td>
                                         </tr>

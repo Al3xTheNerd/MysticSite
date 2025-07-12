@@ -6,7 +6,8 @@ class Item(db.Model):
     
     CrateID = db.Column(db.String())
     TagPrimary = db.Column(db.String())
-    TagSecondary = db.Column(db.String())    
+    TagSecondary = db.Column(db.String())
+    TagTertiary = db.Column(db.String())
     WinPercentage = db.Column(db.String())
     RarityHuman = db.Column(db.String())
     RarityHTML = db.Column(db.String())

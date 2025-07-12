@@ -10,7 +10,8 @@ from sys import platform
 def noDupes(items: list[Item]) -> list[Item]:
     returnItems = []
     for item in items:
-        if item.TagPrimary != "Repeat Appearance" and item.TagSecondary != "Repeat Appearance":
+        tags = [item.TagPrimary, item.TagSecondary, item.TagTertiary]
+        if "Repeat Appearance" not in tags:
             returnItems.append(item)
     return returnItems    
 
@@ -26,8 +27,7 @@ def index():
             items = None
             flash("No results found!")
     if items:
-        items = noDupes(items)
-        pass#items = [item for item in items if item.hiddenRepeat == 0]      
+        items = noDupes(items)     
     return render_template("public/changelog.html", Items = items, ChangeLog = c.Changelog)
 
 
@@ -54,21 +54,24 @@ def tag(cat, tag):
             items = Item.query.filter(
                 or_(
                     or_(Item.TagPrimary == x for x in c.tags[cat]), # type: ignore
-                    or_(Item.TagSecondary == x for x in c.tags[cat]) # type: ignore
+                    or_(Item.TagSecondary == x for x in c.tags[cat]), # type: ignore
+                    or_(Item.TagTertiary == x for x in c.tags[cat]) # type: ignore
                 )
             ).all()
         else:
             items = Item.query.filter(
                 or_(
                     Item.TagPrimary == tag,
-                    Item.TagSecondary == tag
+                    Item.TagSecondary == tag,
+                    Item.TagTertiary == tag
                 )
             ).all()
     if cat == 'Misc':
         items = Item.query.filter(
             or_(
                 Item.TagPrimary == tag,
-                Item.TagSecondary == tag
+                Item.TagSecondary == tag,
+                Item.TagTertiary == tag
             )
         ).all()
     return render_template("public/index.html", Items = noDupes(items)) # type: ignore
@@ -92,7 +95,8 @@ def stats():
         stats[tag] = items.filter(
             or_(
                 Item.TagPrimary == tag,
-                Item.TagSecondary == tag
+                Item.TagSecondary == tag,
+                Item.TagTertiary == tag
             )
         ).count()
     stats["Crate"] = Crate.query.order_by(Crate.id).count()
@@ -107,9 +111,14 @@ def itemtracker():
     crateCount = 0
     for crate in Crate.query.order_by(Crate.id).all():
         crateCount += 1
-        sortedItems[crate.CrateName] = Item.query.filter(and_(Item.CrateID == crate.id, 
-                                                       Item.TagPrimary != "Repeat Appearance",
-                                                       Item.TagSecondary != "Repeat Appearance")).order_by(Item.id)
+        sortedItems[crate.CrateName] = Item.query.filter(
+            and_(
+                Item.CrateID == crate.id, 
+                Item.TagPrimary != "Repeat Appearance",
+                Item.TagSecondary != "Repeat Appearance",
+                Item.TagTertiary != "Repeat Appearance"
+                )
+            ).order_by(Item.id)
         #sortedItems[crate[0]] = Item.query.filter_by(crateName = crate[0]).order_by(Item.id)
     return render_template("public/itemTracker.html", sortedItems = sortedItems, page="item")
 
@@ -119,12 +128,16 @@ def infinitetracker():
     crateCount = 0
     
     for crate in Crate.query.order_by(Crate.id).all():
-        items = Item.query.filter(and_(Item.CrateID == crate.id, 
-                                       or_(
-                                           Item.TagPrimary == "Infinite",
-                                           Item.TagSecondary == "Infinite"
-                                       )
-                                       )).order_by(Item.id)
+        items = Item.query.filter(
+            and_(
+                Item.CrateID == crate.id, 
+                or_(
+                    Item.TagPrimary == "Infinite",
+                    Item.TagSecondary == "Infinite",
+                    Item.TagTertiary == "Infinite"
+                    )
+                )
+            ).order_by(Item.id)
         if items.count() > 0:
             crateCount += 1
             sortedItems[crate.CrateName] = items

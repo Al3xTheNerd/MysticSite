@@ -144,6 +144,10 @@ Changelog = {
         ("mc-gold", "Updated Jobs Payouts values as per <a href='https://discord.com/channels/1044076495095738408/1044080696915918848/1390464294331748482'>this update.</a>."),
         ("mc-gold", "Added item type to all items(minecraft:bow), should improve readability of site."),
         ("mc-gold", "Slightly more automated changelog.")
+    ],
+    "7/12/2025" : [
+        ("mc-gold", "Items can now support Tertiary Tags"),
+        ("mc-green", "RYUJIN (Season 6: Shogun) now tagged as Pickaxe, Axe, and Shovel")
     ]
     
 }

@@ -43,6 +43,7 @@ def addItem():
         newItem.CrateID = form["Crate"]
         newItem.TagPrimary = form["PrimaryTag"]
         newItem.TagSecondary = form["SecondaryTag"]
+        newItem.TagTertiary = form["TertiaryTag"]
         newItem.WinPercentage = form["WinPercentage"]
         newItem.RarityHuman = form["Rarity"]
         newItem.RarityHTML = form["RarityHTML"]
@@ -80,6 +81,7 @@ def manageItem(itemID):
             forms = request.form.to_dict()
             item.TagPrimary = forms["PrimaryTag"]
             item.TagSecondary = forms["SecondaryTag"]
+            item.TagTertiary = forms["TertiaryTag"]
             item.WinPercentage = forms["WinPercentage"]
             item.Notes = forms["Notes"]
             db.session.commit()
