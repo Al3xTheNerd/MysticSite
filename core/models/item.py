@@ -1,5 +1,5 @@
 from core import db
-
+from typing import List, Dict
 class Item(db.Model):
     """Minecraft Item"""
     id = db.Column(db.Integer(), primary_key=True) # Integer
@@ -17,5 +17,13 @@ class Item(db.Model):
     RawData = db.Column(db.String())
     ItemHuman = db.Column(db.String())
     ItemHTML = db.Column(db.String())
+    
+    
+    def to_dict(self, includes: List[str]) -> Dict[str, str]:
+        retItem = {}
+        for inc in includes:
+            retItem[inc] = vars(self)[inc]
+        return retItem
+        
 
 
