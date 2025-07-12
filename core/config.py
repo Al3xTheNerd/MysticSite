@@ -135,9 +135,6 @@ Changelog = {
         ("mc-gold", "Cleaned up some more HTML code."),
         ("mc-gold", "Standardized the code for displaying items into one file, to be shared across the site.")
     ],
-    "6/17/2025" : [
-        ("mc-gold", "Adding Item Type to all Item Displays")
-    ],
     "7/7/2025" : [
         ("mc-gold", "New tagging system, all items can now have up to 2 'keywords' (Offhand, Helmet) for better organization. This should help to narrow down searches a bit more."),
         ("mc-gold", "Fully rewrote backend to support adding new items directly to the site. I was fully rebuilding the database previously with the old system."),
