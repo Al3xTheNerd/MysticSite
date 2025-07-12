@@ -7,13 +7,13 @@ from core.models.crates import Crate
 from random import choices
 from sys import platform
 
+TagCols = [Item.TagPrimary, Item.TagSecondary, Item.TagTertiary]
 def noDupes(items: list[Item]) -> list[Item]:
-    returnItems = []
-    for item in items:
-        tags = [item.TagPrimary, item.TagSecondary, item.TagTertiary]
-        if "Repeat Appearance" not in tags:
-            returnItems.append(item)
-    return returnItems    
+    returnItems = [item for item in items if "Repeat Appearance" not in [item.TagPrimary, item.TagSecondary, item.TagTertiary]]
+    return returnItems
+
+def SingleTagQuery(tag: str) -> list[Item]:
+    return Item.query.filter(or_(col.contains(tag) for col in TagCols)).all() # type: ignore
 
 @app.route('/', methods=('GET', 'POST'))
 def index():
@@ -59,21 +59,9 @@ def tag(cat, tag):
                 )
             ).all()
         else:
-            items = Item.query.filter(
-                or_(
-                    Item.TagPrimary == tag,
-                    Item.TagSecondary == tag,
-                    Item.TagTertiary == tag
-                )
-            ).all()
+            items = SingleTagQuery(tag) # type: ignore
     if cat == 'Misc':
-        items = Item.query.filter(
-            or_(
-                Item.TagPrimary == tag,
-                Item.TagSecondary == tag,
-                Item.TagTertiary == tag
-            )
-        ).all()
+        items = SingleTagQuery(tag) # type: ignore
     return render_template("public/index.html", Items = noDupes(items)) # type: ignore
 
 @app.route('/stats')
@@ -81,13 +69,7 @@ def stats():
     items = Item.query
     stats = {}
     for tag in c.validTags:
-        stats[tag] = items.filter(
-            or_(
-                Item.TagPrimary == tag,
-                Item.TagSecondary == tag,
-                Item.TagTertiary == tag
-            )
-        ).count()
+        stats[tag] = len(SingleTagQuery(tag))
     stats["Crate"] = Crate.query.order_by(Crate.id).count()
     return render_template("public/stats.html", stats = stats, total=items.count())
 
@@ -100,15 +82,7 @@ def itemtracker():
     crateCount = 0
     for crate in Crate.query.order_by(Crate.id).all():
         crateCount += 1
-        sortedItems[crate.CrateName] = Item.query.filter(
-            and_(
-                Item.CrateID == crate.id, 
-                Item.TagPrimary != "Repeat Appearance",
-                Item.TagSecondary != "Repeat Appearance",
-                Item.TagTertiary != "Repeat Appearance"
-                )
-            ).order_by(Item.id)
-        #sortedItems[crate[0]] = Item.query.filter_by(crateName = crate[0]).order_by(Item.id)
+        sortedItems[crate.CrateName] = noDupes(Item.query.filter(Item.CrateID == crate.id).order_by(Item.id)) # type: ignore
     return render_template("public/itemTracker.html", sortedItems = sortedItems, page="item")
 
 @app.route('/infinitetracker')
@@ -120,11 +94,7 @@ def infinitetracker():
         items = Item.query.filter(
             and_(
                 Item.CrateID == crate.id, 
-                or_(
-                    Item.TagPrimary == "Infinite",
-                    Item.TagSecondary == "Infinite",
-                    Item.TagTertiary == "Infinite"
-                    )
+                or_(col.contains("Infinite") for col in TagCols) # type: ignore
                 )
             ).order_by(Item.id)
         if items.count() > 0:
