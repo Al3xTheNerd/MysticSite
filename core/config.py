@@ -147,7 +147,8 @@ Changelog = {
     ],
     "7/12/2025" : [
         ("mc-gold", "Items can now support Tertiary Tags"),
-        ("mc-green", "RYUJIN (Season 6: Shogun) now tagged as Pickaxe, Axe, and Shovel")
+        ("mc-green", "RYUJIN (Season 6: Shogun) now tagged as Pickaxe, Axe, and Shovel"),
+        ("mc-gold", "Gambling item limit changed to 1,000.")
     ]
     
 }

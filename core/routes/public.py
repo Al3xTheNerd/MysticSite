@@ -115,7 +115,7 @@ def gamble():
     amount = request.form.get('amount')
     if not amount: amount = 1
     amount = int(amount)
-    if platform != "win32" and amount > 10000: amount = 10000
+    if platform != "win32" and amount > 1000: amount = 1000
     crate = request.form.get("crate")
     if not crate or crate == "all":
         crate = "all"
