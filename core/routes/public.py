@@ -43,7 +43,7 @@ def crate(crateTag):
         crateID = Crate.query.filter_by(URLTag = crateTag).first().id # type: ignore
         items = Item.query.filter_by(CrateID = crateID) # type: ignore
     except:
-        items = [c.errorMaker()]
+        items = [c.errorMaker(404)]
     return render_template("public/index.html", Items = items)
 
 @app.route('/tag/<cat>/<tag>')
@@ -125,7 +125,7 @@ def gamble():
             crate = str(crate)
             items = Item.query.filter_by(CrateID = crate).all()
         except:
-            items = [c.errorMaker()]
+            items = [c.errorMaker(404)]
     cleanItems = []
     cleanWeights = []
     invalidValues = [None, 0, '']

@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
-from core import config as c
+
 from atn import secret_key
 from flask_login import LoginManager
 
@@ -26,7 +26,7 @@ login_manager.login_view = '/login' # type: ignore
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
+from core import config as c
 from core.routes import *
 @app.context_processor
 def navbarItems():
