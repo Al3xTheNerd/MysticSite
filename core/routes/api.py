@@ -6,12 +6,21 @@ from core.models.item import Item
 from core.models.crates import Crate
 
 TagCols = [Item.TagPrimary, Item.TagSecondary, Item.TagTertiary]
-def noDupes(items: list[Item]) -> list[Item]:
-    returnItems = [item for item in items if "Repeat Appearance" not in [item.TagPrimary, item.TagSecondary, item.TagTertiary]]
-    return returnItems
 
-def SingleTagQuery(tag: str) -> list[Item]:
-    return Item.query.filter(or_(col.contains(tag) for col in TagCols)).all() # type: ignore
+def determineIncludedInfo(headers):
+    if ["I-INCLUDED-INFO"] in headers:
+        return(str(headers["I-INCLUDED-INFO"]).split(";"))
+    else:
+        return [
+        "id",
+        "ItemName",
+        "CrateID",
+        "TagPrimary",
+        "TagSecondary",
+        "TagTertiary",
+        "RarityHuman",
+        "Notes"
+    ]
 
 @app.route('/api/items') # type: ignore
 def ItemsAPI():
@@ -45,19 +54,11 @@ def CratesAPI():
 @app.route('/api/search/itemname/<term>') # type: ignore
 def ItemNameSearchAPI(term : str):
     """Search for items by name."""
-    inc = [
-        "id",
-        "ItemName",
-        "CrateID",
-        "TagPrimary",
-        "TagSecondary",
-        "TagTertiary",
-        "RarityHuman",
-        "Notes"
-    ]
+    inc = determineIncludedInfo(request.headers)
     items = [x.to_dict(inc) for x in Item.query.filter(Item.ItemName.ilike(f"%{term}%")).all()]
     if not items:
         items = None
+    
     return jsonify(items)
 
 
