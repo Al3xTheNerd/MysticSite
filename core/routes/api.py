@@ -65,7 +65,6 @@ def ItemNameSearchAPI(term : str):
 def ItemIDSearchAPI(id : int):
     """Search for items by name."""
     inc = [
-        "*",
         "id",
         "ItemName",
         "CrateID",
