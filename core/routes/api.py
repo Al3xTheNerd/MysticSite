@@ -60,6 +60,25 @@ def ItemNameSearchAPI(term : str):
         items = None
     return jsonify(items)
 
+
+@app.route('/api/search/itemid/<id>') # type: ignore
+def ItemIDSearchAPI(id : int):
+    """Search for items by name."""
+    inc = [
+        "*",
+        "id",
+        "ItemName",
+        "CrateID",
+        "TagPrimary",
+        "TagSecondary",
+        "TagTertiary",
+        "RarityHuman",
+        "Notes"
+    ]
+    item = Item.query.filter(Item.id == id).one_or_none()
+    if isinstance(item, Item):
+        item = item.to_dict(inc)
+    return jsonify(item)
 @app.route('/api/search/tag/<tag>') # type: ignore
 def TagSearchAPI(tag : str):
     """Search for items by name."""
