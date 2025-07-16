@@ -78,7 +78,7 @@ def TagSearchAPI(tag : str):
         items = None
     return jsonify(items)
 
-@app.route('/api/taglist') # type: ignore
+@app.route('/api/tags') # type: ignore
 def TagListAPI():
     """Search for items by name."""
     return jsonify(c.validTags)
