@@ -17,7 +17,7 @@
     <style>
         body {
             background-image: url("{{ url_for('static', filename='images/backgrounds/glazedTerra/' + Images | random )}}");
-            background-size: 32px;
+            background-size: 64px;
             background-repeat: repeat;
         }
         .results {
@@ -31,7 +31,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-light navbar-expand-sm bg-light">
+    <nav class="navbar navbar-dark navbar-expand-sm bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ url_for('index') }}">
                 <img src="{{ url_for('static',filename='images/mysticmc.webp') }}" width="32" height="32">
@@ -56,7 +56,7 @@
                             aria-expanded="false">
                             Item Tags
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu dropdown-menu-dark">
                             {% for Type, TagsList in Tags.items() %}
                             <a class="dropdown-item disabled" href="#">{{ Type }}</a>
                             <li>
@@ -80,7 +80,7 @@
                             aria-expanded="false">
                             Misc. Tags
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu dropdown-menu-dark">
                             {% for tag in UncategorizedTags %}
                             <li>
                                 <a class="dropdown-item {% if request.path == url_for('tag', cat='Misc', tag=tag) %}active{% endif %}"
@@ -94,7 +94,7 @@
                             aria-expanded="false">
                             Crates
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu dropdown-menu-dark">
                             {% for crate in Crates %}
                             <li>
                                 <a class="dropdown-item {% if request.path == url_for('crate', crateTag=crate.URLTag) %}active{% endif %}"
@@ -108,7 +108,7 @@
                             aria-expanded="false">
                             Misc
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu dropdown-menu-dark">
                             {% for loc, name in [('itemtracker', "Item Tracker"), ('infinitetracker', "Infinite
                             Tracker"), (false, false), ('stats', "Site Stats"), ('jobspayouts', "Job Pay Calculator"),
                             ('gamble', "Gambling")] %}
@@ -129,7 +129,7 @@
                             aria-expanded="false">
                             Admin
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu dropdown-menu-dark">
                             {% if current_user.is_authenticated %}
                             {% set l = [('manageCrates', "Manage Crates"), ('addItem', "Add Items"), ('itemList', "Item
                             List"), (false, false), ('logout', "Logout")] | list%}
