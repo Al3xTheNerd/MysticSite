@@ -34,17 +34,6 @@
 div.input-group input.form-control {
     font-size: 24px;
 }
-body {
-    background-image: url("../images/backgrounds/cryingobby.webp");
-    background-size: 32px;
-    background-repeat: repeat;
-}
-.results {
-    background-image: url("../images/backgrounds/purple_terra.webp");
-    background-size: 64px;
-    background-repeat: repeat;
-    padding-bottom: 12px;
-}
 div.cont {
     --bs-gutter-x: 1.5rem;
     --bs-gutter-y: 0;
