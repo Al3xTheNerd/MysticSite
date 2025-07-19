@@ -169,7 +169,8 @@ Changelog = {
         ("mc-light-purple", "Gambling item limit 10,000 -> 1,000.")
     ],
     "7/19/2025" : [
-        ("mc-red", "Corrected Quest Items showing in the same tag as the Quest papers themselves.")
+        ("mc-red", "Corrected Quest Items showing in the same tag as the Quest papers themselves."),
+        ("mc-green", "Added randomized background colors!")
     ]
     
 }
