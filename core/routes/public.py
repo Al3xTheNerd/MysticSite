@@ -13,7 +13,7 @@ def noDupes(items: list[Item]) -> list[Item]:
     return returnItems
 
 def SingleTagQuery(tag: str) -> list[Item]:
-    return Item.query.filter(or_(col.contains(tag) for col in TagCols)).all() # type: ignore
+    return Item.query.filter(or_(col.is_(tag) for col in TagCols)).all() # type: ignore
 
 @app.route('/', methods=('GET', 'POST'))
 def index():

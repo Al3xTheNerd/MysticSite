@@ -117,36 +117,39 @@ Changelog = {
         ("mc-gold", "Added a Page View Tracker (again)")
     ],
     "6/5/2025" : [
-        ("mc-gold", "<a href=\"/gamble\">Gambling</a> is now weighted as it is in-game!"),
-        ("mc-gold", "Cleaned up the Gambling Menu."),
-        ("mc-gold", "Added overviews to the gambling menu, so you can see what you got at a glance instead of looking through individually."),
-        ("mc-gold", "Added a limit to how many rolls you could do at once. (turns out things get a bit wild when you try and roll 1,000,000 items :p)"),
-        ("mc-gold", "Corrected a bug where the changelog would break if you didn't also search for an item."),
-        ("mc-gold", "Pickaxes that appear in multiple crates now appear on their crate pages, they can also be pulled during gambling.")
+        ("mc-green", "<a href=\"/gamble\">Gambling</a> is now weighted as it is in-game!"),
+        ("mc-light-purple", "Cleaned up the Gambling Menu."),
+        ("mc-green", "Added overviews to the gambling menu, so you can see what you got at a glance instead of looking through individually."),
+        ("mc-light-purple", "Added a limit to how many rolls you could do at once. (turns out things get a bit wild when you try and roll 1,000,000 items :p)"),
+        ("mc-red", "Corrected a bug where the changelog would break if you didn't also search for an item."),
+        ("mc-red", "Pickaxes that appear in multiple crates now appear on their crate pages, they can also be pulled during gambling.")
     ],
     "6/11/2025" : [
-        ("mc-gold", "Added the new Season 8: Astral crate!"),
-        ("mc-gold", "Corrected Bunny Helmet not showing up under <a href=\"/tag/Armor/Helmet\">Helmets</a>."),
+        ("mc-blue", "Added the new Season 8: Astral crate!"),
+        ("mc-red", "Corrected Bunny Helmet not showing up under <a href=\"/tag/Armor/Helmet\">Helmets</a>."),
         ("mc-gold", "Adjusted CSS (stupid fucking bootstrap) to be a bit more consistent and readable across the site."),
-        ("mc-gold", f"Made it so crate summaries for <a href=\"/gamble\">Gambling</a> show the colored item names."),
-        ("mc-gold", "Removed the silly gap space between tiles. (I'm still unsure if I like this better or not, may be reverted :s)")
+        ("mc-green", f"Made it so crate summaries for <a href=\"/gamble\">Gambling</a> show the colored item names."),
+        ("mc-green", "Removed the silly gap space between tiles. (I'm still unsure if I like this better or not, may be reverted :s)")
     ],
     "6/14/2025" : [
         ("mc-gold", "Cleaned up some more HTML code."),
         ("mc-gold", "Standardized the code for displaying items into one file, to be shared across the site.")
     ],
     "7/7/2025" : [
-        ("mc-gold", "New tagging system, all items can now have up to 2 'keywords' (Offhand, Helmet) for better organization. This should help to narrow down searches a bit more."),
+        ("mc-green", "New tagging system, all items can now have up to 2 'keywords' (Offhand, Helmet) for better organization. This should help to narrow down searches a bit more."),
+        ("mc-green", "Added item type to all items(minecraft:bow), should improve readability of site."),
+        ("mc-green", "Slightly more automated changelog."),
+        ("mc-green", "More navbar shenanigans!"),
+        ("mc-light-purple", "Updated Jobs Payouts values as per <a href='https://discord.com/channels/1044076495095738408/1044080696915918848/1390464294331748482'>this update.</a>."),
         ("mc-gold", "Fully rewrote backend to support adding new items directly to the site. I was fully rebuilding the database previously with the old system."),
-        ("mc-gold", "More navbar shenanigans!"),
-        ("mc-gold", "Updated Jobs Payouts values as per <a href='https://discord.com/channels/1044076495095738408/1044080696915918848/1390464294331748482'>this update.</a>."),
-        ("mc-gold", "Added item type to all items(minecraft:bow), should improve readability of site."),
-        ("mc-gold", "Slightly more automated changelog.")
     ],
     "7/12/2025" : [
-        ("mc-gold", "Items can now support Tertiary Tags"),
-        ("mc-green", "RYUJIN (Season 6: Shogun) now tagged as Pickaxe, Axe, and Shovel"),
-        ("mc-gold", "Gambling item limit 10,000 -> 1,000.")
+        ("mc-green", "Items can now support Tertiary Tags"),
+        ("mc-gold", "RYUJIN (Season 6: Shogun) now tagged as Pickaxe, Axe, and Shovel"),
+        ("mc-light-purple", "Gambling item limit 10,000 -> 1,000.")
+    ],
+    "7/19/2025" : [
+        ("mc-red", "Corrected Quest Items showing in the same tag as the Quest papers themselves.")
     ]
     
 }
