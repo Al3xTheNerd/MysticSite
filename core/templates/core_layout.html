@@ -17,12 +17,12 @@
     <style>
     {% set chosenImages = Images | random %}
         body {
-            background-image: url("{{ url_for('static', filename='images/backgrounds/glazedTerra/' + chosenImages[0] )}}");
+            background-image: url("{{ url_for('static', filename='images/backgrounds/' + chosenImages[0] )}}");
             background-size: 64px;
             background-repeat: repeat;
         }
         .results {
-            background-image: url("{{ url_for('static', filename='images/backgrounds/glazedTerra/' + chosenImages[1] )}}");
+            background-image: url("{{ url_for('static', filename='images/backgrounds/' + chosenImages[1] )}}");
             background-size: 64px;
             background-repeat: repeat;
             padding-bottom: 12px;
