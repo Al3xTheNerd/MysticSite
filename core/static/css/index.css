@@ -56,7 +56,10 @@ div.cont {
 div.form-floating input.form-control {
     font-size: 24px;
 }
-
+table.rounded {
+    border-radius: 6px; 
+    overflow:hidden;
+}
 
 div.alert {
     background-color: #373b3e;

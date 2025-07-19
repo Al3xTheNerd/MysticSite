@@ -316,7 +316,7 @@ Changelog = {
         ("mc-green", "Added randomized background colors!"),
         ("mc-light-purple", "Navbar swapped over to dark mode."),
         ("mc-green", "Changelogs now use different colors to denote different types of updates, 5 free keys to the first person who correctly guesses my intent for each currently used color. (6/14 and earlier are not updated colors wise.)"),
-        ("mc-light-purple", "Rounded corners of the main screen container, looks prettier imo.")
+        ("mc-light-purple", "Buffed out some corners around the site, tables are hopefully a little less jarring to look at.")
     ]
     
 }
