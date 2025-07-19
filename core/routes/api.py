@@ -93,7 +93,7 @@ def ItemIDSearchAPI(id : int):
     inc, messages = determineIncludedInfo(request.headers)
     item = Item.query.filter(Item.id == id).one_or_none()
     if isinstance(item, Item):
-        item = [item.to_dict(inc)]
+        item = [item.to_dict(inc)] # type: ignore
     return buildResponse(item, messages)
 
 
