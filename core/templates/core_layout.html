@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +14,22 @@
     <meta content="https://www.mystic.atn.gg" property="og:url" />
     <meta content="	https://www.mystic.atn.gg/static/images/mysticmc.webp" property="og:image" />
     <meta content="#43B581" data-react-helmet="true" name="theme-color" />
+    <style>
+        body {
+            background-image: url("{{ url_for('static', filename='images/backgrounds/glazedTerra/' + Images | random )}}");
+            background-size: 32px;
+            background-repeat: repeat;
+        }
+        .results {
+            background-image: url("{{ url_for('static', filename='images/backgrounds/glazedTerra/' + Images | random )}}");
+            background-size: 64px;
+            background-repeat: repeat;
+            padding-bottom: 12px;
+            border-radius: 12px;
+        }
+    </style>
 </head>
+
 <body>
     <nav class="navbar navbar-light navbar-expand-sm bg-light">
         <div class="container-fluid">
@@ -115,9 +131,10 @@
                         </a>
                         <ul class="dropdown-menu">
                             {% if current_user.is_authenticated %}
-                                {% set l = [('manageCrates', "Manage Crates"), ('addItem', "Add Items"), ('itemList', "Item List"), (false, false), ('logout', "Logout")] | list%}
+                            {% set l = [('manageCrates', "Manage Crates"), ('addItem', "Add Items"), ('itemList', "Item
+                            List"), (false, false), ('logout', "Logout")] | list%}
                             {% else %}
-                                {% set l = [('login', "Login")] %}
+                            {% set l = [('login', "Login")] %}
                             {%endif%}
                             {% for loc, name in l %}
                             {% if loc is false %}
@@ -143,7 +160,7 @@
             </div>
         </div>
     </nav>
-    <div class="cont mt-3">
+    <div class="cont mt-3 mb-3">
         {% for category, message in get_flashed_messages(with_categories=true) %}
         <div class="alert alert-{{ category }}">{{ message | safe }}</div>
         {% endfor %}
@@ -157,4 +174,5 @@
         integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous"
         async></script>
 </body>
+
 </html>
