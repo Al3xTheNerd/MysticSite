@@ -48,18 +48,9 @@ def buildResponse(data: List[dict] | None, messages: List[str]) -> Response:
 @app.route('/api/items') # type: ignore
 def ItemsAPI():
     """Get all items."""
-    inc = [
-        "id",
-        "ItemName",
-        "CrateID",
-        "TagPrimary",
-        "TagSecondary",
-        "TagTertiary",
-        "RarityHuman",
-        "Notes"
-    ]
+    inc, messages = determineIncludedInfo(request.headers)
     items = [x.to_dict(inc) for x in Item.query.order_by(Item.id).all()]
-    return jsonify(items)
+    return buildResponse(items, messages)
 
 
 @app.route('/api/crates') # type: ignore
