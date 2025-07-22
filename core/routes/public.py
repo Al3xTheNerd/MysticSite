@@ -37,6 +37,14 @@ def all():
     return render_template("public/index.html", Items = items)
         
 
+@app.route('/item/<itemID>')
+def item(itemID):
+    try:
+        item = Item.query.filter_by(id = itemID) # type: ignore
+    except:
+        item = [c.errorMaker(404)]
+    return render_template("public/index.html", Items = item)
+
 @app.route('/crate/<crateTag>')
 def crate(crateTag):
     try:
