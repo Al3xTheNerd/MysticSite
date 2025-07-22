@@ -45,6 +45,14 @@ def item(itemID):
         item = [c.errorMaker(404)]
     return render_template("public/index.html", Items = item)
 
+@app.route('/rawitem/<itemID>')
+def rawitem(itemID):
+    try:
+        item = Item.query.filter_by(id = itemID) # type: ignore
+    except:
+        item = [c.errorMaker(404)]
+    return render_template("public/raw.html", item = item)
+
 @app.route('/crate/<crateTag>')
 def crate(crateTag):
     try:
