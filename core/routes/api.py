@@ -102,3 +102,7 @@ def TagSearchAPI(tag : str):
 def TagListAPI():
     """Search for items by name."""
     return jsonify(c.validTags)
+
+@app.route('/api/itemCount')
+def ItemCountAPI():
+    return jsonify(Item.query.count())
