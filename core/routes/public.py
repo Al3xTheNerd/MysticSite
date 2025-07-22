@@ -48,7 +48,7 @@ def item(itemID):
 @app.route('/rawitem/<itemID>')
 def rawitem(itemID):
     try:
-        item = Item.query.filter_by(id = itemID) # type: ignore
+        item = Item.query.filter_by(id = itemID).first() # type: ignore
     except:
         item = [c.errorMaker(404)]
     return render_template("public/raw.html", item = item)
