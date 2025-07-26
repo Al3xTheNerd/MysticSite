@@ -19,6 +19,20 @@ def errorMaker(errorCode: int | str = "???") -> List[Item]:
     return([resp]) # type: ignore
 
 
+PrettyRoutes = {
+    "/" : "Home",
+    "/all" : "All Items",
+    "/stats" : "Item Statistics",
+    "/itemtracker" : "Item Tracker",
+    "/infinitetracker" : "Infinite Tracker",
+    "/jobspayouts" : "Jobs Payouts",
+    "/gamble" : "Gamble",
+    "/tag/Armor/all" : "Armor",
+    "/tag/Tools/all" : "Tools",
+    "/tag/Weapons/all" : "Weapons",
+    "/login" : "Login"
+}
+
 tags = {
     "Armor" : [
         "Hat",
@@ -46,7 +60,7 @@ tags = {
         "Mace"
     ]
 }
-nonCatTags = [
+nonCatTags: List[str] = [
     "Infinite",
     "Offhand",
     "Hotbar",
@@ -65,9 +79,15 @@ nonCatTags = [
 validTags = []
 for category, tagList in tags.items():
     for tag in tagList:
+        route = f"/tag/{category}/{tag}"
+        pretty = f"{tag}"
+        PrettyRoutes[route] = tag
         if tag not in validTags:
             validTags.append(tag)
 for tag in nonCatTags:
+    route = f"/tag/Misc/{tag}"
+    pretty = f"{tag}"
+    PrettyRoutes[route] = tag
     if tag not in validTags:
         validTags.append(tag)
 
@@ -218,6 +238,11 @@ BackgroundImages = [
 ]
 
 
+for category, tagList in tags.items():
+    for tag in tagList:
+        route = f"/tag/{category}/{tag}"
+        pretty = f"{tag}"
+        PrettyRoutes[route] = tag
 
 Changelog = {
     "2/19/2025" : [
@@ -300,6 +325,10 @@ Changelog = {
         ("mc-light-purple", "Navbar swapped over to dark mode."),
         ("mc-green", "Changelogs now use different colors to denote different types of updates, 5 free keys to the first person who correctly guesses my intent for each currently used color. (6/14 and earlier are not updated colors wise.)"),
         ("mc-light-purple", "Buffed out some corners around the site, tables are hopefully a little less jarring to look at.")
+    ],
+    "7/26/2025" : [
+        ("mc-green", "Adjusted page titles to prettier names for each public page."),
+        ("mc-green", "Adjusted website description to hopefully start showing up on google search when you type in MysticMC")
     ]
     
 }
