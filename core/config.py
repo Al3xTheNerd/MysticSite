@@ -74,7 +74,8 @@ nonCatTags: List[str] = [
     "Mob Capturing",
     "Cooker",
     "Teleportation",
-    "Quest Only"
+    "Quest Only",
+    "Banned From Pinata"
 ]
 validTags = []
 for category, tagList in tags.items():
