@@ -49,7 +49,7 @@ def buildResponse(data: List[dict] | None, messages: List[str]) -> Response:
 def ItemsAPI():
     """Get all items."""
     inc, messages = determineIncludedInfo(request.headers)
-    items = [x.to_dict(inc) for x in Item.query.order_by(Item.id).all()]
+    items = [x.to_dict(inc) for x in Item.query.order_by(Item.ItemOrder).all()]
     return buildResponse(items, messages)
 
 
@@ -70,7 +70,7 @@ def CratesAPI():
 def ItemNameSearchAPI(term : str):
     """Search for items by name."""
     inc, messages = determineIncludedInfo(request.headers)
-    items = [x.to_dict(inc) for x in Item.query.filter(Item.ItemName.ilike(f"%{term}%")).all()]
+    items = [x.to_dict(inc) for x in Item.query.filter(Item.ItemName.ilike(f"%{term}%")).order_by(Item.ItemOrder).all()]
     if not items:
         items = None
         messages.append(APIErrors.NO_RESULTS)
@@ -92,7 +92,7 @@ def ItemIDSearchAPI(id : int):
 def TagSearchAPI(tag : str):
     """Search for items by name."""
     inc, messages = determineIncludedInfo(request.headers)
-    items = [x.to_dict(inc) for x in Item.query.filter(or_(col.is_(tag) for col in TagCols)).all()] # type: ignore
+    items = [x.to_dict(inc) for x in Item.query.filter(or_(col.is_(tag) for col in TagCols)).order_by(Item.ItemOrder).all()] # type: ignore
     if not items:
         items = None
     return buildResponse(items, messages)
