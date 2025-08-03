@@ -142,7 +142,7 @@
                         <ul class="dropdown-menu dropdown-menu-dark">
                             {% if current_user.is_authenticated %}
                             {% set l = [('manageCrates', "Manage Crates"), ('addItem', "Add Items"), ('itemList', "Item
-                            List"), (false, false), ('logout', "Logout")] | list%}
+                            List"), ('itemOrder', "Item Order"), (false, false), ('logout', "Logout")] | list%}
                             {% else %}
                             {% set l = [('login', "Login")] %}
                             {%endif%}
