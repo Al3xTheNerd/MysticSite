@@ -334,7 +334,15 @@ Changelog = {
     "8/3/2025" : [
         ("mc-gold", "Whole new addition on the backend. I can now adjust the order that items appear in if I need to make adjustments later on. eg: I added Prometheus Level 2 and was able to put it nice and snug next to the Level 1. Before this update I would have had to manually remove every item from the database, and readd them to make a change like that."),
         ("mc-red", "Disabled the Masonry tiling, decided I don't love it."),
-        ("mc-gold", "Backend Dashboard is now setup to supply the Discord Bot with a different item name as needed (prom level 2 and whatnot)")
+        ("mc-gold", "Backend Dashboard is now setup to supply the Discord Bot with a different item name as needed (prom level 2 and whatnot)"),
+        ("mc-blue", "Eldritch Axe added."),
+        ("mc-blue", "Mythril Greatsword added."),
+        ("mc-blue", "Poseidon's Fury added."),
+        ("mc-blue", "Aether Pickaxe added."),
+        ("mc-blue", "Murakumo added."),
+        ("mc-blue", "Olympus Orb (Level 3) added."),
+        ("mc-blue", "Prometheus (Level 2) added.")
+        
     ]
 }
 
