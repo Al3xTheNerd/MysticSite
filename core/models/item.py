@@ -18,6 +18,10 @@ class Item(db.Model):
     ItemHuman = db.Column(db.String())
     ItemHTML = db.Column(db.String())
     
+    ItemOrder = db.Column(db.Integer())
+    # This will be a jsonified list of db.Item.id's
+    ConnectedItems = db.Column(db.String()) 
+    
     
     def to_dict(self, includes: List[str]) -> Dict[str, str]:
         retItem = {}
