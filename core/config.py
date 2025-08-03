@@ -330,8 +330,12 @@ Changelog = {
     "7/26/2025" : [
         ("mc-green", "Adjusted page titles to prettier names for each public page."),
         ("mc-green", "Adjusted website description to hopefully start showing up on google search when you type in MysticMC")
+    ],
+    "8/3/2025" : [
+        ("mc-gold", "Whole new addition on the backend. I can now adjust the order that items appear in if I need to make adjustments later on. eg: I added Prometheus Level 2 and was able to put it nice and snug next to the Level 1. Before this update I would have had to manually remove every item from the database, and readd them to make a change like that."),
+        ("mc-red", "Disabled the Masonry tiling, decided I don't love it."),
+        ("mc-gold", "Backend Dashboard is now setup to supply the Discord Bot with a different item name as needed (prom level 2 and whatnot)")
     ]
-    
 }
 
         
