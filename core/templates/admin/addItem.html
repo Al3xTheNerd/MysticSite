@@ -1,6 +1,6 @@
 {% extends "core_layout.html" %}
 {% block content %}
-
+<script src="{{url_for('static', filename='javascript/html2canvas.js')}}"></script>
 <div class="cont text-center results">
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 extra-pad-top">
@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 extra-pad-top">
-            <div class="give-preview-text-outer">
+            <div class="give-preview-text-outer" id="screenshotMarker">
                 <div class="give-preview-text w-100">
                     <div class="give-preview-text-inner text-start" id="itemPreview">
                     </div>
@@ -315,6 +315,25 @@
         }
         return InfiniteBlock;
     }
+    function takeScreenshot() {
+        const targetElement = document.getElementById('screenshotMarker');
+
+        html2canvas(targetElement).then(canvas => {
+            const imageDataURL = canvas.toDataURL('image/png');
+
+            // Display the captured image
+            const img = document.createElement('img');
+            img.src = imageDataURL;
+            document.body.appendChild(img);
+
+            // Optionally, trigger download
+             const link = document.createElement('a');
+             link.href = imageDataURL;
+             link.download = 'item.png';
+             link.click();
+             link.remove()
+        });
+    }
 
     function UpdatePreview() {
         var rawData = JSON.parse(rawDataTextarea.value);
@@ -384,7 +403,7 @@
         document.getElementById('HumanData').value = finalHuman;
         document.getElementById('HTMLData').value = finalHTML;
 
-
+        //takeScreenshot()
     }
 
 
