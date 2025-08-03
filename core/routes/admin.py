@@ -33,7 +33,7 @@ def currentItemsByCrate():
     crates= Crate.query.order_by(Crate.id)
     sortedItems = {}
     for crate in crates.all():
-        sortedItems[crate.CrateName] = Item.query.filter_by(CrateID = crate.id).order_by(Item.id).all()
+        sortedItems[crate.CrateName] = Item.query.filter_by(CrateID = crate.id).order_by(Item.ItemOrder).all()
     return sortedItems
 
 @app.route('/admin/additem', methods=['POST', 'GET']) # type: ignore
