@@ -1,9 +1,12 @@
 from flask import render_template, request, flash, redirect
 from core import app, db, config
-import git
+import git, json
 from core.models import Crate, Item
-from sqlalchemy import desc
+from sqlalchemy import desc, func
 from flask_login import login_required
+from typing import List
+
+
 def verifyCrate(form):
     if form["CrateName"] == "":
         return False
@@ -53,9 +56,11 @@ def addItem():
         newItem.RawData = form["RawData"]
         newItem.ItemHuman = form["HumanData"]
         newItem.ItemHTML = form["HTMLData"]
+        newItem.ItemOrder = (db.session.query(func.max(Item.ItemOrder)).scalar() + 1)
         try:
             db.session.add(newItem)
             db.session.commit()
+                
             flash(f"{newItem.ItemNameHTML} added to {formattedCrates[int(newItem.CrateID)]['CrateName']} ({Item.query.filter(Item.CrateID == newItem.CrateID).count()})", "dark") # type: ignore
         except Exception as e:
             flash(f"Someting went wrong ({e})", "dark")
@@ -68,6 +73,39 @@ def addItem():
 def itemList():
     currentItems = currentItemsByCrate()
     return render_template('admin/itemList.html', currentItems = currentItems)
+def intParser(numDict):
+    newItems = {}
+    for key, value in numDict.items():
+        newItems[int(key)] = int(value)
+    return newItems
+
+@app.route('/admin/itemorder', methods=['GET', 'POST']) # type: ignore
+@login_required
+def itemOrder():
+    items: List[Item] = Item.query.order_by(Item.ItemOrder).all()
+    if not items:
+        flash('No items in database.', "dark")
+        return redirect("/admin/additem")
+    
+    if request.method == 'POST':
+        forms = request.form.to_dict()
+        ItemOrders = json.loads(forms["ItemOrder"], object_hook=intParser)
+        changes = 0
+        for item in items:
+            oldItemOrder = item.ItemOrder
+            newItemOrder = ItemOrders[item.id]
+            if oldItemOrder == newItemOrder:
+                pass
+            else:
+                changes += 1
+                item.ItemOrder = ItemOrders[item.id]
+        db.session.commit()
+        items: List[Item] = Item.query.order_by(Item.ItemOrder).all()
+        flash(str(changes), "dark")
+            
+
+    return render_template('admin/itemOrder.html', currentItems = items)
+
 
 @app.route('/admin/manageitem/<itemID>', methods=['GET', 'POST']) # type: ignore
 @login_required
@@ -84,6 +122,7 @@ def manageItem(itemID):
             item.TagTertiary = forms["TertiaryTag"]
             item.WinPercentage = forms["WinPercentage"]
             item.Notes = forms["Notes"]
+            item.ItemName = forms["ItemName"]
             db.session.commit()
             flash(f"{item.ItemNameHTML} updated successfully!", "dark")
             return redirect("/admin/itemlist")
@@ -91,7 +130,21 @@ def manageItem(itemID):
                            item = item,
                            validTags = config.validTags)
         
-
+@app.route('/admin/deleteitem/<itemID>', methods=['GET', 'POST']) # type: ignore
+@login_required
+def deleteItem(itemID):
+    item: Item = Item.query.filter_by(id = itemID).one()
+    if not item:
+        flash("Could Not Find Item.", "warning")
+        return redirect("/admin/itemlist")
+    try:
+        db.session.delete(item)
+        db.session.commit()
+        flash(f"Item #{itemID} - {item.ItemNameHTML} deleted successfully.", "dark")
+    except:
+        db.session.rollback()
+        flash(f"Error deleteing #{item.id} - {item.ItemNameHTML}")
+    return redirect("/admin/itemlist")
 
 @app.route('/admin/managecrates', methods=['POST', 'GET'])
 @login_required
