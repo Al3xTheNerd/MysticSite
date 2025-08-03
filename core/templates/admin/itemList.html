@@ -23,22 +23,28 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Item Name ({{ currentItems[keysList[num]] | length}})</th>
+                                            <th scope="col">Bot Item Name</th>
                                             <th scope="col">Primary Tag</th>
                                             <th scope="col">Secondary Tag</th>
                                             <th scope="col">Tertiary Tag</th>
-                                            <th scope="col">Win Percentage</th>
+                                            <th scope="col">Order</th>
+                                            <th scope="col">Delete Item</th>
                                             <th scope="col">Manage Item</th>
+                                            <th scope="col">id</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for item in currentItems[keysList[num]] %}
                                         <tr>
                                             <td scope="col">{{item.ItemNameHTML | safe}}</td>
+                                            <td scope="col">{{item.ItemName}}</td>
                                             <td scope="col">{{item.TagPrimary}}</td>
                                             <td scope="col">{{item.TagSecondary}}</td>
                                             <td scope="col">{{item.TagTertiary}}</td>
-                                            <td scope="col">{{item.WinPercentage}}</td>
+                                            <td scope="col">{{item.ItemOrder}}</td>
+                                            <td scope="col"><a href="{{url_for('deleteItem', itemID = item.id)}}">Delete Item</a></td>
                                             <td scope="col"><a href="{{url_for('manageItem', itemID = item.id)}}">Manage Item</a></td>
+                                            <td scope="col">{{item.id}}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
