@@ -13,7 +13,7 @@ def noDupes(items: list[Item]) -> list[Item]:
     return returnItems
 
 def SingleTagQuery(tag: str) -> list[Item]:
-    return Item.query.filter(or_(col.is_(tag) for col in TagCols)).all() # type: ignore
+    return Item.query.filter(or_(col.is_(tag) for col in TagCols)).order_by(Item.ItemOrder).all() # type: ignore
 
 @app.route('/', methods=('GET', 'POST'))
 def index():
@@ -22,7 +22,7 @@ def index():
         search = request.form['search']
         if not search: 
             flash("Try entering a query!")
-        items = Item.query.filter(Item.ItemHuman.ilike(f"%{search}%")).all()
+        items = Item.query.filter(Item.ItemHuman.ilike(f"%{search}%")).order_by(Item.ItemOrder).all()
         if not items:
             items = None
             flash("No results found!")
@@ -33,7 +33,7 @@ def index():
 
 @app.route('/all')
 def all():
-    items = noDupes(Item.query.order_by(Item.id).all())
+    items = noDupes(Item.query.order_by(Item.ItemOrder).all())
     return render_template("public/index.html", Items = items)
         
 
@@ -57,7 +57,7 @@ def rawitem(itemID):
 def crate(crateTag):
     try:
         crateID = Crate.query.filter_by(URLTag = crateTag).first().id # type: ignore
-        items = Item.query.filter_by(CrateID = crateID) # type: ignore
+        items = Item.query.filter_by(CrateID = crateID).order_by(Item.ItemOrder) # type: ignore
     except:
         items = [c.errorMaker(404)]
     return render_template("public/index.html", Items = items)
@@ -73,7 +73,7 @@ def tag(cat, tag):
                     or_(Item.TagSecondary == x for x in c.tags[cat]), # type: ignore
                     or_(Item.TagTertiary == x for x in c.tags[cat]) # type: ignore
                 )
-            ).all()
+            ).order_by(Item.ItemOrder).all()
         else:
             items = SingleTagQuery(tag) # type: ignore
     if cat == 'Misc':
@@ -98,7 +98,7 @@ def itemtracker():
     crateCount = 0
     for crate in Crate.query.order_by(Crate.id).all():
         crateCount += 1
-        sortedItems[crate.CrateName] = noDupes(Item.query.filter(Item.CrateID == crate.id).order_by(Item.id)) # type: ignore
+        sortedItems[crate.CrateName] = noDupes(Item.query.filter(Item.CrateID == crate.id).order_by(Item.ItemOrder)) # type: ignore
     return render_template("public/itemTracker.html", sortedItems = sortedItems, page="item")
 
 @app.route('/infinitetracker')
@@ -112,7 +112,7 @@ def infinitetracker():
                 Item.CrateID == crate.id, 
                 or_(col.contains("Infinite") for col in TagCols) # type: ignore
                 )
-            ).order_by(Item.id)
+            ).order_by(Item.ItemOrder)
         if items.count() > 0:
             crateCount += 1
             sortedItems[crate.CrateName] = items
@@ -135,11 +135,11 @@ def gamble():
     crate = request.form.get("crate")
     if not crate or crate == "all":
         crate = "all"
-        items = Item.query.order_by(Item.id).all()
+        items = Item.query.order_by(Item.ItemOrder).all()
     else:
         try:
             crate = str(crate)
-            items = Item.query.filter_by(CrateID = crate).all()
+            items = Item.query.filter_by(CrateID = crate).order_by(Item.ItemOrder).all()
         except:
             items = [c.errorMaker(404)]
     cleanItems = []
