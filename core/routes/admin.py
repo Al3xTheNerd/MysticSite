@@ -110,6 +110,7 @@ def itemOrder():
 @app.route('/admin/manageitem/<itemID>', methods=['GET', 'POST']) # type: ignore
 @login_required
 def manageItem(itemID):
+    formattedCrates = currentCrateData()
     item: Item = Item.query.filter_by(id = itemID).one()
     if not item:
         flash("Could Not Find Item.", "warning")
@@ -117,6 +118,7 @@ def manageItem(itemID):
     else:
         if request.method == 'POST':
             forms = request.form.to_dict()
+            item.CrateID = forms["Crate"]
             item.TagPrimary = forms["PrimaryTag"]
             item.TagSecondary = forms["SecondaryTag"]
             item.TagTertiary = forms["TertiaryTag"]
@@ -128,7 +130,8 @@ def manageItem(itemID):
             return redirect("/admin/itemlist")
     return render_template("admin/manageItem.html", 
                            item = item,
-                           validTags = config.validTags)
+                           validTags = config.validTags,
+                           currentCrates = formattedCrates)
         
 @app.route('/admin/deleteitem/<itemID>', methods=['GET', 'POST']) # type: ignore
 @login_required

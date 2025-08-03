@@ -7,7 +7,7 @@
             <div class="give-preview-text-outer">
                 <div class="give-preview-text w-100">
                     <div class="give-preview-text-inner text-start" id="itemPreview">
-                    {{ item.ItemHTML | safe }}
+                        {{ item.ItemHTML | safe }}
                     </div>
                 </div>
             </div>
@@ -18,11 +18,24 @@
                     <div class="give-preview-text-inner">
                         <form method="post" action="">
                             <div class="input-group mb-3">
+                                <label class="input-group-text" for="CrateSelectEdit">Crate</label>
+                                <select name='Crate' class="form-select" id="CrateSelectEdit">
+                                    {% if currentCrates is none %}
+                                    <option value="">Create a new Crate First!</option>
+                                    {% else %}
+                                    {% for id, details in currentCrates.items() %}
+                                    <option value="{{ id }}">{{ details["CrateName"] }}</option>
+                                    {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <div class="input-group mb-3">
                                 <label class="input-group-text" for="PrimaryTagGroup">Primary Tag</label>
                                 <select name='PrimaryTag' class="form-select" id="PrimaryTagGroup">
                                     <option value="">None</option>
                                     {% for tag in validTags %}
-                                    <option value="{{ tag }}"{% if item.TagPrimary == tag %} selected{% endif %}>{{ tag }}</option>
+                                    <option value="{{ tag }}" {% if item.TagPrimary==tag %} selected{% endif %}>{{ tag
+                                        }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -31,7 +44,8 @@
                                 <select name='SecondaryTag' class="form-select" id="SecondaryTagGroup">
                                     <option value="">None</option>
                                     {% for tag in validTags %}
-                                    <option value="{{ tag }}"{% if item.TagSecondary == tag %} selected{% endif %}>{{ tag }}</option>
+                                    <option value="{{ tag }}" {% if item.TagSecondary==tag %} selected{% endif %}>{{ tag
+                                        }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -40,7 +54,8 @@
                                 <select name='TertiaryTag' class="form-select" id="TertiaryTagGroup">
                                     <option value="">None</option>
                                     {% for tag in validTags %}
-                                    <option value="{{ tag }}"{% if item.TagTertiary == tag %} selected{% endif %}>{{ tag }}</option>
+                                    <option value="{{ tag }}" {% if item.TagTertiary==tag %} selected{% endif %}>{{ tag
+                                        }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
