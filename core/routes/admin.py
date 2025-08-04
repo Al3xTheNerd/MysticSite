@@ -187,10 +187,7 @@ def manageCrates():
 @app.route('/admin/download') # type: ignore
 @login_required
 def downloadDB():
-    if platform == "win32":
-        databasePath= os.path.abspath("core\\database.db")
-    else:
-        databasePath = os.path.abspath("core/database.db")
+    databasePath= os.path.abspath(f"core{os.path.sep}database.db")
     if os.path.exists(databasePath):
         return send_file(databasePath, as_attachment = True, download_name = 'database.db')
     else:
