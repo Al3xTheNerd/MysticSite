@@ -24,7 +24,7 @@
                                     <option value="">Create a new Crate First!</option>
                                     {% else %}
                                     {% for id, details in currentCrates.items() %}
-                                    <option value="{{ id }}">{{ details["CrateName"] }}</option>
+                                    <option value="{{ id }}"{% if item.CrateID == id|string %} selected{%endif%}>{{ details["CrateName"] }}</option>
                                     {% endfor %}
                                     {% endif %}
                                 </select>
