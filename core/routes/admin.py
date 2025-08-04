@@ -184,14 +184,6 @@ def manageCrates():
     return render_template("admin/manageCrates.html", currentCrates = formattedCrates)
 
 
-@app.route('/admin/download') # type: ignore
-@login_required
-def downloadDB():
-    databasePath = os.path.join(os.path.abspath("core"), "database.db")
-    if os.path.exists(databasePath):
-        return send_file(databasePath, as_attachment = True, download_name = 'database.db')
-    else:
-        return "Not found", 404
 
 
 @app.route('/webhook', methods=['POST'])
