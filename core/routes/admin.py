@@ -5,6 +5,7 @@ from core.models import Crate, Item
 from sqlalchemy import desc, func
 from flask_login import login_required
 from typing import List
+from sys import platform
 
 
 def verifyCrate(form):
@@ -186,8 +187,10 @@ def manageCrates():
 @app.route('/admin/download') # type: ignore
 @login_required
 def downloadDB():
-    
-    databasePath= os.path.abspath("core\\database.db")
+    if platform == "win32":
+        databasePath= os.path.abspath("core\\database.db")
+    else:
+        databasePath = os.path.abspath("core/database.db")
     if os.path.exists(databasePath):
         return send_file(databasePath, as_attachment = True, download_name = 'database.db')
     else:
