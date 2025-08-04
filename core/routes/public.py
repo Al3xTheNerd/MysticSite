@@ -39,11 +39,16 @@ def all():
 
 @app.route('/item/<itemID>')
 def item(itemID):
-    try:
-        item = Item.query.filter_by(id = itemID) # type: ignore
-    except:
-        item = [c.errorMaker(404)]
-    return render_template("public/index.html", Items = item)
+    item: Item | None = Item.query.filter_by(id = itemID).one_or_none()
+    if item:
+        PrimaryCrate: Crate = Crate.query.filter_by(id = item.CrateID).first() # type: ignore
+        item.CrateName = PrimaryCrate.CrateName
+    if not item:
+        item = Item()
+        item.ItemHTML = "Fuck"
+        item.id = 0
+        PrimaryCrate = None # type: ignore
+    return render_template("public/singleItem.html", PrimaryItem = item)
 
 @app.route('/rawitem/<itemID>')
 def rawitem(itemID):
