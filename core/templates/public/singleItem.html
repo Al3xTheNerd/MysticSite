@@ -1,45 +1,46 @@
 {% extends "core_layout.html" %}
 {% block content %}
-
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 extra-pad-top">
-        <div class="give-preview-text-outer marker" id="{{ PrimaryItem.id }}">
-            <div class="give-preview-text w-100">
-                <div class="give-preview-text-inner text-start">
-                    {{ PrimaryItem.ItemHTML | safe }}
+<div class="cont text-center results">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 extra-pad-top">
+            <div class="give-preview-text-outer marker" id="{{ PrimaryItem.id }}">
+                <div class="give-preview-text w-100">
+                    <div class="give-preview-text-inner text-start">
+                        {{ PrimaryItem.ItemHTML | safe }}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 extra-pad-top">
-        <div class="give-preview-text-outer">
-            <div class="give-preview-text w-100">
-                <div class="give-preview-text-inner">
-                    <form>
-                        {% for name, var in [
-                            ("Crate Name", PrimaryItem.CrateName), 
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 extra-pad-top">
+            <div class="give-preview-text-outer">
+                <div class="give-preview-text w-100">
+                    <div class="give-preview-text-inner">
+                        <form>
+                            {% for name, var in [
+                            ("Crate Name", PrimaryItem.CrateName),
                             ("Primary Tag", PrimaryItem.TagPrimary),
                             ("Secondary Tag", PrimaryItem.TagTertiary),
                             ("Tertiary Tag", PrimaryItem.TagTertiary),
                             ("Win Percentage", PrimaryItem.WinPercentage),
                             ("Rarity", PrimaryItem.Rarity),
                             ("Bot Item Name", PrimaryItem.ItemName)] %}
-                        {% if var %}
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">{{name}}</span>
-                            <input type="text" placeholder="{{var}}" class="form-control" disabled>
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-                        {% if PrimaryItem.Notes %}
-                        <div class="form-floating mb-3">
-                            <textarea class="form-control" name='Notes' placeholder="Item Notes" id="NotesGroup"
-                                style="height: 100px" disabled>{{ PrimaryItem.Notes }}</textarea>
-                            <label for="NotesGroup">Notes</label>
-                        </div>
-                        {% endif %}
+                            {% if var %}
+                            <div class="input-group{%if not loop.last%} mb-3{%endif%}">
+                                <span class="input-group-text">{{name}}</span>
+                                <input type="text" placeholder="{{var}}" class="form-control" disabled>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            {% if PrimaryItem.Notes %}
+                            <div class="form-floating mt-3">
+                                <textarea class="form-control" name='Notes' placeholder="Item Notes" id="NotesGroup"
+                                    style="height: 100px" disabled>{{ PrimaryItem.Notes }}</textarea>
+                                <label for="NotesGroup">Notes</label>
+                            </div>
+                            {% endif %}
 
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

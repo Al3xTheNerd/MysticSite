@@ -341,7 +341,8 @@ Changelog = {
         ("mc-blue", "Aether Pickaxe added."),
         ("mc-blue", "Murakumo added."),
         ("mc-blue", "Olympus Orb (Level 3) added."),
-        ("mc-blue", "Prometheus (Level 2) added.")
+        ("mc-blue", "Prometheus (Level 2) added."),
+        ("mc-green", "Clicking an item on the bot or on the website will now take you to a screen showing far more detailed item information. Including tags or other notes that I've added (currently only 2 items have notes, see if you can find them)")
         
     ]
 }
