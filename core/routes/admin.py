@@ -1,6 +1,6 @@
-from flask import render_template, request, flash, redirect
+from flask import render_template, request, flash, redirect, send_file
 from core import app, db, config
-import git, json
+import git, json, os
 from core.models import Crate, Item
 from sqlalchemy import desc, func
 from flask_login import login_required
@@ -182,6 +182,16 @@ def manageCrates():
 
     return render_template("admin/manageCrates.html", currentCrates = formattedCrates)
 
+
+@app.route('/admin/download') # type: ignore
+@login_required
+def downloadDB():
+    
+    databasePath= os.path.abspath("core\\database.db")
+    if os.path.exists(databasePath):
+        return send_file(databasePath, as_attachment = True, download_name = 'database.db')
+    else:
+        return "Not found", 404
 
 
 @app.route('/webhook', methods=['POST'])
