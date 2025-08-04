@@ -345,9 +345,7 @@ Changelog = {
         ("mc-blue", "Hama Yumi added."),
         ("mc-blue", "Kitsune Shovel added."),
         ("mc-blue", "Mitsutama added."),
-        
         ("mc-green", "Clicking an item on the bot or on the website will now take you to a screen showing far more detailed item information. Including tags or other notes that I've added (currently only 2 items have notes, see if you can find them)")
-        
     ]
 }
 
