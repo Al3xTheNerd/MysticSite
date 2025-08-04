@@ -187,7 +187,7 @@ def manageCrates():
 @app.route('/admin/download') # type: ignore
 @login_required
 def downloadDB():
-    databasePath= os.path.abspath(f"core{os.path.sep}database.db")
+    databasePath = os.path.join(os.path.abspath("core"), "database.db")
     if os.path.exists(databasePath):
         return send_file(databasePath, as_attachment = True, download_name = 'database.db')
     else:
