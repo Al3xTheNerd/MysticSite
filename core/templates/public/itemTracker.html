@@ -22,6 +22,7 @@
 
     </div>
     <div class="row" data-masonry='{"percentPosition": true }'>
+        {% set ns = namespace(count=0) %}
         {% for crate, items in sortedItems.items() %}
 
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 extra-pad-top">
@@ -30,22 +31,33 @@
                     <div class="give-preview-text-inner text-start">
                         <span class="mc-white">{{ crate }}</span>
                         <div><br></div>
+
                         {% for item in items %}
                         <div>
                             <input type="checkbox" name="item" onclick="exportCode()">
-                            <label>
-                                <span class="mc-gold">{{ item.ItemNameHTML | safe }}</span>
-                            </label>
+                            <span class="d-none" id="crateName-{{ns.count}}">{{crate}}</span>
+                            <label><span class="mc-gold" id="text-{{ns.count}}">{{ item.ItemNameHTML | safe }}</span></label>
                         </div>
+                        {% set ns.count = ns.count + 1 %}
                         {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
         {% endfor %}
-
-
-
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 extra-pad-top">
+            <div class="give-preview-text-outer">
+                <div class="give-preview-text w-100">
+                    <div class="give-preview-text-inner text-start">
+                    <div class="mc-bold mc-gold">Missing Items: </div>
+                    <br>
+                    <div id="resList"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script>
@@ -65,13 +77,9 @@
         return "";
     }
     function loadFromCookie() {
-        console.log("I exist.");
         let oldResults = getCookie("{{ page }}");
-        if (oldResults == "") {
-            console.log("No old results found.")
-        } else {
+        if (oldResults == "") {} else {
             document.getElementById("importCode").value = oldResults;
-            console.log(oldResults);
             importCode();
         }
     }
@@ -83,19 +91,35 @@
 
 
     function exportCode() {
-        let checkboxes =
-            document.getElementsByName('item');
+        let checkboxes = document.getElementsByName('item');
         let result = "";
+        let missingItems = document.getElementById("resList")
+        missingItems.replaceChildren()
         for (var i = 0; i < checkboxes.length; i++) {
             if (checkboxes[i].checked) {
                 result += 1;
             } else {
                 result += 0
+                
+                let crateName = document.getElementById(`crateName-${i}`).textContent
+                console.log(crateName);
+                let crateResDiv = document.getElementById(crateName)
+                if (crateResDiv) {} else {
+                    let crateResDiv = document.createElement("div")
+                    crateResDiv.id = crateName
+                    crateResDiv.innerHTML = `<br><div class='mc-gold'>- ${crateName}</div>`
+                    missingItems.appendChild(crateResDiv)
+                }
+                let temp = document.getElementById(`text-${i}`).cloneNode(true);
+                let emptyDiv = document.createElement("div")
+                temp.prepend("  - ")
+                temp.style.whiteSpace = "pre-wrap"
+                emptyDiv.appendChild(temp)
+                missingItems.appendChild(emptyDiv);
             }
         }
         document.cookie = `{{ page }}=${result};expires=Wed, 18 Dec 2026 12:00:00 GMT;`;
         document.getElementById("importCode").value = result;
-        console.log(result)
     }
     function importCode() {
         let currentValues = document.getElementById("importCode").value;
@@ -111,7 +135,6 @@
             }
 
         }
-        console.log(currentValues)
 
     }
     function copyToClipBoard() {
