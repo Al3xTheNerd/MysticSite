@@ -85,24 +85,17 @@
     }
     window.onload = function() {
         loadFromCookie();
+        updateMissingItemList();
     }
 
-
-
-
-    function exportCode() {
+    function updateMissingItemList() {
         let checkboxes = document.getElementsByName('item');
-        let result = "";
         let missingItems = document.getElementById("resList")
         missingItems.replaceChildren()
         for (var i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                result += 1;
-            } else {
-                result += 0
+            if (checkboxes[i].checked) {} else {
                 
                 let crateName = document.getElementById(`crateName-${i}`).textContent
-                console.log(crateName);
                 let crateResDiv = document.getElementById(crateName)
                 if (crateResDiv) {} else {
                     let crateResDiv = document.createElement("div")
@@ -116,6 +109,18 @@
                 temp.style.whiteSpace = "pre-wrap"
                 emptyDiv.appendChild(temp)
                 missingItems.appendChild(emptyDiv);
+            }
+        }
+    }
+
+
+    function exportCode() {
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                result += 1;
+            } else {
+                result += 0;
+                updateMissingItemList();
             }
         }
         document.cookie = `{{ page }}=${result};expires=Wed, 18 Dec 2026 12:00:00 GMT;`;
