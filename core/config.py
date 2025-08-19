@@ -44,7 +44,8 @@ PrettyRoutes = {
     "/tag/Armor/all" : "Armor",
     "/tag/Tools/all" : "Tools",
     "/tag/Weapons/all" : "Weapons",
-    "/login" : "Login"
+    "/login" : "Login",
+    "/search" : "Advanced Search"
 }
 
 tags = {
@@ -363,6 +364,9 @@ Changelog = {
     ],
     "8/6/2025" : [
         ("mc-green", "Both Infinite tracker and Item tracker now generate a Discord formatted list, to make your shopping lists that much easier!")
+    ],
+    "8/18/2025" : [
+        ("mc-green", "<a href=\"/search\">Advanced Search</a> is now available!")
     ]
 }
 
