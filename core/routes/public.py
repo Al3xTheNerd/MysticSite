@@ -134,20 +134,10 @@ def search():
     recentTerm, recentCrate, recentTag, recentRarity = ("", "", "", "")
     if request.method == 'POST':
         form = request.form.to_dict()
-        print(form)
-        """
-        query = Item.query
-        if form["Term"]:
-            query.filter(Item.ItemHuman.ilike(f"%{search}%"))
-        if form["Crate"]:
-            query.filter(Item.CrateID == int(form["Crate"]))
-        if form["Tag"]:
-            TagCols = []
-            query.filter(or_(col.is_(tag) for col in TagCols)) # type: ignore"""
         conditions = []
         if form["Term"]:
             recentTerm = form["Term"]
-            conditions.append(Item.ItemHuman.ilike(f"%{form["Term"]}%"))
+            conditions.append(Item.ItemHuman.ilike(f'%{form["Term"]}%'))
         if form["Crate"]:
             recentCrate = form["Crate"]
             conditions.append(Item.CrateID == int(form["Crate"]))
