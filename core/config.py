@@ -1,5 +1,6 @@
 from typing import List
-from core.models import Item
+from core.models import Item, Crate
+from sqlalchemy import desc
 def errorMaker(errorCode: int | str = "???") -> List[Item]:
     resp = Item
     resp.ItemHTML = f"""
@@ -18,6 +19,19 @@ def errorMaker(errorCode: int | str = "???") -> List[Item]:
         
     return([resp]) # type: ignore
 
+
+def currentCrateData():
+    crates = Crate.query.order_by(desc(Crate.id))
+    formattedCrates = {}
+    for crate in crates.all():
+        formattedCrates[crate.id] = {
+            "CrateName" : crate.CrateName,
+            "ReleaseDate" : crate.ReleaseDate,
+            "URLTag" : crate.URLTag
+        }
+    if formattedCrates:
+        return formattedCrates
+    return None
 
 PrettyRoutes = {
     "/" : "Home",

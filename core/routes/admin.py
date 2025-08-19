@@ -17,18 +17,7 @@ def verifyCrate(form):
         return False
     return True
 
-def currentCrateData():
-    crates = Crate.query.order_by(desc(Crate.id))
-    formattedCrates = {}
-    for crate in crates.all():
-        formattedCrates[crate.id] = {
-            "CrateName" : crate.CrateName,
-            "ReleaseDate" : crate.ReleaseDate,
-            "URLTag" : crate.URLTag
-        }
-    if formattedCrates:
-        return formattedCrates
-    return None
+
 
 def currentItemsByCrate():
     crates= Crate.query.order_by(Crate.id)
@@ -40,7 +29,7 @@ def currentItemsByCrate():
 @app.route('/admin/additem', methods=['POST', 'GET']) # type: ignore
 @login_required
 def addItem():
-    formattedCrates = currentCrateData()
+    formattedCrates = config.currentCrateData()
     if request.method == 'POST':
         form = request.form.to_dict()
         newItem = Item()
@@ -111,7 +100,7 @@ def itemOrder():
 @app.route('/admin/manageitem/<itemID>', methods=['GET', 'POST']) # type: ignore
 @login_required
 def manageItem(itemID):
-    formattedCrates = currentCrateData()
+    formattedCrates = config.currentCrateData()
     item: Item = Item.query.filter_by(id = itemID).one()
     if not item:
         flash("Could Not Find Item.", "warning")
@@ -178,7 +167,7 @@ def manageCrates():
                 queries += 1
         if queries == 0:
             flash("Something Went Wrong.", "dark")
-    formattedCrates = currentCrateData()
+    formattedCrates = config.currentCrateData()
     queries += 1
 
     return render_template("admin/manageCrates.html", currentCrates = formattedCrates)
