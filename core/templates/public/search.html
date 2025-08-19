@@ -1,0 +1,59 @@
+{% extends "core_layout.html" %}
+{% block content %}
+
+<div class="cont text-center results">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 extra-pad-top">
+            <div class="give-preview-text-outer">
+                <div class="give-preview-text w-100">
+                    <div class="give-preview-text-inner">
+                        <form method="post" action="{{ url_for('search') }}">
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="CrateSelectEdit">Crate</label>
+                                <select name='Crate' class="form-select" id="CrateSelectEdit">
+                                    <option value="">All Crates</option>
+                                    {% for id, details in currentCrates.items() %}
+                                    
+                                    <option value="{{ id }}"{% if id == recentCrate|int %}selected{% endif %}>{{ details["CrateName"] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="TagGroup">Tag</label>
+                                <select name='Tag' class="form-select" id="TagGroup">
+                                    <option value="">All Tags</option>
+                                    {% for tag in validTags %}
+                                    <option value="{{ tag }}"{% if tag == recentTag %}selected{% endif %}>{{ tag }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="RarityGroup">Rarity</label>
+                                <select name='Rarity' class="form-select" id="Rarity">
+                                    <option value="">All Rarities</option>
+                                    <option value="0">Unlisted (Quests)</option>
+                                    {% for rarity in rarityList %}
+                                    <option value="{{ rarity }}"{% if rarity == recentRarity %}selected{% endif %}>{{ rarity }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" name='Term' id="TermGroup"
+                                    placeholder="Search Term" value="{{ recentTerm }}">
+                                <label for="TermGroup">Search Term</label>
+                            </div>
+                            <button class="btn btn-primary mb-1" type="submit">Search!</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'itemDisplay.html' %}
+
+</div>
+
+
+
+{% endblock %}
