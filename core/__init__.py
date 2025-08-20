@@ -34,7 +34,6 @@ def navbarItems():
         'Tags' : c.tags, # type: ignore
         'UncategorizedTags' : c.nonCatTags, # type: ignore
         'Crates' : Crate.query.order_by(Crate.id).all(),
-        'Images' : c.BackgroundImages, # type: ignore
         'PrettyRoutes' : c.PrettyRoutes #type: ignore
     }
     return config

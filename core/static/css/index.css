@@ -34,12 +34,20 @@
 div.input-group input.form-control {
     font-size: 24px;
 }
+body {
+    background-color: #6d4397;
+}
 div.cont {
     --bs-gutter-x: 1.5rem;
     --bs-gutter-y: 0;
     width: 100%;
-    padding-right: calc(var(--bs-gutter-x) * .5);
-    padding-left: calc(var(--bs-gutter-x) * .5);
+    padding-right: 16px;
+    padding-left: 16px
+}
+div.card, li.list-group-item {
+    border-radius: 0;
+    border-color: white;
+    border-width: 1px;
 }
 
 div.form-floating input.form-control {
