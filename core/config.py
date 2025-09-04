@@ -226,6 +226,9 @@ Changelog = {
     "8/19/2025" : [
         ("mc-light-purple", "Background colors normalized, should shave off some ms during load time."),
         ("mc-light-purple", "Spacing between columns adjusted, reduces amount of html tags loaded per page as well by a wide margin. Should also reduce load time.")
+    ],
+    "9/4/2025" : [
+        ("mc-light-purple", "Updated Jobs Payouts values as per <a href='https://discord.com/channels/1044076495095738408/1044080696915918848/1411424896172429324'>this update.</a>.")
     ]
 }
 
