@@ -4,32 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-ison" href="{{url_for('static', filename='favicons/favicons.png')}}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{url_for('static', filename='/apple-touch-icon.png')}}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{url_for('static', filename='/favicon-32x32.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{url_for('static', filename='/favicon-16x16.png')}}">
+    <link rel="manifest" href="{{url_for('static', filename='/site.webmanifest')}}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link href="{{url_for('static', filename='css/index.css')}}" type="text/css" rel="stylesheet">
     {% set path = request.path %}
     {% if path in PrettyRoutes %}
-        {% set sub = PrettyRoutes[path] %}
+    {% set sub = PrettyRoutes[path] %}
     {% else %}
-        {% set sub = path %}
+    {% set sub = path %}
     {% endif %}
 
     <title>Mystic Items - {{ sub }}</title>
     <meta content="Mystic Items - {{ sub }}" property="og:title" />
     <meta content="An easily searchable database of all Mystic Items!" property="og:description" />
-    
+
     <meta content="https://www.mystic.atn.gg" property="og:url" />
     <meta content="	https://www.mystic.atn.gg/static/images/mysticmc.webp" property="og:image" />
     <meta content="#43B581" data-react-helmet="true" name="theme-color" />
-    <meta name="description" content="An easily searchable database of all custom items on the MysticMC Minecraft server."/>
+    <meta name="description"
+        content="An easily searchable database of all custom items on the MysticMC Minecraft server." />
 </head>
 
 <body>
     <nav class="navbar navbar-dark navbar-expand-sm bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ url_for('index') }}">
-                <img src="{{ url_for('static',filename='images/mysticmc.webp') }}" width="32" height="32" alt="MysticMC Logo.">
+                <img src="{{ url_for('static',filename='images/mystic.webp') }}" width="38" height="32"
+                    alt="MysticMC Logo.">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
