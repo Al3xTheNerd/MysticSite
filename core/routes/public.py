@@ -84,7 +84,7 @@ def tag(cat, tag):
             items = SingleTagQuery(tag) # type: ignore
     if cat == 'Misc':
         items = SingleTagQuery(tag) # type: ignore
-    return render_template("public/index.html", Items = noDupes(items)) # type: ignore
+    return render_template("public/index.html", Items = noDupes(items) if tag != "Repeat Appearance" else items) # type: ignore
 
 @app.route('/stats')
 def stats():
