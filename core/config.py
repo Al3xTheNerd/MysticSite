@@ -80,6 +80,8 @@ nonCatTags: List[str] = [
     "Offhand",
     "Hotbar",
     "Inventory",
+    "Telekinesis",
+    "Special Block",
     "Quest",
     "Disguise",
     "Repeat Appearance",
