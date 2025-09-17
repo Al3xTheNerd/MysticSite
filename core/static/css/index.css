@@ -67,6 +67,10 @@ div.alert {
     padding-top: 12px;
 }
 
+.hard-wrap {
+    overflow-wrap: break-word;
+}
+
 .mc-bold {
     font-weight: bold;
 }
