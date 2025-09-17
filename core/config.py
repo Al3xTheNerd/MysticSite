@@ -1,6 +1,7 @@
 from typing import List
 from core.models import Item, Crate
 from sqlalchemy import desc
+from atn import server_custom_tags
 def errorMaker(errorCode: int | str = "???") -> List[Item]:
     resp = Item
     resp.ItemHTML = f"""
@@ -94,6 +95,8 @@ nonCatTags: List[str] = [
     "Quest Only",
     "Banned From Pinata"
 ]
+if server_custom_tags:
+    nonCatTags += server_custom_tags
 validTags = []
 for category, tagList in tags.items():
     for tag in tagList:
