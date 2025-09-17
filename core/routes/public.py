@@ -7,6 +7,7 @@ from core.models.crates import Crate
 from random import choices
 from sys import platform
 from typing import List
+from atn import server_rarity_list
 
 TagCols = [Item.TagPrimary, Item.TagSecondary, Item.TagTertiary]
 def noDupes(items: list[Item]) -> list[Item]:
@@ -129,7 +130,7 @@ def infinitetracker():
 @app.route('/search', methods = ['GET', 'POST']) # type: ignore
 def search():
     formattedCrates = c.currentCrateData()
-    rarityList = ["Rare", "Legendary", "Exotic", "Mystic", "Eternal"]
+    rarityList = server_rarity_list
     items = []
     recentTerm, recentCrate, recentTag, recentRarity = ("", "", "", "")
     if request.method == 'POST':

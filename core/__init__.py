@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
 
-from atn import secret_key
+from atn import secret_key, server_name, server_item_name, server_url, server_rarity_list
 from flask_login import LoginManager
 
 
@@ -34,6 +34,10 @@ def navbarItems():
         'Tags' : c.tags, # type: ignore
         'UncategorizedTags' : c.nonCatTags, # type: ignore
         'Crates' : Crate.query.order_by(Crate.id).all(),
-        'PrettyRoutes' : c.PrettyRoutes #type: ignore
+        'PrettyRoutes' : c.PrettyRoutes, #type: ignore
+        'ServerName' : server_name,
+        'ServerItemName' : server_item_name,
+        'ServerURL' : server_url,
+        'ServerRarityList' : server_rarity_list
     }
     return config
