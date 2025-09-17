@@ -6,6 +6,7 @@ from sqlalchemy import desc, func
 from flask_login import login_required
 from typing import List
 from sys import platform
+from atn import server_folder_name
 
 
 def verifyCrate(form):
@@ -178,7 +179,7 @@ def manageCrates():
 @app.route('/webhook', methods=['POST'])
 def webhook():
     if request.method == 'POST':
-        repo = git.Repo('./MysticSite')
+        repo = git.Repo(f'./{server_folder_name}')
         origin = repo.remotes.origin
         origin.pull()
         return '', 200
