@@ -47,7 +47,10 @@ def addItem():
         newItem.RawData = form["RawData"]
         newItem.ItemHuman = form["HumanData"]
         newItem.ItemHTML = form["HTMLData"]
-        newItem.ItemOrder = (db.session.query(func.max(Item.ItemOrder)).scalar() + 1)
+        try:
+            newItem.ItemOrder = (db.session.query(func.max(Item.ItemOrder)).scalar() + 1)
+        except:
+            newItem.ItemOrder = 1
         try:
             db.session.add(newItem)
             db.session.commit()
