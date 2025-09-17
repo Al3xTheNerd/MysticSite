@@ -1,13 +1,20 @@
-name: Deploy pythonanywhere webapp
+name: Deploy Item Sites
 on: [push]
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Reload webapp
+    - name: Reload Mystic Site
       uses: jensvog/pythonanywhere-webapp-reload-action@v1
       with:
         host: 'www.pythonanywhere.com'
         username: ${{ secrets.USERNAME }}
         api-token: ${{ secrets.API_TOKEN }}
         domain-name: ${{ secrets.DOMAIN_NAME }}
+    - name: Reload Blossom Site
+      uses: jensvog/pythonanywhere-webapp-reload-action@v1
+      with:
+        host: 'www.pythonanywhere.com'
+        username: ${{ secrets.USERNAME }}
+        api-token: ${{ secrets.API_TOKEN }}
+        domain-name: ${{ secrets.DOMAIN_NAME_2 }}
