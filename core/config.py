@@ -81,7 +81,6 @@ nonCatTags: List[str] = [
     "Offhand",
     "Hotbar",
     "Inventory",
-    "Telekinesis",
     "Special Block",
     "Quest",
     "Disguise",
@@ -92,8 +91,7 @@ nonCatTags: List[str] = [
     "Mob Capturing",
     "Cooker",
     "Teleportation",
-    "Quest Only",
-    "Banned From Pinata"
+    "Quest Only"
 ]
 if server_custom_tags:
     nonCatTags += server_custom_tags
