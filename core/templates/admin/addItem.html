@@ -125,6 +125,7 @@
 
     /* Converts the silly minecraft types to my own more easily usable ones. */
     const EnchantmentsList = {
+        // Vanilla
         "aqua_affinity": "Aqua Affinity",
         "bane_of_arthropods": "Bane of Arthropods",
         "binding_curse": "Curse of Binding",
@@ -167,15 +168,44 @@
         "unbreaking": "Unbreaking",
         "vanishing_curse": "Curse of Vanishing",
         "wind_burst": "Wind Burst",
+        "flame_walker": "Flame Walker",
+
+        // MysticMC
         "thrifty": "Thrifty",
         "tunnel": "Tunnel",
         "smelter": "Smelter",
-        "flame_walker": "Flame Walker"
+
+        // BlossomCraft
+        "sonic" : "Sonic",
+        "ice_aspect" : "Ice Aspect",
+        "saturation" : "Saturation",
+        "ender_bow" : "Ender Bow",
+        "haste" : "Haste",
+        "exp_hunter" : "Exp Hunter",
+        "rage": "Rage",
+        "wither" : "Wither",
+        "replanter" : "Replanter"
     };
 
     const EnchantmentsLevelOneMaxList = [
-        "mending", "vanishing_curse", "aqua_affinity", "binding_curse", "channeling",
-        "flame", "infinity", "multishot", "silk_touch", "smelter", "flame_walker"
+        "mending", 
+        "vanishing_curse", 
+        "aqua_affinity", 
+        "binding_curse", 
+        "channeling",
+        "flame", 
+        "infinity", 
+        "multishot", 
+        "silk_touch",
+
+        // MysticMC
+        "smelter", 
+        "flame_walker",
+
+        // BlossomCraft
+        "ender_bow",
+        "rage",
+        "replanter"
     ];
 
     const ColorCodes = {
@@ -203,8 +233,7 @@
         if (typeof parsedLine !== "object" || parsedLine === null || !("extra" in parsedLine)) {
             return "";
         }
-
-        return parsedLine.extra.map(group => group.text).join("");
+        return parsedLine.extra.map(group => group.text).join("")
     }
 
     function convertMCLineToHTML(line) {
@@ -232,7 +261,7 @@
             if (!textGroup.text) {
                 return `<br>`
             } else {
-                return `<span class=\"${classes.join(" ")}\"${style}>${textGroup.text}</span>`;
+                return `<span class=\"${classes.join(" ")}\"${style}>${textGroup.text.replace("&", "").replace("§", "")}</span>`;
             }
         }).join("");
     }
@@ -339,7 +368,7 @@
         var finalItemType = convertItemTypes(rawData['id']);
         var itemName = rawData['components']['minecraft:custom_name'];
         var finalItemNameHTML = convertMCLineToHTML(itemName);
-        var finalItemNameHuman = convertMCLineToHumanReadable(itemName)
+        var finalItemNameHuman = convertMCLineToHumanReadable(itemName).replaceAll("§", "").replaceAll("&", "");
         let EnchantmentsHTML = [];
         let EnchantmentsHuman = [];
         if ("minecraft:enchantments" in rawData["components"]) {
@@ -355,7 +384,7 @@
         let ItemLoreHuman = [];
         for (const loreLine of rawData["components"]["minecraft:lore"]) {
             ItemLoreHTML.push(convertMCLineToHTML(loreLine));
-            ItemLoreHuman.push(convertMCLineToHumanReadable(loreLine));
+            ItemLoreHuman.push(convertMCLineToHumanReadable(loreLine).replaceAll("§", "").replaceAll("&", ""));
         }
         // Check for Unbreakable
         const Unbreakable = "minecraft:unbreakable" in rawData["components"];
@@ -384,9 +413,10 @@
         if (Unbreakable) {
             finalHuman += " Unbreakable";
         }
-        WinPercentage = extractWinChanceFromLore(ItemLoreHuman)
-        RarityHuman = extractRarityFromLore(ItemLoreHuman)
-        RarityHTML = extractRarityFromLore(ItemLoreHTML)
+        console.log(finalHuman)
+        WinPercentage = extractWinChanceFromLore(ItemLoreHuman);
+        RarityHuman = extractRarityFromLore(ItemLoreHuman);
+        RarityHTML = extractRarityFromLore(ItemLoreHTML);
 
         document.getElementById("itemPreview").innerHTML = finalHTML;
         console.log(finalItemType);
