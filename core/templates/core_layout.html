@@ -110,18 +110,25 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark">
                             {% for loc, name in [('itemtracker', "Item Tracker"), ('infinitetracker', "Infinite
-                            Tracker"), (false, false), ('stats', "Site Stats"), ('jobspayouts', "Job Pay Calculator"),
-                            ('gamble', "Gambling")] %}
-                            {% if loc is false %}
-                            <div class="dropdown-divider"></div>
-                            {% else %}
-                            {% if request.path == url_for(loc) %}
-                            <li><a class="dropdown-item active" href="{{ url_for(loc) }}">{{name}}</a></li>
-                            {% else %}
-                            <li><a class="dropdown-item" href="{{ url_for(loc) }}">{{name}}</a></li>
-                            {% endif %}
-                            {% endif %}
+                            Tracker"), (false, false), ('stats', "Site Stats"), ('gamble', "Gambling")] %}
+                            
+                                {% if loc is false %}
+                                    <div class="dropdown-divider"></div>
+                                {% else %}
+                                    {% if request.path == url_for(loc) %}
+                                        <li><a class="dropdown-item active" href="{{ url_for(loc) }}">{{name}}</a></li>
+                                    {% else %}
+                                        <li><a class="dropdown-item" href="{{ url_for(loc) }}">{{name}}</a></li>
+                                    {% endif %}
+                                {% endif %}
                             {% endfor %}
+                            {% if ServerName == "MysticMC" %}
+                                {% if request.path == url_for('jobspayouts') %}
+                                    <li><a class="dropdown-item active" href="{{ url_for('jobspayouts') }}">Job Pay Calculator</a></li>
+                                {% else %}
+                                    <li><a class="dropdown-item" href="{{ url_for('jobspayouts') }}">Job Pay Calculator</a></li>
+                                {% endif %}
+                            {% endif %}
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
