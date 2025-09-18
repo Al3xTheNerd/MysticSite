@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
 
-from atn import secret_key, server_name, server_item_name, server_url, server_rarity_list, server_tracker_script
+from atn import *
 from flask_login import LoginManager
 
 
@@ -39,6 +39,7 @@ def navbarItems():
         'ServerItemName' : server_item_name,
         'ServerURL' : server_url,
         'ServerRarityList' : server_rarity_list,
-        'ServerTrackerScript': server_tracker_script
+        'ServerTrackerScript' : server_tracker_script,
+        'ServerMaxRarity' : server_max_rarity
     }
     return config

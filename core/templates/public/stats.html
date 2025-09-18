@@ -36,15 +36,7 @@
                         <div><span style="color: #FFFF55; ">There are {{ total }} total {{ ServerItemName }}!</span></div>
                         <div><br></div>
                         <div><span style="color: #AAAAAA; ">- - - - - - - - - - - - - - - - - - - - -</span></div>
-                        <div><span style="color: #AAAAAA; ">Rarity: </span>
-                            <span style="font-weight: bold; color: #5555FF; ">E</span><span
-                                style="font-weight: bold; color: #713AE4; ">T</span><span
-                                style="font-weight: bold; color: #8C1DC7; ">E</span><span
-                                style="font-weight: bold; color: #A802AC; ">R</span><span
-                                style="font-weight: bold; color: #8F51C5; ">N</span><span
-                                style="font-weight: bold; color: #72A7E2; ">A</span><span
-                                style="font-weight: bold; color: #55FEFF; ">L</span>
-                        </div>
+                        {{ ServerMaxRarity | safe }}
                     </div>
                 </div>
             </div>
