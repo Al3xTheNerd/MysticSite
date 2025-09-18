@@ -142,9 +142,6 @@ Changelog = {
     "3/16/2025" : [
         ("mc-gold", "Corrected a database error leading to no swords being listed under <a href=\"/tag/Weapons/Sword\">Swords</a>, thank you LostWoodsOne for bringing this to my attention!")
     ],
-    "3/30/2025" : [
-        ("mc-gold", "Added a <a href=\"/jobspayouts\">Jobs Payout Calculator</a>!")
-    ],
     "6/3/2025" : [
         ("mc-gold", "Added <a href=\"/gamble\">Gambling</a>! Thank you BR_MarkoTheGamer for the suggestion!"),
         ("mc-gold", "Removed some redundant HTML tags (why were there 47 extra &lt;/li&gt; tags in the navbar??)"),
