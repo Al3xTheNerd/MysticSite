@@ -9,9 +9,9 @@ from sys import platform
 from typing import List
 from atn import server_rarity_list
 
-TagCols = [Item.TagPrimary, Item.TagSecondary, Item.TagTertiary]
+TagCols = [Item.TagPrimary, Item.TagSecondary, Item.TagTertiary, Item.TagQuaternary, Item.TagQuinary]
 def noDupes(items: list[Item]) -> list[Item]:
-    returnItems = [item for item in items if "Repeat Appearance" not in [item.TagPrimary, item.TagSecondary, item.TagTertiary]]
+    returnItems = [item for item in items if "Repeat Appearance" not in [item.TagPrimary, item.TagSecondary, item.TagTertiary, item.TagQuaternary, item.TagQuinary]]
     return returnItems
 
 def SingleTagQuery(tag: str) -> list[Item]:
@@ -78,7 +78,9 @@ def tag(cat, tag):
                 or_(
                     or_(Item.TagPrimary == x for x in c.tags[cat]), # type: ignore
                     or_(Item.TagSecondary == x for x in c.tags[cat]), # type: ignore
-                    or_(Item.TagTertiary == x for x in c.tags[cat]) # type: ignore
+                    or_(Item.TagTertiary == x for x in c.tags[cat]), # type: ignore
+                    or_(Item.TagQuaternary == x for x in c.tags[cat]), # type: ignore
+                    or_(Item.TagQuinary == x for x in c.tags[cat]) #type: ignore
                 )
             ).order_by(Item.ItemOrder).all()
         else:

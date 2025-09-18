@@ -58,6 +58,26 @@
                                     {% endfor %}
                                 </select>
                             </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="QuaternaryTagGroup">Quaternary Tag</label>
+                                <select name='QuaternaryTag' class="form-select" id="QuaternaryTagGroup">
+                                    <option value="">None</option>
+                                    {% for tag in validTags %}
+                                    <option value="{{ tag }}" {% if item.TagQuaternary==tag %} selected{% endif %}>{{ tag
+                                        }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="QuinaryTagGroup">Quinary Tag</label>
+                                <select name='QuinaryTag' class="form-select" id="QuinaryTagGroup">
+                                    <option value="">None</option>
+                                    {% for tag in validTags %}
+                                    <option value="{{ tag }}" {% if item.TagQuinary==tag %} selected{% endif %}>{{ tag
+                                        }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" name='ItemName' id="ItemNameeGroup"
                                     placeholder="Item Name" value="{{item.ItemName}}">

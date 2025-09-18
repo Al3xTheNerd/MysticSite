@@ -5,7 +5,7 @@ from core import config as c
 from core.models.item import Item
 from core.models.crates import Crate
 from typing import List, Tuple
-TagCols = [Item.TagPrimary, Item.TagSecondary, Item.TagTertiary]
+TagCols = [Item.TagPrimary, Item.TagSecondary, Item.TagTertiary, Item.TagQuaternary, Item.TagQuinary]
 class APIErrors():
     NO_RESULTS = (0, "No Results Found.")
     INVALID_COLUMN = (1, "[{}] is not a valid column. Please fix your shit.")
