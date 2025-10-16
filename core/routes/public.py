@@ -125,9 +125,31 @@ def infinitetracker():
         if items.count() > 0:
             crateCount += 1
             sortedItems[crate.CrateName] = items
-        
-        
     return render_template("public/itemTracker.html", sortedItems = sortedItems, page="infinite")
+
+@app.route('/armortracker')
+def armortracker():
+    sortedItems = {}
+    crateCount = 0
+    
+    for crate in Crate.query.order_by(Crate.id).all():
+        items = Item.query.filter(
+            and_(
+                Item.CrateID == crate.id, 
+                or_(
+                    or_(col.contains("Helmet") for col in TagCols),
+                    or_(col.contains("Chestplate") for col in TagCols),
+                    or_(col.contains("Leggings") for col in TagCols),
+                    or_(col.contains("Boots") for col in TagCols),
+                    or_(col.contains("Elytra") for col in TagCols),
+                    ) # type: ignore
+                )
+            ).order_by(Item.ItemOrder)
+        if items.count() > 0:
+            crateCount += 1
+            sortedItems[crate.CrateName] = noDupes(items.all())
+    return render_template("public/itemTracker.html", sortedItems = sortedItems, page="armor")
+
 
 @app.route('/search', methods = ['GET', 'POST']) # type: ignore
 def search():
