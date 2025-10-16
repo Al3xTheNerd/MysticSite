@@ -202,6 +202,9 @@ Changelog = {
     ],
     "9/17/2025" : [
         ("mc-green", "Site now supports Quantary and Quinary tags.")
+    ],
+    "10/16/2025" : [
+        ("mc-green", "<a href=\"/armortracker\">Armor Tracker</a> now live!")
     ]
 }
 
