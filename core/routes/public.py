@@ -1,5 +1,5 @@
 from flask import render_template, request, flash
-from sqlalchemy import or_, and_
+from sqlalchemy import or_, and_, not_
 from core import app
 from core import config as c
 from core.models.item import Item
@@ -132,22 +132,29 @@ def armortracker():
     sortedItems = {}
     crateCount = 0
     
+    items: List[Item] = Item.query.filter(
+        and_(
+            not_(or_(col.contains("Repeat Appearance") for col in TagCols)), #type:ignore
+            or_(
+                or_(col.contains("Helmet") for col in TagCols),#type: ignore
+                or_(col.contains("Chestplate") for col in TagCols),#type: ignore
+                or_(col.contains("Leggings") for col in TagCols),#type: ignore
+                or_(col.contains("Boots") for col in TagCols), #type: ignore
+                or_(col.contains("Elytra") for col in TagCols), # type: ignore
+            )
+        )
+    ).all()
+    
     for crate in Crate.query.order_by(Crate.id).all():
-        items = Item.query.filter(
-            and_(
-                Item.CrateID == crate.id, 
-                or_(
-                    or_(col.contains("Helmet") for col in TagCols),
-                    or_(col.contains("Chestplate") for col in TagCols),
-                    or_(col.contains("Leggings") for col in TagCols),
-                    or_(col.contains("Boots") for col in TagCols),
-                    or_(col.contains("Elytra") for col in TagCols),
-                    ) # type: ignore
-                )
-            ).order_by(Item.ItemOrder)
-        if items.count() > 0:
-            crateCount += 1
-            sortedItems[crate.CrateName] = noDupes(items.all())
+        for item in items:
+            if int(item.CrateID) == int(crate.id):
+                if crate.CrateName in sortedItems:
+                    sortedItems[crate.CrateName].append(item)
+                else:
+                    sortedItems[crate.CrateName] = [item]
+                
+                
+
     return render_template("public/itemTracker.html", sortedItems = sortedItems, page="armor")
 
 
