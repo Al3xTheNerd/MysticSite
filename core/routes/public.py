@@ -104,33 +104,43 @@ def stats():
 @app.route('/itemtracker')
 def itemtracker():
     sortedItems = {}
-    crateCount = 0
+    
+    items: List[Item] = Item.query.filter(
+        not_(or_(col.contains("Repeat Appearance") for col in TagCols)) #type:ignore
+    ).all()
+    
     for crate in Crate.query.order_by(Crate.id).all():
-        crateCount += 1
-        sortedItems[crate.CrateName] = noDupes(Item.query.filter(Item.CrateID == crate.id).order_by(Item.ItemOrder)) # type: ignore
+        for item in items:
+            if int(item.CrateID) == int(crate.id):
+                if crate.CrateName in sortedItems:
+                    sortedItems[crate.CrateName].append(item)
+                else:
+                    sortedItems[crate.CrateName] = [item]
     return render_template("public/itemTracker.html", sortedItems = sortedItems, page="item")
 
 @app.route('/infinitetracker')
 def infinitetracker():
     sortedItems = {}
-    crateCount = 0
+    
+    items: List[Item] = Item.query.filter(
+        and_(
+            not_(or_(col.contains("Repeat Appearance") for col in TagCols)), #type:ignore
+            or_(col.contains("Infinite") for col in TagCols),#type: ignore
+        )
+    ).all()
     
     for crate in Crate.query.order_by(Crate.id).all():
-        items = Item.query.filter(
-            and_(
-                Item.CrateID == crate.id, 
-                or_(col.contains("Infinite") for col in TagCols) # type: ignore
-                )
-            ).order_by(Item.ItemOrder)
-        if items.count() > 0:
-            crateCount += 1
-            sortedItems[crate.CrateName] = items
+        for item in items:
+            if int(item.CrateID) == int(crate.id):
+                if crate.CrateName in sortedItems:
+                    sortedItems[crate.CrateName].append(item)
+                else:
+                    sortedItems[crate.CrateName] = [item]
     return render_template("public/itemTracker.html", sortedItems = sortedItems, page="infinite")
 
 @app.route('/armortracker')
 def armortracker():
     sortedItems = {}
-    crateCount = 0
     
     items: List[Item] = Item.query.filter(
         and_(
@@ -152,9 +162,6 @@ def armortracker():
                     sortedItems[crate.CrateName].append(item)
                 else:
                     sortedItems[crate.CrateName] = [item]
-                
-                
-
     return render_template("public/itemTracker.html", sortedItems = sortedItems, page="armor")
 
 

@@ -204,7 +204,8 @@ Changelog = {
         ("mc-green", "Site now supports Quantary and Quinary tags.")
     ],
     "10/16/2025" : [
-        ("mc-green", "<a href=\"/armortracker\">Armor Tracker</a> now live!")
+        ("mc-green", "<a href=\"/armortracker\">Armor Tracker</a> now live!"),
+        ("mc-light-purple", "Optimized the way the various trackers load items in. I was stupid before and it would do a new database request for every crate. It now does 1 request for all items, and 1 request for all crates, then sorts it out from there.")
     ]
 }
 
