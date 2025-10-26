@@ -24,6 +24,12 @@ class Item(db.Model):
     # This will be a jsonified list of db.Item.id's
     ConnectedItems = db.Column(db.String()) 
     
+    EfficiencyLevel = db.Column(db.Integer())
+    HasteLevel = db.Column(db.Integer())
+    ConduitPowerLevel = db.Column(db.Integer())
+    
+    SubmergedMiningSpeedAttribute = db.Column(db.Float())
+    
     
     def to_dict(self, includes: List[str]) -> Dict[str, str]:
         retItem = {}
