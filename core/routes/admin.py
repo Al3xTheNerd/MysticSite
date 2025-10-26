@@ -49,6 +49,18 @@ def addItem():
         newItem.RawData = form["RawData"]
         newItem.ItemHuman = form["HumanData"]
         newItem.ItemHTML = form["HTMLData"]
+        itemTags = set([newItem.TagPrimary, newItem.TagSecondary, newItem.TagTertiary, newItem.TagQuaternary, newItem.TagQuinary])
+        if len(itemTags.intersection(set(["Pickaxe", "Axe", "Hoe", "Shovel", "Shears"]))) > 0:
+            itemNBT = json.loads(newItem.RawData)
+            if "components" in itemNBT:
+                if "minecraft:enchantments" in itemNBT["components"]:
+                    if "minecraft:efficiency" in itemNBT["components"]["minecraft:enchantments"]["levels"]:
+                        newItem.EfficiencyLevel = itemNBT["components"]["minecraft:enchantments"]["levels"]["minecraft:efficiency"]
+                if "minecraft:attribute_modifiers" in itemNBT["components"]:
+                    if "modifiers" in itemNBT["components"]["minecraft:attribute_modifiers"]:
+                        for modifier in itemNBT["components"]["minecraft:attribute_modifiers"]["modifiers"]:
+                            if modifier["type"] == "minecraft:submerged_mining_speed":
+                                newItem.SubmergedMiningSpeedAttribute = modifier["amount"]
         try:
             newItem.ItemOrder = (db.session.query(func.max(Item.ItemOrder)).scalar() + 1)
         except:
