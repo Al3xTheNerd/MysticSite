@@ -25,8 +25,6 @@ class Item(db.Model):
     ConnectedItems = db.Column(db.String()) 
     
     EfficiencyLevel = db.Column(db.Integer())
-    HasteLevel = db.Column(db.Integer())
-    ConduitPowerLevel = db.Column(db.Integer())
     
     SubmergedMiningSpeedAttribute = db.Column(db.Float())
     
