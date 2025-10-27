@@ -146,3 +146,7 @@ div.alert {
 .mc-white {
     color: #FFFFFF;
 }
+
+.weird-margins > :not(:last-child) {
+    margin-bottom: 1rem;
+}

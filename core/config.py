@@ -118,6 +118,66 @@ for category, tagList in tags.items():
         pretty = f"{tag}"
         PrettyRoutes[route] = tag
 
+
+blocksForBreakSpeedCalculator = {
+    "Pickaxe" : {
+        "Netherrack/Nylium" : 0.4,
+        "Ice/Packed Ice" : 0.5,
+        "Block of Quartz" : 0.8,
+        "Sandstone/Red Sandstone" : 0.8,
+        "Terracotta" : 1.25,
+        "Basalt" : 1.25,
+        "Glazed Terracotta" : 1.4,
+        "Stone/Diorite/Andesite/Granite/Tuff" : 1.5,
+        "Concrete" : 1.8,
+        "Cobblestone" : 2.0,
+        "Blue Ice" : 2.8,
+        "Gold/Lapis/Copper Blocks" : 3.0,
+        "Coal/Copper/Diamond/Emerald/Gold/Iron/Lapis/Redstone Ore Blocks" : 3,
+        "Endstone" : 3,
+        "Nether Quartz/Nether Gold Ore Blocks" : 3.0,
+        "Blast Furnace" : 3.5,
+        "Cobbled Deepslate" : 3.5,
+        "Deepslate Coal/Copper/Diamond/Emerald/Gold/Iron/Lapis/Redstone Ore Blocks" : 4.5,
+        "Coal/Diamond/Emerald/Iron/Redstone Blocks" : 5.0,
+        "Raw Gold/Raw Copper/Raw Iron Blocks" : 5.0,
+        "Ender Chest" : 22.5,
+        "Ancient Debris" : 30.0,
+        "Obsidian/Crying Obsidian/Block of Netherite" : 50.0
+    },
+    "Axe" : {
+        "Mushroom Block" : 0.2,
+        "Bee Nest" : 0.3,
+        "Mangrove Roots" : 0.7,
+        "Bamboo/Pumpkin/Melon" : 1.0,
+        "Logs/Planks" : 2.0,
+        "Chest" : 2.5
+    },
+    "Hoe" : {
+        "Moss Blocks" : 0.1,
+        "Leaves/Sculk" : 0.2,
+        "Hay Bale" : 0.5,
+        "Sponge" : 0.6,
+        "Nether/Warped Wart Block/Shroomlight" : 1.0,
+        "Sculk Sensor" : 1.5,
+        "Sculk Catalyst/Sculk Shrieker" : 3.0
+    },
+    "Shovel" : {
+        "Snow Block" : 0.2,
+        "Coarse Dirt/Dirt/Mud/Podzol" : 0.5,
+        "Concrete Powder" : 0.5,
+        "Sand/Red Sand" : 0.5,
+        "Soul Sand/Soul Soil" : 0.5,
+        "Clay/Farmland/Grass Block/Gravel/Mycelium" : 0.6 
+    },
+    "Shears" : {
+        "Leaves/Vines" : 0.2,
+        "Wool" : 0.8,
+        "Cobweb" : 4.0
+    }
+}
+
+
 Changelog = {
     "2/19/2025" : [
         ("mc-gold", "Corrected spelling mistake on Stats page."),
@@ -206,6 +266,9 @@ Changelog = {
     "10/16/2025" : [
         ("mc-green", "<a href=\"/armortracker\">Armor Tracker</a> now live!"),
         ("mc-light-purple", "Optimized the way the various trackers load items in. I was stupid before and it would do a new database request for every crate. It now does 1 request for all items, and 1 request for all crates, then sorts it out from there.")
+    ],
+    "10/26/2025" : [
+        ("mc-green", "Added a new block break speed calculator! Ever wondered which tools might instamine a certain block? Now you can check that <a href=\"/blockspeed\">here</a>!")
     ]
 }
 

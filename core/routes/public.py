@@ -8,6 +8,7 @@ from random import choices
 from sys import platform
 from typing import List
 from atn import server_rarity_list
+import json
 
 TagCols = [Item.TagPrimary, Item.TagSecondary, Item.TagTertiary, Item.TagQuaternary, Item.TagQuinary]
 def noDupes(items: list[Item]) -> list[Item]:
@@ -217,6 +218,52 @@ def search():
 @app.route('/jobspayouts')
 def jobspayouts():
     return render_template("public/jobspayout.html")
+
+@app.route('/blockspeed')
+def blockspeed():
+    sortedItems = {
+        "Pickaxe" : [],
+        "Axe" : [],
+        "Hoe" : [],
+        "Shovel" : [],
+        "Shears" : []}
+    fullList = []
+    items: List[Item] = Item.query.filter(
+        and_(
+            not_(or_(col.contains("Repeat Appearance") for col in TagCols)), #type:ignore
+            or_(
+                or_(col.contains("Pickaxe") for col in TagCols),#type: ignore
+                or_(col.contains("Axe") for col in TagCols),#type: ignore
+                or_(col.contains("Hoe") for col in TagCols),#type: ignore
+                or_(col.contains("Shovel") for col in TagCols), #type: ignore
+                or_(col.contains("Shears") for col in TagCols), # type: ignore
+            ))).order_by(Item.ItemOrder).all()
+    toolSpeeds = {
+        "golden" : 12,
+        "netherite" : 9,
+        "diamond" : 8,
+        "iron" : 6,
+        "copper" : 5,
+        "stone" : 4,
+        "wooden" : 2
+    }
+    for item in items:
+        breakSpeed = 1
+        for material, speed in toolSpeeds.items():
+            if material in json.loads(item.RawData)["id"]:
+                breakSpeed = speed
+            if "Shears" in [item.TagPrimary, item.TagSecondary, item.TagTertiary, item.TagQuaternary, item.TagQuaternary]:
+                breakSpeed = 2
+        
+        
+        
+        
+        fullList.append({ "name": item.ItemName, "efficiency" : item.EfficiencyLevel, "submerged_mining_speed" : item.SubmergedMiningSpeedAttribute, "speed" : breakSpeed})
+        toolTypes = list(set([item.TagPrimary, item.TagSecondary, item.TagTertiary, item.TagQuaternary, item.TagQuaternary]).intersection(set(["Pickaxe", "Axe", "Hoe", "Shovel", "Shears"])))
+        for type in toolTypes:
+            sortedItems[type].append({ "name": item.ItemName, "efficiency" : item.EfficiencyLevel, "submerged_mining_speed" : item.SubmergedMiningSpeedAttribute, "speed" : breakSpeed})
+        
+    return render_template("public/blockbreakspeed.html", itemList = sortedItems, fullList = fullList, blocksToCalculate = c.blocksForBreakSpeedCalculator)
 
 
 @app.route('/gamble', methods=['POST', 'GET'])
