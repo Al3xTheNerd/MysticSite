@@ -99,7 +99,7 @@
 </div>
 <div class="row gx-3 gy-3">
     {% for blockType, data in blocksToCalculate.items() %}
-    <div class="col-xs-12 col-sm-12 col-md-6">
+    <div class="col-xs-12 col-sm-12 col-md-6 fancyShit" id="{{ blockType }}">
         <div class="card h-100 text-white bg-dark border-white">
             <h3 class="card-header border-white">{{ blockType}} Blocks</h3>
             <div class="card-body">
@@ -150,7 +150,7 @@
     currentHasteLevel = document.getElementById("currentHasteLevel");
     currentConduitLevel = document.getElementById("currentConduitLevel");
     currentFatigueLevel = document.getElementById("currentFatigueLevel");
-
+    columns = document.getElementsByClassName("fancyShit")
     activeEfficiency = 0;
     activeSubmerged = 0;
     activeSpeed = 0;
@@ -167,6 +167,15 @@
         activeSubmerged = item[0].submerged_mining_speed
         document.getElementById("currentEfficiency").innerHTML = activeEfficiency
         activeSpeed = item[0].speed
+
+        for (let col = 0; col < columns.length; col++) {
+            if (columns[col].id != selectedToolType.value) {
+                columns[col].classList.add("d-none")
+            } else {
+                columns[col].classList.remove("d-none")
+            }
+        }
+
         recalculateAllTimes()
     }
 
