@@ -10,7 +10,7 @@
                         {% for num in range(keysList | length) %}
                         <button class="nav-link {% if num == 0 %}active{% endif %}" id="{{num}}-tab"
                             data-bs-toggle="pill" data-bs-target="#a{{num}}" type="button" role="tab"
-                            aria-controls="a{{num}}" aria-selected="true">{{ keysList[num] }}</button>
+                            aria-controls="a{{num}}" aria-selected="true">{{ keysList[num] }} ({{num}})</button>
                         {% endfor %}
                     </div>
                     <div class="tab-content w-100" id="crate-tabContent">
