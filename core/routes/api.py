@@ -1,5 +1,5 @@
 from flask import render_template, request, flash, jsonify, Response
-from sqlalchemy import or_, and_
+from sqlalchemy import or_, and_, func
 from core import app
 from core import config as c
 from core.models.item import Item
@@ -106,3 +106,8 @@ def TagListAPI():
 @app.route('/api/itemCount')
 def ItemCountAPI():
     return jsonify(Item.query.count())
+
+@app.route('/api/max')
+def MaxAPI():
+    itemID = Item.query.all()[-1].id
+    return jsonify(itemID)
