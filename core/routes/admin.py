@@ -129,7 +129,7 @@ def manageItem(itemID):
             item.CrateID = forms["Crate"]
             item.TagPrimary = forms["PrimaryTag"]
             item.TagSecondary = forms["SecondaryTag"]
-            item.TagTertiary = forms["QuaternaryTag"]
+            item.TagTertiary = forms["TertiaryTag"]
             item.TagQuaternary = forms["QuaternaryTag"]
             item.TagQuinary = forms["QuinaryTag"]
             item.WinPercentage = forms["WinPercentage"]
