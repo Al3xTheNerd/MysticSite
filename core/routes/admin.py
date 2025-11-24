@@ -21,10 +21,12 @@ def verifyCrate(form):
 
 
 def currentItemsByCrate():
-    crates= Crate.query.order_by(Crate.id)
+    crates: List[Crate]= Crate.query.order_by(Crate.id).all()
+    items: List[Item] = Item.query.order_by(Item.ItemOrder).all()
     sortedItems = {}
-    for crate in crates.all():
-        sortedItems[crate.CrateName] = Item.query.filter_by(CrateID = crate.id).order_by(Item.ItemOrder).all()
+    for crate in crates:
+        sortedItems[crate.CrateName] = [item for item in items if int(crate.id) == int(item.CrateID)]
+        #sortedItems[crate.CrateName] = Item.query.filter_by(CrateID = crate.id).order_by(Item.ItemOrder).all()
     return sortedItems
 
 @app.route('/admin/additem', methods=['POST', 'GET']) # type: ignore
@@ -81,6 +83,7 @@ def addItem():
 def itemList():
     currentItems = currentItemsByCrate()
     return render_template('admin/itemList.html', currentItems = currentItems)
+
 def intParser(numDict):
     newItems = {}
     for key, value in numDict.items():
