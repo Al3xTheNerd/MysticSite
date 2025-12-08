@@ -3,15 +3,25 @@
 <div class="row gx-3 gy-3 mb-3">
     <div class="col-12">
         <div class="row text-center">
-            <div class="mb-3">
+            <div class="">
                 <textarea class="form-control" id="importCode" value="" rows="5"></textarea>
             </div>
-            <div class="col-6">
+            <div class="col-xs-3 col-sm-6 col-md-3 mt-3">
+                <button class="btn btn-danger" onclick="checkAll()">
+                    Check All
+                </button>
+            </div>
+            <div class="col-xs-3 col-sm-6 col-md-3 mt-3">
+                <button class="btn btn-danger" onclick="uncheckAll()">
+                    Uncheck All
+                </button>
+            </div>
+            <div class="col-xs-3 col-sm-6 col-md-3 mt-3">
                 <button class="btn btn-danger" onclick="importCode()">
                     Import from text
                 </button>
             </div>
-            <div class="col-6">
+            <div class="col-xs-3 col-sm-6 col-md-3 mt-3">
                 <button class="btn btn-danger" onclick="copyToClipBoard()">
                     Copy To Clipboard
                 </button>
@@ -121,9 +131,9 @@
                 result += 1;
             } else {
                 result += 0;
-                updateMissingItemList();
             }
         }
+        updateMissingItemList();
         document.cookie = `{{ page }}=${result};expires=Wed, 18 Dec 2026 12:00:00 GMT;`;
         document.getElementById("importCode").value = result;
     }
@@ -131,7 +141,6 @@
         let currentValues = document.getElementById("importCode").value;
         let checkboxes =
             document.getElementsByName('item');
-        let result = "";
         for (var i = 0; i < checkboxes.length; i++) {
             // If used to be checked
             if (currentValues[i] == 1) {
@@ -139,10 +148,24 @@
             } else {
                 checkboxes[i].checked = false;
             }
-
         }
-
     }
+    function checkAll() {
+        let checkboxes = document.getElementsByName('item');
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = true;
+        }
+        exportCode()
+    }
+
+    function uncheckAll() {
+        let checkboxes = document.getElementsByName('item');
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = false;
+        }
+        exportCode()
+    }
+
     function copyToClipBoard() {
         var copyText = document.getElementById("importCode");
         copyText.select();
@@ -150,11 +173,6 @@
         navigator.clipboard.writeText(copyText.value);
         alert("Copied import code to clipboard.")
     }
-
-
-
-    //exportCode();
-
 </script>
 
 {% endblock %}

@@ -269,6 +269,10 @@ Changelog = {
     ],
     "10/26/2025" : [
         ("mc-green", "Added a new block break speed calculator! Ever wondered which tools might instamine a certain block? Now you can check that <a href=\"/blockspeed\">here</a>!")
+    ],
+    "12/7/2025" : [
+        ("mc-light-purple", "Item trackers will now load much faster. I made a rather severe mistake, leading to the site attempting to rebuild the missing items list once for every item on screen, every single checkbox you press."),
+        ("mc-green", "Item Trackers now have 'Check All' and 'Uncheck All' buttons! Perfect for those of you who already have borderline everything!")
     ]
 }
 
