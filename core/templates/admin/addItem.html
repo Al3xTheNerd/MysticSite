@@ -439,7 +439,7 @@
     // Updated UpdatePreview function
     function UpdatePreview() {
         const rawData = JSON.parse(rawDataTextarea.value);
-        const finalItemType = convertItemTypes(rawData.id);
+        let finalItemType = convertItemTypes(rawData.id);
         
         const itemName = rawData.components["minecraft:custom_name"];
         const finalItemNameHTML = convertMCLineToHTML(itemName);
