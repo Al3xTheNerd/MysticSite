@@ -11,7 +11,6 @@
                             <select name='Crate' class="form-select" id="CrateSelectEdit">
                                 <option value="">All Crates</option>
                                 {% for id, details in currentCrates.items() %}
-
                                 <option value="{{ id }}" {% if id==recentCrate|int %}selected{% endif %}>{{
                                     details["CrateName"] }}</option>
                                 {% endfor %}
