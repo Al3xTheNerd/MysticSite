@@ -245,44 +245,7 @@
         "white": "mc-white"
     };
 
-    function convertMCLineToHumanReadable(line) {
-        const parsedLine = JSON.parse(line);
 
-        if (typeof parsedLine !== "object" || parsedLine === null || !("extra" in parsedLine)) {
-            return "";
-        }
-        return parsedLine.extra.map(group => group.text).join("")
-    }
-
-    function convertMCLineToHTML(line) {
-        const parsedLine = JSON.parse(line);
-        if (typeof parsedLine !== "object" || parsedLine === null || !("extra" in parsedLine)) {
-            return "<br>";
-        }
-
-        return parsedLine.extra.map(textGroup => {
-            let classes = [];
-            let style = "";
-
-            if (textGroup.italic) classes.push("mc-italic");
-            if (textGroup.bold) classes.push("mc-bold");
-            if (textGroup.underlined) classes.push('mc-underlined')
-
-            const color = textGroup.color;
-            if (color) {
-                if (ColorCodes[color]) {
-                    classes.push(ColorCodes[color]);
-                } else {
-                    style = ` style=\"color: ${color}\"`;
-                }
-            }
-            if (!textGroup.text) {
-                return `<br>`
-            } else {
-                return `<span class=\"${classes.join(" ")}\"${style}>${textGroup.text.replace("&", "").replace("§", "")}</span>`;
-            }
-        }).join("");
-    }
 
     function convertEnchantmentsToHTML(enchantments, bypass = false) {
         return Object.entries(enchantments).reduce((acc, [enchant, level]) => {
@@ -380,67 +343,149 @@
              link.remove()
         });
     }
+    function detectItemFormat(data) {
+        if (typeof data.id === "string" && data.components) {
+            return "new";
+        } else if (data.components && typeof data.components === "object") {
+            return "old";
+        } else {
+            return "unknown";
+        }
+    }
 
+    function normalizeItemFormat(data) {
+    // Old format already has components
+    if (data.components) return data;
+
+    // New format → convert to old-style structure
+    const components = {};
+
+    if (data.display_name) {
+        components["minecraft:custom_name"] = data.display_name;
+    }
+    if (Array.isArray(data.lore)) {
+        components["minecraft:lore"] = data.lore;
+    }
+    if (data.enchantments) {
+        components["minecraft:enchantments"] = { levels: data.enchantments };
+    }
+    if (data.unbreakable) {
+        components["minecraft:unbreakable"] = true;
+    }
+
+    return {
+        id: data.id || "minecraft:unknown",
+        count: data.count || 1,
+        components
+    };
+}
+
+    // Convert Minecraft text component to HTML (handles old & new formats)
+    function convertMCLineToHTML(line) {
+        if (typeof line === "string") {
+            try { line = JSON.parse(line); } catch { return line; }
+        }
+
+        if (!line.extra || !Array.isArray(line.extra)) {
+            return line.text || "";
+        }
+
+        let html = "";
+
+        for (const part of line.extra) {
+            let partText = "";
+
+            if (part.text) partText = part.text;
+            else if (part.extra) partText = convertMCLineToHTML(part);
+            if (partText == "") {partText = "&nbsp;"}
+            let styles = "";
+            let colorClass = "";
+            if (part.color && ColorCodes[part.color]) {
+                colorClass += ColorCodes[part.color];
+            } else {
+                if (part.color) styles += `color:${part.color};`;
+            }
+            
+            if (part.bold) styles += "font-weight:bold;";
+            if (part.italic) styles += "font-style:italic;";
+            if (part.underlined) styles += "text-decoration:underline;";
+
+            if (part.obfuscated) partText = `<span class="mc-obfuscated">${partText}</span>`;
+
+            html += `<span class="${colorClass}" style="${styles}">${partText}</span>`;
+        }
+
+        return html;
+    }
+
+    // Convert Minecraft text component to plain human-readable text
+    function convertMCLineToHumanReadable(line) {
+        if (typeof line === "string") {
+            try { line = JSON.parse(line); } catch { return line; }
+        }
+
+        if (!line.extra || !Array.isArray(line.extra)) {
+            return line.text || "";
+        }
+
+        let text = "";
+        for (const part of line.extra) {
+            if (part.text) text += part.text;
+            else if (part.extra) text += convertMCLineToHumanReadable(part);
+        }
+        return text;
+    }
+
+    // Updated UpdatePreview function
     function UpdatePreview() {
-        var rawData = JSON.parse(rawDataTextarea.value);
-        var finalItemType = convertItemTypes(rawData['id']);
-        var itemName = rawData['components']['minecraft:custom_name'];
-        var finalItemNameHTML = convertMCLineToHTML(itemName);
-        var finalItemNameHuman = convertMCLineToHumanReadable(itemName).replaceAll("§", "").replaceAll("&", "");
+        const rawData = JSON.parse(rawDataTextarea.value);
+        const finalItemType = convertItemTypes(rawData.id);
+        
+        const itemName = rawData.components["minecraft:custom_name"];
+        const finalItemNameHTML = convertMCLineToHTML(itemName);
+        const finalItemNameHuman = convertMCLineToHumanReadable(itemName).replaceAll("§", "").replaceAll("&", "");
+
         let EnchantmentsHTML = [];
         let EnchantmentsHuman = [];
-        if ("minecraft:enchantments" in rawData["components"]) {
-            const enchantments = rawData["components"]["minecraft:enchantments"]["levels"];
+        if ("minecraft:enchantments" in rawData.components) {
+            const enchantments = rawData.components["minecraft:enchantments"].levels;
             EnchantmentsHTML = convertEnchantmentsToHTML(enchantments);
             EnchantmentsHuman = convertEnchantmentsToHumanReadable(enchantments);
-        } else {
-            EnchantmentsHTML = [];
-            EnchantmentsHuman = [];
         }
-        // Get Item Lore
+
         let ItemLoreHTML = [];
         let ItemLoreHuman = [];
-        for (const loreLine of rawData["components"]["minecraft:lore"]) {
-            ItemLoreHTML.push(convertMCLineToHTML(loreLine));
-            ItemLoreHuman.push(convertMCLineToHumanReadable(loreLine).replaceAll("§", "").replaceAll("&", ""));
+        if (rawData.components["minecraft:lore"]) {
+            for (const loreLine of rawData.components["minecraft:lore"]) {
+                ItemLoreHTML.push(convertMCLineToHTML(loreLine));
+                ItemLoreHuman.push(convertMCLineToHumanReadable(loreLine).replaceAll("§", "").replaceAll("&", ""));
+            }
         }
-        // Check for Unbreakable
-        const Unbreakable = "minecraft:unbreakable" in rawData["components"];
 
+        const Unbreakable = "minecraft:unbreakable" in rawData.components;
 
-
-        // Build final HTML
+        // Build final HTML preview
         let finalHTML = `<div>${finalItemNameHTML}</div>`;
-        for (const enchant of EnchantmentsHTML) {
-            finalHTML += `<div>${enchant}</div>`;
-        }
-        for (const line of ItemLoreHTML) {
-            finalHTML += `<div>${line}</div>`;
-        }
-        if (Unbreakable) {
-            finalHTML += `<div><span class="mc-blue">Unbreakable</span></div>`;
-        }
-        finalHTML += `<div><span class='mc-dark-gray'>${rawData['id']}</span></div>`;
-        if (detectInfiniteBlock(ItemLoreHuman, finalItemNameHuman) == 1) {
-            finalItemType = "Infinite";
-        };
-        // Build Final Human Readable
+        for (const enchant of EnchantmentsHTML) finalHTML += `<div>${enchant}</div>`;
+        for (const line of ItemLoreHTML) finalHTML += `<div>${line || "&nbsp;"}</div>`;
+        if (Unbreakable) finalHTML += `<div><span class="mc-blue">Unbreakable</span></div>`;
+        finalHTML += `<div><span class='mc-dark-gray'>${rawData.id}</span></div>`;
+
+        if (detectInfiniteBlock(ItemLoreHuman, finalItemNameHuman) === 1) finalItemType = "Infinite";
+
+        // Build human-readable text
         let finalHuman = `${finalItemNameHuman} `;
         finalHuman += EnchantmentsHuman.join(" ");
         finalHuman += ItemLoreHuman.join(" ");
-        if (Unbreakable) {
-            finalHuman += " Unbreakable";
-        }
-        console.log(finalHuman)
+        if (Unbreakable) finalHuman += " Unbreakable";
+
         WinPercentage = extractWinChanceFromLore(ItemLoreHuman);
         RarityHuman = extractRarityFromLore(ItemLoreHuman);
         RarityHTML = extractRarityFromLore(ItemLoreHTML);
 
+        // Update HTML elements
         document.getElementById("itemPreview").innerHTML = finalHTML;
-        console.log(finalItemType);
-        if (finalItemType) {
-            document.getElementById('PrimaryTagGroup').value = finalItemType;
-        };
+        if (finalItemType) document.getElementById('PrimaryTagGroup').value = finalItemType;
         document.getElementById('WinPercentageGroup').value = WinPercentage;
         document.getElementById('RarityGroup').value = RarityHuman;
         document.getElementById('RarityHTMLGroup').value = RarityHTML;
@@ -450,7 +495,7 @@
         document.getElementById('HumanData').value = finalHuman;
         document.getElementById('HTMLData').value = finalHTML;
 
-        //takeScreenshot()
+        // takeScreenshot()
     }
 
 
