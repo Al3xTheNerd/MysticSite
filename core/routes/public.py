@@ -166,6 +166,34 @@ def armortracker():
     return render_template("public/itemTracker.html", sortedItems = sortedItems, page="armor")
 
 
+@app.route('/tooltracker')
+def tooltracker():
+    sortedItems = {}
+    
+    items: List[Item] = Item.query.filter(
+        and_(
+            not_(or_(col.contains("Repeat Appearance") for col in TagCols)), #type:ignore
+            or_(
+                or_(col.contains("Pickaxe") for col in TagCols),#type: ignore
+                or_(col.contains("Axe") for col in TagCols),#type: ignore
+                or_(col.contains("Hoe") for col in TagCols),#type: ignore
+                or_(col.contains("Shovel") for col in TagCols), #type: ignore
+                or_(col.contains("Rod") for col in TagCols), # type: ignore
+                or_(col.contains("Shield") for col in TagCols), # type: ignore
+                or_(col.contains("Shears") for col in TagCols), # type: ignore
+            )
+        )
+    ).all()
+    
+    for crate in Crate.query.order_by(Crate.id).all():
+        for item in items:
+            if int(item.CrateID) == int(crate.id):
+                if crate.CrateName in sortedItems:
+                    sortedItems[crate.CrateName].append(item)
+                else:
+                    sortedItems[crate.CrateName] = [item]
+    return render_template("public/itemTracker.html", sortedItems = sortedItems, page="tools")
+
 @app.route('/search', methods = ['GET', 'POST']) # type: ignore
 def search():
     formattedCrates = c.currentCrateData()
