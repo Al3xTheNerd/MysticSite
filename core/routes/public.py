@@ -204,7 +204,7 @@ def weapontracker():
             or_(
                 or_(col.contains("Crossbow") for col in TagCols),#type: ignore
                 or_(col.contains("Sword") for col in TagCols),#type: ignore
-                or_(col.contains("Axe") for col in TagCols),#type: ignore
+                or_(col.is_("Axe") for col in TagCols),#type: ignore
                 or_(col.contains("Bow") for col in TagCols), #type: ignore
                 or_(col.contains("Trident") for col in TagCols), # type: ignore
                 or_(col.contains("Mace") for col in TagCols), # type: ignore
