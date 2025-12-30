@@ -343,42 +343,6 @@
              link.remove()
         });
     }
-    function detectItemFormat(data) {
-        if (typeof data.id === "string" && data.components) {
-            return "new";
-        } else if (data.components && typeof data.components === "object") {
-            return "old";
-        } else {
-            return "unknown";
-        }
-    }
-
-    function normalizeItemFormat(data) {
-    // Old format already has components
-    if (data.components) return data;
-
-    // New format → convert to old-style structure
-    const components = {};
-
-    if (data.display_name) {
-        components["minecraft:custom_name"] = data.display_name;
-    }
-    if (Array.isArray(data.lore)) {
-        components["minecraft:lore"] = data.lore;
-    }
-    if (data.enchantments) {
-        components["minecraft:enchantments"] = { levels: data.enchantments };
-    }
-    if (data.unbreakable) {
-        components["minecraft:unbreakable"] = true;
-    }
-
-    return {
-        id: data.id || "minecraft:unknown",
-        count: data.count || 1,
-        components
-    };
-}
 
     // Convert Minecraft text component to HTML (handles old & new formats)
     function convertMCLineToHTML(line) {
