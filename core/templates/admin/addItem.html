@@ -344,39 +344,63 @@
         });
     }
 
-    // Convert Minecraft text component to HTML (handles old & new formats)
-    function convertMCLineToHTML(line) {
-        if (typeof line === "string") {
-            try { line = JSON.parse(line); } catch { return line; }
+    function flattenMCTextComponent(component) {
+        const parts = [];
+
+        // Handle string input
+        if (typeof component === "string") {
+            try {
+                component = JSON.parse(component);
+            } catch {
+                return [{ text: component }];
+            }
         }
 
-        if (!line.extra || !Array.isArray(line.extra)) {
-            return line.text || "";
+        // Guard against invalid input
+        if (!component || typeof component !== "object") return [];
+
+        // If this component itself has text, record it
+        if (component.text) {
+            parts.push(component);
         }
+
+        // If there’s an "extra", recurse into it
+        if (component.extra && Array.isArray(component.extra)) {
+            for (const child of component.extra) {
+                parts.push(...flattenMCTextComponent(child));
+            }
+        }
+
+        return parts;
+    }
+
+    // Convert Minecraft text component to HTML
+    function convertMCLineToHTML(line) {
+        const parts = flattenMCTextComponent(line);
+        if (!parts.length) return "";
 
         let html = "";
+        for (const part of parts) {
+            let text = part.text ?? "";
+            if (text === "") text = "&nbsp;";
 
-        for (const part of line.extra) {
-            let partText = "";
-
-            if (part.text) partText = part.text;
-            else if (part.extra) partText = convertMCLineToHTML(part);
-            if (partText == "") {partText = "&nbsp;"}
             let styles = "";
             let colorClass = "";
+
             if (part.color && ColorCodes[part.color]) {
                 colorClass += ColorCodes[part.color];
-            } else {
-                if (part.color) styles += `color:${part.color};`;
+            } else if (part.color) {
+                styles += `color:${part.color};`;
             }
-            
+
             if (part.bold) styles += "font-weight:bold;";
             if (part.italic) styles += "font-style:italic;";
             if (part.underlined) styles += "text-decoration:underline;";
 
-            if (part.obfuscated) partText = `<span class="mc-obfuscated">${partText}</span>`;
+            if (part.obfuscated)
+                text = `<span class="mc-obfuscated">${text}</span>`;
 
-            html += `<span class="${colorClass}" style="${styles}">${partText}</span>`;
+            html += `<span class="${colorClass}" style="${styles}">${text}</span>`;
         }
 
         return html;
@@ -384,20 +408,8 @@
 
     // Convert Minecraft text component to plain human-readable text
     function convertMCLineToHumanReadable(line) {
-        if (typeof line === "string") {
-            try { line = JSON.parse(line); } catch { return line; }
-        }
-
-        if (!line.extra || !Array.isArray(line.extra)) {
-            return line.text || "";
-        }
-
-        let text = "";
-        for (const part of line.extra) {
-            if (part.text) text += part.text;
-            else if (part.extra) text += convertMCLineToHumanReadable(part);
-        }
-        return text;
+        const parts = flattenMCTextComponent(line);
+        return parts.map(p => p.text || "").join("");
     }
 
     // Updated UpdatePreview function
