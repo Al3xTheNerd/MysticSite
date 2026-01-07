@@ -33,6 +33,7 @@ def navbarItems():
     config = {
         'PrettyRoutes' : c.PrettyRoutes, #type: ignore
         'ServerName' : server_name,
+        'Crates' : Crate.query.order_by(Crate.id).all(),
         'ServerItemName' : server_item_name,
         'ServerURL' : server_url,
         'ServerRarityList' : server_rarity_list,
