@@ -117,12 +117,12 @@ def tag(cat, tag):
 
 @app.route('/stats')
 def stats():
-    items = Item.query
     stats = {}
+    query = Item.query
     for tag in c.validTags:
-        stats[tag] = len(SingleTagQuery(tag))
-    stats["Crate"] = Crate.query.order_by(Crate.id).count()
-    return render_template("public/stats.html", stats = stats, total=items.count())
+        stats[tag] = query.filter(or_(col.is_(tag) for col in TagCols)).count() #type: ignore
+    stats["Crate"] = Crate.query.count()
+    return render_template("public/stats.html", stats = stats, total=query.count())
 
 
 
