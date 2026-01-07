@@ -1,6 +1,6 @@
 from flask import render_template, request, flash
 from sqlalchemy import or_, and_, not_
-from core import app
+from core import app, db
 from core import config as c
 from core.models.item import Item
 from core.models.crates import Crate
@@ -33,11 +33,12 @@ def index():
         items = noDupes(items)     
     return render_template("public/changelog.html", Items = items, ChangeLog = c.Changelog)
 
-
 @app.route('/all')
-def all():
-    items = noDupes(Item.query.order_by(Item.ItemOrder).all())
-    return render_template("public/index.html", Items = items)
+@app.route('/all/<int:page>/')
+@app.route('/all/<int:page>/<int:quantity>')
+def all(page: int=1, quantity:int=25):
+    pagination = Item.query.order_by(Item.ItemOrder).paginate(page=page, per_page=quantity, error_out=False)
+    return render_template("public/allitems.html", Items = pagination.items, pagination = pagination)
         
 
 @app.route('/item/<itemID>')

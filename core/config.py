@@ -289,7 +289,8 @@ Changelog = {
     "1/7/2026" : [
         ("mc-green", "Crate list is now it's own page. Sorted by both type and release date."),
         ("mc-green", "Tag list is now it's own page. Sorted by type."),
-        ("mc-green", "New tags added! <code>Treefeller, Veinminer, Axe Projectile, Radius Breaking, Block Counter, Bleed, Kill Counter, Telekinesis, Speed Attribute, Custom Loot, and Furniture Dropping</code>")
+        ("mc-green", "New tags added! <code>Treefeller, Veinminer, Axe Projectile, Radius Breaking, Block Counter, Bleed, Kill Counter, Telekinesis, Speed Attribute, Custom Loot, and Furniture Dropping</code>"),
+        ("mc-green", "Full item list is now paginated, this should help for those of you with shitty internet.")
     ]
 }
 
