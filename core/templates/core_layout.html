@@ -43,7 +43,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    {% for loc, name in [('index', "Home"), ('all', "All Items"), ('search', "Advanced Search")] %}
+                    {% for loc, name in [('index', "Home"), ('all', "All Items"), ('search', "Advanced Search"), ('cratePage', "Crates")] %}
                     {% if request.path == url_for(loc) %}
                     <li class="nav-item"><a class="nav-link active" aria-current="page"
                             href="{{ url_for(loc) }}">{{name}}</a></li>
@@ -85,20 +85,6 @@
                             <li>
                                 <a class="dropdown-item {% if request.path == url_for('tag', cat='Misc', tag=tag) %}active{% endif %}"
                                     href="{{ url_for('tag', cat='Misc', tag=tag) }}">{{tag}}</a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class='nav-link dropdown-toggle' href='#' role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Crates
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark">
-                            {% for crate in Crates %}
-                            <li>
-                                <a class="dropdown-item {% if request.path == url_for('crate', crateTag=crate.URLTag) %}active{% endif %}"
-                                    href="{{ url_for('crate', crateTag=crate.URLTag) }}">{{crate.CrateName}}</a>
                             </li>
                             {% endfor %}
                         </ul>

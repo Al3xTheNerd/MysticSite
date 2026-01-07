@@ -33,6 +33,14 @@
                                     placeholder="Crate Tag">
                                 <label for="CrateTagGroup">Crate Tag</label>
                             </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="CrateSelectEdit">Crate Type</label>
+                                <select name='CrateType' class="form-select" id="CrateTypeSelect">
+                                    <option value="Seasonal">Seasonal</option>
+                                    <option value="Side">Side</option>
+                                    <option value="Misc">Misc</option>
+                                </select>
+                            </div>
                             <button class="btn btn-primary mb-1" name="Edit" type="submit">Edit Crate!</button>
                         </form>
                     </div>
@@ -58,6 +66,14 @@
                                 <input type="text" class="form-control" name='CrateTag' id="CrateTagGroup"
                                     placeholder="Crate Tag">
                                 <label for="CrateTagGroup">Crate Tag</label>
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="CrateSelectEdit">Crate Type</label>
+                                <select name='CrateType' class="form-select" id="CrateTypeSelect">
+                                    <option value="Seasonal">Seasonal</option>
+                                    <option value="Side">Side</option>
+                                    <option value="Misc">Misc</option>
+                                </select>
                             </div>
                             <button class="btn btn-primary mb-1" name="New" type="submit">Add Crate!</button>
                         </form>
@@ -99,6 +115,7 @@ function updateCrateEdit() {
     document.getElementById("CrateNameGroup").value = currentCrates[selectedValue]["CrateName"];
     document.getElementById("ReleaseDateGroup").value = currentCrates[selectedValue]["ReleaseDate"];
     document.getElementById("CrateTagGroup").value = currentCrates[selectedValue]["URLTag"];
+    document.getElementById("CrateTypeSelect").value = currentCrates[selectedValue]["CrateType"];
     console.log(currentCrates[selectedValue])
 
 

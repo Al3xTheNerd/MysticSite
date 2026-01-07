@@ -169,7 +169,7 @@ def manageCrates():
     if request.method == 'POST':
         forms = request.form.to_dict()
         if "New" in forms and verifyCrate(forms):
-            newCrate = Crate(CrateName=forms["CrateName"], ReleaseDate=forms["ReleaseDate"], URLTag=forms["CrateTag"]) # type: ignore
+            newCrate = Crate(CrateName=forms["CrateName"], ReleaseDate=forms["ReleaseDate"], URLTag=forms["CrateTag"], CrateType=forms["CrateType"]) # type: ignore
             db.session.add(newCrate)
             db.session.commit()
             queries += 1
@@ -179,6 +179,7 @@ def manageCrates():
                 crateToEdit.CrateName = forms['CrateName']
                 crateToEdit.ReleaseDate = forms['ReleaseDate']
                 crateToEdit.URLTag = forms["CrateTag"]
+                crateToEdit.CrateType = forms["CrateType"]
                 db.session.commit()
                 queries += 2
             if "Delete" in forms and forms['crate']:

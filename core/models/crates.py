@@ -6,6 +6,7 @@ class Crate(db.Model):
     CrateName = db.Column(db.String())
     ReleaseDate = db.Column(db.String())
     URLTag = db.Column(db.String())
+    CrateType = db.Column(db.String())
 
 
     def toDict(self):

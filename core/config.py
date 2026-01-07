@@ -28,7 +28,8 @@ def currentCrateData():
         formattedCrates[crate.id] = {
             "CrateName" : crate.CrateName,
             "ReleaseDate" : crate.ReleaseDate,
-            "URLTag" : crate.URLTag
+            "URLTag" : crate.URLTag,
+            "CrateType" : crate.CrateType
         }
     if formattedCrates:
         return formattedCrates
