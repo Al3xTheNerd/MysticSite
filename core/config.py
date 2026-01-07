@@ -274,6 +274,9 @@ Changelog = {
     "12/7/2025" : [
         ("mc-light-purple", "Item trackers will now load much faster. I made a rather severe mistake, leading to the site attempting to rebuild the missing items list once for every item on screen, every single checkbox you press."),
         ("mc-green", "Item Trackers now have 'Check All' and 'Uncheck All' buttons! Perfect for those of you who already have borderline everything!")
+    ],
+    "1/7/2026" : [
+        ("mc-green", "Crate list is now it's own page. Sorted by both type and release date.")
     ]
 }
 
