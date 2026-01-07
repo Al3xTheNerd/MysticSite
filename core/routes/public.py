@@ -9,6 +9,7 @@ from sys import platform
 from typing import List
 from atn import server_rarity_list
 import json
+from collections import Counter
 
 TagCols = [Item.TagPrimary, Item.TagSecondary, Item.TagTertiary, Item.TagQuaternary, Item.TagQuinary, Item.TagSenary, Item.TagSeptenary]
 def noDupes(items: list[Item]) -> list[Item]:
@@ -91,7 +92,23 @@ def cratePage():
 
 @app.route('/tags')
 def tagsPage():
-    return render_template("public/tags.html")
+    stats = Counter()
+
+    rows = Item.query.with_entities(
+        Item.TagPrimary,
+        Item.TagSecondary,
+        Item.TagTertiary,
+        Item.TagQuaternary,
+        Item.TagQuinary,
+        Item.TagSenary,
+        Item.TagSeptenary,
+    ).all()
+
+    for row in rows:
+        for tag in row:
+            if tag:
+                stats[tag] += 1
+    return render_template("public/tags.html", stats=stats)
 
 @app.route('/tag/<cat>/<tag>')
 def tag(cat, tag):
@@ -115,7 +132,7 @@ def tag(cat, tag):
         items = SingleTagQuery(tag) # type: ignore
     return render_template("public/index.html", Items = noDupes(items) if tag != "Repeat Appearance" else items) # type: ignore
 
-from collections import Counter
+
 @app.route('/stats')
 def stats():
     stats = Counter()

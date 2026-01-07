@@ -21,12 +21,12 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='all') }}">All</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='Hat') }}">Hat</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='Helmet') }}">Helmet</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='Chestplate') }}">Chestplate</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='Leggings') }}">Leggings</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='Boots') }}">Boots</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='Elytra') }}">Elytra</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='Hat') }}">Hat</a><code>({{stats["Hat"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='Helmet') }}">Helmet</a><code>({{stats["Helmet"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='Chestplate') }}">Chestplate</a><code>({{stats["Chestplate"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='Leggings') }}">Leggings</a><code>({{stats["Leggings"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='Boots') }}">Boots</a><code>({{stats["Boots"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='Elytra') }}">Elytra</a><code>({{stats["Elytra"]}})</code></li>
             </ul>
         </div>
     </div>
@@ -37,13 +37,13 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='all') }}">All</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Pickaxe') }}">Pickaxe</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Axe') }}">Axe</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Hoe') }}">Hoe</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Shovel') }}">Shovel</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Rod') }}">Rod</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Shield') }}">Shield</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Shears') }}">Shears</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Pickaxe') }}">Pickaxe</a><code>({{stats["Pickaxe"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Axe') }}">Axe</a><code>({{stats["Axe"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Hoe') }}">Hoe</a><code>({{stats["Hoe"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Shovel') }}">Shovel</a><code>({{stats["Shovel"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Rod') }}">Rod</a><code>({{stats["Rod"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Shield') }}">Shield</a><code>({{stats["Shield"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Shears') }}">Shears</a><code>({{stats["Shears"]}})</code></li>
                 
             </ul>
         </div>
@@ -55,12 +55,12 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='all') }}">All</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='Crossbow') }}">Crossbow</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='Sword') }}">Sword</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='Axe') }}">Axe</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='Bow') }}">Bow</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='Trident') }}">Trident</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='Mace') }}">Mace</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='Crossbow') }}">Crossbow</a><code>({{stats["Crossbow"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='Sword') }}">Sword</a><code>({{stats["Sword"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='Axe') }}">Axe</a><code>({{stats["Axe"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='Bow') }}">Bow</a><code>({{stats["Bow"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='Trident') }}">Trident</a><code>({{stats["Trident"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='Mace') }}">Mace</a><code>({{stats["Mace"]}})</code></li>
                 
             </ul>
         </div>
@@ -71,12 +71,12 @@
                 <h4 class="card-title">Tool Features</h4>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Treefeller') }}">Treefeller</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Veinminer') }}">Veinminer</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Axe Projectile') }}">Axe Projectile</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Radius Breaking') }}">Radius Breaking</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Block Counter') }}">Block Counter</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Auto Replant') }}">Auto Replant</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Treefeller') }}">Treefeller</a><code>({{stats["Treefeller"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Veinminer') }}">Veinminer</a><code>({{stats["Veinminer"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Axe Projectile') }}">Axe Projectile</a><code>({{stats["Axe Projectile"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Radius Breaking') }}">Radius Breaking</a><code>({{stats["Radius Breaking"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Block Counter') }}">Block Counter</a><code>({{stats["Block Counter"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Auto Replant') }}">Auto Replant</a><code>({{stats["Auto Replant"]}})</code></li>
             </ul>
         </div>
     </div>
@@ -86,11 +86,11 @@
                 <h4 class="card-title">Weapon Features</h4>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Bleed') }}">Bleed</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Head Dropping') }}">Head Dropping</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Egg Dropping') }}">Egg Dropping</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Mob Capturing') }}">Mob Capturing</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Kill Counter') }}">Kill Counter</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Bleed') }}">Bleed</a><code>({{stats["Bleed"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Head Dropping') }}">Head Dropping</a><code>({{stats["Head Dropping"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Egg Dropping') }}">Egg Dropping</a><code>({{stats["Egg Dropping"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Mob Capturing') }}">Mob Capturing</a><code>({{stats["Mob Capturing"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Kill Counter') }}">Kill Counter</a><code>({{stats["Kill Counter"]}})</code></li>
                 
             </ul>
         </div>
@@ -101,9 +101,9 @@
                 <h4 class="card-title">Item Placement</h4>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Offhand') }}">Offhand</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Hotbar') }}">Hotbar</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Inventory') }}">Inventory</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Offhand') }}">Offhand</a><code>({{stats["Offhand"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Hotbar') }}">Hotbar</a><code>({{stats["Hotbar"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Inventory') }}">Inventory</a><code>({{stats["Inventory"]}})</code></li>
             </ul>
         </div>
     </div>
@@ -113,10 +113,10 @@
                 <h4 class="card-title">Block Features</h4>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Infinite') }}">Infinite</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Special Block') }}">Special Block</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Cooker') }}">Cooker</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Teleportation') }}">Teleportation</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Infinite') }}">Infinite</a><code>({{stats["Infinite"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Special Block') }}">Special Block</a><code>({{stats["Special Block"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Cooker') }}">Cooker</a><code>({{stats["Cooker"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Teleportation') }}">Teleportation</a><code>({{stats["Teleportation"]}})</code></li>
                 
             </ul>
         </div>
@@ -127,8 +127,8 @@
                 <h4 class="card-title">Quest Related</h4>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Quest') }}">Quest</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Quest Only') }}">Quest Only</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Quest') }}">Quest</a><code>({{stats["Quest"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Quest Only') }}">Quest Only</a><code>({{stats["Quest Only"]}})</code></li>
             </ul>
         </div>
     </div>
@@ -138,14 +138,14 @@
                 <h4 class="card-title">Miscellaneous</h4>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Disguise') }}">Disguise</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Repeat Appearance') }}">Repeat Appearance</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Unbreakable Kit') }}">Unbreakable Kit</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Telekinesis') }}">Telekinesis</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Speed Attribute') }}">Speed Attribute</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Custom Loot') }}">Custom Loot</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Furniture Dropping') }}">Furniture Dropping</a></li>
-                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Reach Distance') }}">Reach Distance</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Disguise') }}">Disguise</a><code>({{stats["Disguise"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Repeat Appearance') }}">Repeat Appearance</a><code>({{stats["Repeat Appearance"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Unbreakable Kit') }}">Unbreakable Kit</a><code>({{stats["Unbreakable Kit"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Telekinesis') }}">Telekinesis</a><code>({{stats["Telekinesis"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Speed Attribute') }}">Speed Attribute</a><code>({{stats["Speed Attribute"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Custom Loot') }}">Custom Loot</a><code>({{stats["Custom Loot"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Furniture Dropping') }}">Furniture Dropping</a><code>({{stats["Furniture Dropping"]}})</code></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Reach Distance') }}">Reach Distance</a><code>({{stats["Reach Distance"]}})</code></li>
             </ul>
         </div>
     </div>
