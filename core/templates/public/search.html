@@ -26,6 +26,24 @@
                             </select>
                         </div>
                         <div class="input-group mb-3">
+                            <label class="input-group-text" for="TagTwoGroup">Tag Two</label>
+                            <select name='TagTwo' class="form-select" id="TagTwoGroup">
+                                <option value="">All Tags</option>
+                                {% for tag in validTags %}
+                                <option value="{{ tag }}" {% if tag==recentTag %}selected{% endif %}>{{ tag }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="TagThreeGroup">Tag Three</label>
+                            <select name='TagThree' class="form-select" id="TagThreeGroup">
+                                <option value="">All Tags</option>
+                                {% for tag in validTags %}
+                                <option value="{{ tag }}" {% if tag==recentTag %}selected{% endif %}>{{ tag }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
                             <label class="input-group-text" for="RarityGroup">Rarity</label>
                             <select name='Rarity' class="form-select" id="Rarity">
                                 <option value="">All Rarities</option>

@@ -264,6 +264,12 @@ def search():
         if form["Tag"]:
             recentTag = form["Tag"]
             conditions.append(or_(col.is_(form["Tag"]) for col in TagCols)) # type: ignore
+        if form["TagTwo"]:
+            recentTag = form["TagTwo"]
+            conditions.append(or_(col.is_(form["TagTwo"]) for col in TagCols)) # type: ignore
+        if form["TagThree"]:
+            recentTag = form["TagThree"]
+            conditions.append(or_(col.is_(form["TagThree"]) for col in TagCols)) # type: ignore
         if form["Rarity"]:
             recentRarity = form["Rarity"]
             rarity = ""

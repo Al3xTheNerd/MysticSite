@@ -293,7 +293,8 @@ Changelog = {
         ("mc-green", "Tag list is now it's own page. Sorted by type."),
         ("mc-green", "New tags added! <code>Treefeller, Veinminer, Axe Projectile, Radius Breaking, Block Counter, Bleed, Reach Distance, Kill Counter, Auto Replant, Telekinesis, Speed Attribute, Custom Loot, and Furniture Dropping</code>"),
         ("mc-green", "Full item list is now paginated, this should help for those of you with shitty internet."),
-        ("mc-light-purple", "Admin users now go straight to manage item screen when clicking an item preview.")
+        ("mc-light-purple", "Admin users now go straight to manage item screen when clicking an item preview."),
+        ("mc-light-purple", "Advanced search now supports up to 3 tags in the same search.")
     ]
 }
 
