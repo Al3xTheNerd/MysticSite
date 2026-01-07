@@ -104,7 +104,8 @@ nonCatTags: List[str] = [
     "Speed Attribute",
     "Custom Loot",
     "Furniture Dropping",
-    "Auto Replant"
+    "Auto Replant",
+    "Reach Distance"
 ]
 if server_custom_tags:
     nonCatTags += server_custom_tags
@@ -290,7 +291,7 @@ Changelog = {
     "1/7/2026" : [
         ("mc-green", "Crate list is now it's own page. Sorted by both type and release date."),
         ("mc-green", "Tag list is now it's own page. Sorted by type."),
-        ("mc-green", "New tags added! <code>Treefeller, Veinminer, Axe Projectile, Radius Breaking, Block Counter, Bleed, Kill Counter, Auto Replant, Telekinesis, Speed Attribute, Custom Loot, and Furniture Dropping</code>"),
+        ("mc-green", "New tags added! <code>Treefeller, Veinminer, Axe Projectile, Radius Breaking, Block Counter, Bleed, Reach Distance, Kill Counter, Auto Replant, Telekinesis, Speed Attribute, Custom Loot, and Furniture Dropping</code>"),
         ("mc-green", "Full item list is now paginated, this should help for those of you with shitty internet."),
         ("mc-light-purple", "Admin users now go straight to manage item screen when clicking an item preview.")
     ]
