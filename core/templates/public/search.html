@@ -30,7 +30,7 @@
                             <select name='TagTwo' class="form-select" id="TagTwoGroup">
                                 <option value="">All Tags</option>
                                 {% for tag in validTags %}
-                                <option value="{{ tag }}" {% if tag==recentTag %}selected{% endif %}>{{ tag }}</option>
+                                <option value="{{ tag }}" {% if tag==recentTagTwo %}selected{% endif %}>{{ tag }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -39,7 +39,7 @@
                             <select name='TagThree' class="form-select" id="TagThreeGroup">
                                 <option value="">All Tags</option>
                                 {% for tag in validTags %}
-                                <option value="{{ tag }}" {% if tag==recentTag %}selected{% endif %}>{{ tag }}</option>
+                                <option value="{{ tag }}" {% if tag==recentTagThree %}selected{% endif %}>{{ tag }}</option>
                                 {% endfor %}
                             </select>
                         </div>

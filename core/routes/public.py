@@ -251,7 +251,7 @@ def search():
     formattedCrates = c.currentCrateData()
     rarityList = server_rarity_list
     items = []
-    recentTerm, recentCrate, recentTag, recentRarity = ("", "", "", "")
+    recentTerm, recentCrate, recentTag, recentTagTwo, recentTagThree, recentRarity = ("", "", "", "", "", "")
     if request.method == 'POST':
         form = request.form.to_dict()
         conditions = []
@@ -265,10 +265,10 @@ def search():
             recentTag = form["Tag"]
             conditions.append(or_(col.is_(form["Tag"]) for col in TagCols)) # type: ignore
         if form["TagTwo"]:
-            recentTag = form["TagTwo"]
+            recentTagTwo = form["TagTwo"]
             conditions.append(or_(col.is_(form["TagTwo"]) for col in TagCols)) # type: ignore
         if form["TagThree"]:
-            recentTag = form["TagThree"]
+            recentTagThree = form["TagThree"]
             conditions.append(or_(col.is_(form["TagThree"]) for col in TagCols)) # type: ignore
         if form["Rarity"]:
             recentRarity = form["Rarity"]
@@ -297,6 +297,8 @@ def search():
                            Items = items,
                            recentTerm = recentTerm,
                            recentTag = recentTag,
+                           recentTagTwo = recentTagTwo,
+                           recentTagThree = recentTagThree,
                            recentCrate = recentCrate,
                            recentRarity = recentRarity)
 
