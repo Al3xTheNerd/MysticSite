@@ -41,8 +41,14 @@ PrettyRoutes = {
     "/stats" : "Item Statistics",
     "/itemtracker" : "Item Tracker",
     "/infinitetracker" : "Infinite Tracker",
+    "/armortracker" : "Armor Tracker",
+    "/tooltracker" : "Tool Tracker",
+    "/weapontracker" : "Weapon Tracker",
     "/jobspayouts" : "Jobs Payouts",
     "/gamble" : "Gamble",
+    "/tags" : "Tag List",
+    "/crates" : "Crate List",
+    "/blockspeed" : "Block Speed Calc.",
     "/tag/Armor/all" : "Armor",
     "/tag/Tools/all" : "Tools",
     "/tag/Weapons/all" : "Weapons",
@@ -294,7 +300,8 @@ Changelog = {
         ("mc-green", "New tags added! <code>Treefeller, Veinminer, Axe Projectile, Radius Breaking, Block Counter, Bleed, Reach Distance, Kill Counter, Auto Replant, Telekinesis, Speed Attribute, Custom Loot, and Furniture Dropping</code>"),
         ("mc-green", "Full item list is now paginated, this should help for those of you with shitty internet."),
         ("mc-light-purple", "Admin users now go straight to manage item screen when clicking an item preview."),
-        ("mc-light-purple", "Advanced search now supports up to 3 tags in the same search.")
+        ("mc-light-purple", "Advanced search now supports up to 3 tags in the same search."),
+        ("mc-light-purple", "Add tag usage counts onto the tag page.")
     ]
 }
 
