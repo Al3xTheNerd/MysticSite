@@ -92,7 +92,18 @@ nonCatTags: List[str] = [
     "Mob Capturing",
     "Cooker",
     "Teleportation",
-    "Quest Only"
+    "Quest Only",
+    "Treefeller",
+    "Veinminer",
+    "Axe Projectile",
+    "Radius Breaking",
+    "Block Counter",
+    "Bleed",
+    "Kill Counter",
+    "Telekinesis",
+    "Speed Attribute",
+    "Custom Loot",
+    "Furniture Dropping"
 ]
 if server_custom_tags:
     nonCatTags += server_custom_tags
@@ -276,7 +287,9 @@ Changelog = {
         ("mc-green", "Item Trackers now have 'Check All' and 'Uncheck All' buttons! Perfect for those of you who already have borderline everything!")
     ],
     "1/7/2026" : [
-        ("mc-green", "Crate list is now it's own page. Sorted by both type and release date.")
+        ("mc-green", "Crate list is now it's own page. Sorted by both type and release date."),
+        ("mc-green", "Tag list is now it's own page. Sorted by type."),
+        ("mc-green", "New tags added! <code>Treefeller, Veinminer, Axe Projectile, Radius Breaking, Block Counter, Bleed, Kill Counter, Telekinesis, Speed Attribute, Custom Loot, and Furniture Dropping</code>")
     ]
 }
 

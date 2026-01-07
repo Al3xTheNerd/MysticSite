@@ -43,7 +43,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    {% for loc, name in [('index', "Home"), ('all', "All Items"), ('search', "Advanced Search"), ('cratePage', "Crates")] %}
+                    {% for loc, name in [('index', "Home"), ('all', "All Items"), ('search', "Advanced Search"), ('cratePage', "Crates"), ('tagsPage', "Tags")] %}
                     {% if request.path == url_for(loc) %}
                     <li class="nav-item"><a class="nav-link active" aria-current="page"
                             href="{{ url_for(loc) }}">{{name}}</a></li>
@@ -51,44 +51,6 @@
                     <li class="nav-item"><a class="nav-link" href="{{ url_for(loc) }}">{{name}}</a></li>
                     {% endif %}
                     {% endfor %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Item Tags
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark">
-                            {% for Type, TagsList in Tags.items() %}
-                            <a class="dropdown-item disabled" href="#">{{ Type }}</a>
-                            <li>
-                                <a class="dropdown-item {% if request.path == url_for('tag', cat = Type, tag = 'all') %}active{% endif %}"
-                                    href="{{ url_for('tag', cat=Type, tag='all') }}">All</a>
-                            </li>
-                            {% for tag in TagsList %}
-                            <li>
-                                <a class="dropdown-item {% if request.path == url_for('tag', cat = Type, tag = tag) %}active{% endif %}"
-                                    href="{{ url_for('tag', cat=Type, tag=tag) }}">{{ tag }}</a>
-                            </li>
-                            {% endfor %}
-                            {% if not loop.last %}
-                            <div class="dropdown-divider"></div>
-                            {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class='nav-link dropdown-toggle' href='#' role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Misc. Tags
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark">
-                            {% for tag in UncategorizedTags %}
-                            <li>
-                                <a class="dropdown-item {% if request.path == url_for('tag', cat='Misc', tag=tag) %}active{% endif %}"
-                                    href="{{ url_for('tag', cat='Misc', tag=tag) }}">{{tag}}</a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">

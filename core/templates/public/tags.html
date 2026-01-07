@@ -1,0 +1,152 @@
+{% extends "core_layout.html" %}
+{% block content %}
+<div class="row gx-3 gy-3 mb-3">
+    <div class="col-12">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title">Tags</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-gold bg-dark">Tags are sorted below, based on their type.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row gx-3 gy-3">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title">Armor</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='all') }}">All</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='Hat') }}">Hat</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='Helmet') }}">Helmet</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='Chestplate') }}">Chestplate</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='Leggings') }}">Leggings</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='Boots') }}">Boots</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Armor', tag='Elytra') }}">Elytra</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title">Tools</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='all') }}">All</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Pickaxe') }}">Pickaxe</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Axe') }}">Axe</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Hoe') }}">Hoe</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Shovel') }}">Shovel</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Rod') }}">Rod</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Shield') }}">Shield</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Tools', tag='Shears') }}">Shears</a></li>
+                
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title">Weapons</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='all') }}">All</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='Crossbow') }}">Crossbow</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='Sword') }}">Sword</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='Axe') }}">Axe</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='Bow') }}">Bow</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='Trident') }}">Trident</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Weapons', tag='Mace') }}">Mace</a></li>
+                
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title">Tool Features</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Treefeller') }}">Treefeller</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Veinminer') }}">Veinminer</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Axe Projectile') }}">Axe Projectile</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Radius Breaking') }}">Radius Breaking</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Block Counter') }}">Block Counter</a></li>
+                
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title">Weapon Features</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Bleed') }}">Bleed</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Head Dropping') }}">Head Dropping</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Egg Dropping') }}">Egg Dropping</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Mob Capturing') }}">Mob Capturing</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Kill Counter') }}">Kill Counter</a></li>
+                
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title">Item Placement</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Offhand') }}">Offhand</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Hotbar') }}">Hotbar</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Inventory') }}">Inventory</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title">Block Features</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Infinite') }}">Infinite</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Special Block') }}">Special Block</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Cooker') }}">Cooker</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Teleportation') }}">Teleportation</a></li>
+                
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title">Quest Related</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Quest') }}">Quest</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Quest Only') }}">Quest Only</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title">Miscellaneous</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Disguise') }}">Disguise</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Repeat Appearance') }}">Repeat Appearance</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Unbreakable Kit') }}">Unbreakable Kit</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Telekinesis') }}">Telekinesis</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Speed Attribute') }}">Speed Attribute</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Custom Loot') }}">Custom Loot</a></li>
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Furniture Dropping') }}">Furniture Dropping</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

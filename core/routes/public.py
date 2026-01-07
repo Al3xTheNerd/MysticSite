@@ -70,7 +70,7 @@ def crate(crateTag):
         items = [c.errorMaker(404)]
     return render_template("public/index.html", Items = items)
 
-@app.route('/crate')
+@app.route('/crates')
 def cratePage():
     crates: List[Crate] = Crate.query.all()
     crateList = {
@@ -88,7 +88,9 @@ def cratePage():
             del crateList[key]
     return render_template("public/crate.html", SortedCrates = crateList)
 
-
+@app.route('/tags')
+def tagsPage():
+    return render_template("public/tags.html")
 
 @app.route('/tag/<cat>/<tag>')
 def tag(cat, tag):
