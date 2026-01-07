@@ -31,9 +31,6 @@ from core.routes import *
 @app.context_processor
 def navbarItems():
     config = {
-        'Tags' : c.tags, # type: ignore
-        'UncategorizedTags' : c.nonCatTags, # type: ignore
-        'Crates' : Crate.query.order_by(Crate.id).all(),
         'PrettyRoutes' : c.PrettyRoutes, #type: ignore
         'ServerName' : server_name,
         'ServerItemName' : server_item_name,
