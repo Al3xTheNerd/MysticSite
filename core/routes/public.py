@@ -115,23 +115,29 @@ def tag(cat, tag):
         items = SingleTagQuery(tag) # type: ignore
     return render_template("public/index.html", Items = noDupes(items) if tag != "Repeat Appearance" else items) # type: ignore
 
+from collections import Counter
 @app.route('/stats')
 def stats():
-    stats = {}
-    query = Item.query
-    for item in query.all():
-        item: Item
-        itemTags = [item.TagPrimary, item.TagSecondary, item.TagTertiary, item.TagQuaternary, item.TagQuinary, item.TagSenary, item.TagSeptenary]
-        for tag in itemTags:
-            if tag == "":
-                continue
-            if tag not in stats.keys():
-                stats[tag] = 1
-            else: stats[tag] += 1
+    stats = Counter()
+
+    rows = Item.query.with_entities(
+        Item.TagPrimary,
+        Item.TagSecondary,
+        Item.TagTertiary,
+        Item.TagQuaternary,
+        Item.TagQuinary,
+        Item.TagSenary,
+        Item.TagSeptenary,
+    ).all()
+
+    for row in rows:
+        for tag in row:
+            if tag:
+                stats[tag] += 1
     #for tag in c.validTags:
     #    stats[tag] = query.filter(or_(col.is_(tag) for col in TagCols)).count() #type: ignore
     stats["Crate"] = Crate.query.count()
-    return render_template("public/stats.html", stats = stats, total=query.count())
+    return render_template("public/stats.html", stats = stats, total=Item.query.count())
 
 
 
