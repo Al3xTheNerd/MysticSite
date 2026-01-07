@@ -119,8 +119,17 @@ def tag(cat, tag):
 def stats():
     stats = {}
     query = Item.query
-    for tag in c.validTags:
-        stats[tag] = query.filter(or_(col.is_(tag) for col in TagCols)).count() #type: ignore
+    for item in query.all():
+        item: Item
+        itemTags = [item.TagPrimary, item.TagSecondary, item.TagTertiary, item.TagQuaternary, item.TagQuinary, item.TagSenary, item.TagSeptenary]
+        for tag in itemTags:
+            if tag == "":
+                continue
+            if tag not in stats.keys():
+                stats[tag] = 1
+            else: stats[tag] += 1
+    #for tag in c.validTags:
+    #    stats[tag] = query.filter(or_(col.is_(tag) for col in TagCols)).count() #type: ignore
     stats["Crate"] = Crate.query.count()
     return render_template("public/stats.html", stats = stats, total=query.count())
 
