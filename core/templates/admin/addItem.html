@@ -85,6 +85,24 @@
                                     {% endfor %}
                                 </select>
                             </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="SenaryTagGroup">Senary Tag</label>
+                                <select name='SenaryTag' class="form-select" id="SenaryTagGroup">
+                                    <option value="">None</option>
+                                    {% for tag in validTags %}
+                                    <option value="{{ tag }}">{{ tag }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="SeptenaryTagGroup">Septenary Tag</label>
+                                <select name='SeptenaryTag' class="form-select" id="SeptenaryTagGroup">
+                                    <option value="">None</option>
+                                    {% for tag in validTags %}
+                                    <option value="{{ tag }}">{{ tag }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" name='WinPercentage' id="WinPercentageGroup"
                                     placeholder="Win Percentage">

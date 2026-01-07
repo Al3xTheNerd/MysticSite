@@ -28,6 +28,8 @@
                                             <th scope="col">Tertiary Tag</th>
                                             <th scope="col">Quaternary Tag</th>
                                             <th scope="col">Quinary Tag</th>
+                                            <th scope="col">Senary Tag</th>
+                                            <th scope="col">Septenary Tag</th>
                                             <th scope="col">Order</th>
                                             <th scope="col">Delete Item</th>
                                             <th scope="col">Manage Item</th>
@@ -44,6 +46,8 @@
                                             <td scope="col">{{item.TagTertiary}}</td>
                                             <td scope="col">{{item.TagQuaternary}}</td>
                                             <td scope="col">{{item.TagQuinary}}</td>
+                                            <td scope="col">{{item.TagSenary}}</td>
+                                            <td scope="col">{{item.TagSeptenary}}</td>
                                             <td scope="col">{{item.ItemOrder}}</td>
                                             <td scope="col"><a href="{{url_for('deleteItem', itemID = item.id)}}">Delete Item</a></td>
                                             <td scope="col"><a href="{{url_for('manageItem', itemID = item.id)}}">Manage Item</a></td>

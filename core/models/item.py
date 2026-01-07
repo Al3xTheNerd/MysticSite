@@ -10,6 +10,8 @@ class Item(db.Model):
     TagTertiary = db.Column(db.String())
     TagQuaternary = db.Column(db.String())
     TagQuinary = db.Column(db.String())
+    TagSenary = db.Column(db.String())
+    TagSeptenary = db.Column(db.String())
     WinPercentage = db.Column(db.String())
     RarityHuman = db.Column(db.String())
     RarityHTML = db.Column(db.String())

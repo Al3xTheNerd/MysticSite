@@ -10,9 +10,9 @@ from typing import List
 from atn import server_rarity_list
 import json
 
-TagCols = [Item.TagPrimary, Item.TagSecondary, Item.TagTertiary, Item.TagQuaternary, Item.TagQuinary]
+TagCols = [Item.TagPrimary, Item.TagSecondary, Item.TagTertiary, Item.TagQuaternary, Item.TagQuinary, Item.TagSenary, Item.TagSeptenary]
 def noDupes(items: list[Item]) -> list[Item]:
-    returnItems = [item for item in items if "Repeat Appearance" not in [item.TagPrimary, item.TagSecondary, item.TagTertiary, item.TagQuaternary, item.TagQuinary]]
+    returnItems = [item for item in items if "Repeat Appearance" not in [item.TagPrimary, item.TagSecondary, item.TagTertiary, item.TagQuaternary, item.TagQuinary, item.TagSenary, item.TagSeptenary]]
     return returnItems
 
 def SingleTagQuery(tag: str) -> list[Item]:
@@ -104,7 +104,9 @@ def tag(cat, tag):
                     or_(Item.TagSecondary == x for x in c.tags[cat]), # type: ignore
                     or_(Item.TagTertiary == x for x in c.tags[cat]), # type: ignore
                     or_(Item.TagQuaternary == x for x in c.tags[cat]), # type: ignore
-                    or_(Item.TagQuinary == x for x in c.tags[cat]) #type: ignore
+                    or_(Item.TagQuinary == x for x in c.tags[cat]), #type: ignore
+                    or_(Item.TagSenary == x for x in c.tags[cat]), #type: ignore
+                    or_(Item.TagSeptenary == x for x in c.tags[cat]) #type: ignore
                 )
             ).order_by(Item.ItemOrder).all()
         else:

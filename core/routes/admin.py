@@ -42,6 +42,8 @@ def addItem():
         newItem.TagTertiary = form["TertiaryTag"]
         newItem.TagQuaternary = form["QuaternaryTag"]
         newItem.TagQuinary = form["QuinaryTag"]
+        newItem.TagSenary = form["SenaryTag"]
+        newItem.TagSeptenary = form["SeptenaryTag"]
         newItem.WinPercentage = form["WinPercentage"]
         newItem.RarityHuman = form["Rarity"]
         newItem.RarityHTML = form["RarityHTML"]
@@ -51,7 +53,7 @@ def addItem():
         newItem.RawData = form["RawData"]
         newItem.ItemHuman = form["HumanData"]
         newItem.ItemHTML = form["HTMLData"]
-        itemTags = set([newItem.TagPrimary, newItem.TagSecondary, newItem.TagTertiary, newItem.TagQuaternary, newItem.TagQuinary])
+        itemTags = set([newItem.TagPrimary, newItem.TagSecondary, newItem.TagTertiary, newItem.TagQuaternary, newItem.TagQuinary, newItem.TagSenary, newItem.TagSeptenary])
         if len(itemTags.intersection(set(["Pickaxe", "Axe", "Hoe", "Shovel", "Shears"]))) > 0:
             itemNBT = json.loads(newItem.RawData)
             if "components" in itemNBT:
@@ -135,6 +137,8 @@ def manageItem(itemID):
             item.TagTertiary = forms["TertiaryTag"]
             item.TagQuaternary = forms["QuaternaryTag"]
             item.TagQuinary = forms["QuinaryTag"]
+            item.TagSenary = forms["SenaryTag"]
+            item.TagSeptenary = forms["SeptenaryTag"]
             item.WinPercentage = forms["WinPercentage"]
             item.Notes = forms["Notes"]
             item.ItemName = forms["ItemName"]
