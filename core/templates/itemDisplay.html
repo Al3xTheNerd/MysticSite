@@ -1,9 +1,10 @@
+{% set iconRouteBase = "images/" ~ ServerName ~ "_Icons/" %}
 <div class="row gx-3 gy-3">
     <!--<div class="row" data-masonry='{"percentPosition": true }'>-->
     {% for item in Items %}
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 hard-wrap">
         <a style="display: block;" href="{%if not current_user.is_authenticated%}{{url_for('item', itemID=item.id)}}{%else%}{{url_for('manageItem', itemID = item.id)}}{%endif%}">
-            <div class="give-preview-text-outer marker" id="{{ item.id }}">
+            <div class="give-preview-text-outer marker" id="{{ item.id }}" data-bs-toggle="tooltip"data-bs-html="true" data-bs-placement="bottom" data-bs-title="<img height='108' width='108' src='{{url_for('static', filename=iconRouteBase ~ item.id ~ '.png')}}'>">
                 <div class="give-preview-text w-100">
                     <div class="give-preview-text-inner text-start">
                         {{ item.ItemHTML | safe }}

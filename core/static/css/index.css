@@ -150,3 +150,5 @@ div.alert {
 .weird-margins > :not(:last-child) {
     margin-bottom: 1rem;
 }
+
+.tooltip{opacity:1!important;}
