@@ -417,7 +417,7 @@ def gamble():
     resultCrates.sort()
     stats = {}
     for resultCrate in resultCrates:
-        res = str(resultCrate)
+        res = int(resultCrate)
         resultCrate = Crate.query.filter_by(id = resultCrate).one().CrateName
         stats[resultCrate] = {}
         for item in items:
