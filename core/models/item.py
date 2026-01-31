@@ -4,7 +4,7 @@ class Item(db.Model):
     """Minecraft Item"""
     id = db.Column(db.Integer(), primary_key=True) # Integer
     
-    CrateID = db.Column(db.String())
+    CrateID = db.Column(db.Integer())
     TagPrimary = db.Column(db.String())
     TagSecondary = db.Column(db.String())
     TagTertiary = db.Column(db.String())
@@ -12,7 +12,7 @@ class Item(db.Model):
     TagQuinary = db.Column(db.String())
     TagSenary = db.Column(db.String())
     TagSeptenary = db.Column(db.String())
-    WinPercentage = db.Column(db.String())
+    WinPercentage = db.Column(db.Float())
     RarityHuman = db.Column(db.String())
     RarityHTML = db.Column(db.String())
     ItemName = db.Column(db.String())    
@@ -23,8 +23,6 @@ class Item(db.Model):
     ItemHTML = db.Column(db.String())
     
     ItemOrder = db.Column(db.Integer())
-    # This will be a jsonified list of db.Item.id's
-    ConnectedItems = db.Column(db.String()) 
     
     EfficiencyLevel = db.Column(db.Integer())
     
