@@ -362,7 +362,7 @@
         });
     }
 
-    function flattenMCTextComponent(component) {
+    function flattenMCTextComponent(component, parentStyles = {}) {
         const parts = [];
 
         // Handle string input
@@ -376,16 +376,22 @@
 
         // Guard against invalid input
         if (!component || typeof component !== "object") return [];
-
+        // Merge styles from parent
+        const currentStyles = { ...parentStyles };
+        if (component.color !== undefined) currentStyles.color = component.color;
+        if (component.bold !== undefined) currentStyles.bold = component.bold;
+        if (component.italic !== undefined) currentStyles.italic = component.italic;
+        if (component.underlined !== undefined) currentStyles.underlined = component.underlined;
+        if (component.obfuscated !== undefined) currentStyles.obfuscated = component.obfuscated;
         // If this component itself has text, record it
-        if (component.text) {
-            parts.push(component);
+        if (component.text && component.text !== "") {
+            parts.push({ text: component.text, ...currentStyles });
         }
 
         // If there’s an "extra", recurse into it
         if (component.extra && Array.isArray(component.extra)) {
             for (const child of component.extra) {
-                parts.push(...flattenMCTextComponent(child));
+                parts.push(...flattenMCTextComponent(child, currentStyles));
             }
         }
 
@@ -399,8 +405,7 @@
 
         let html = "";
         for (const part of parts) {
-            let text = part.text ?? "";
-            if (text === "") text = "&nbsp;";
+            let text = part.text;
 
             let styles = "";
             let colorClass = "";
@@ -427,7 +432,7 @@
     // Convert Minecraft text component to plain human-readable text
     function convertMCLineToHumanReadable(line) {
         const parts = flattenMCTextComponent(line);
-        return parts.map(p => p.text || "").join("");
+        return parts.map(p => p.text).join("");
     }
 
     // Updated UpdatePreview function
