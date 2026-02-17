@@ -426,6 +426,11 @@
             html += `<span class="${colorClass}" style="${styles}">${text}</span>`;
         }
 
+        // Check if html contains any non-whitespace text content
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = html;
+        if (!tempDiv.textContent.trim()) return "";
+
         return html;
     }
 
