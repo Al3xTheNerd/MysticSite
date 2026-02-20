@@ -4,7 +4,11 @@ from core import app
 from core import config as c
 from core.models.item import Item
 from core.models.crates import Crate
+from core.models.vote import Votes
 from typing import List, Tuple
+from core import db
+
+
 TagCols = [Item.TagPrimary, Item.TagSecondary, Item.TagTertiary, Item.TagQuaternary, Item.TagQuinary, Item.TagSenary, Item.TagSeptenary]
 class APIErrors():
     NO_RESULTS = (0, "No Results Found.")
@@ -111,3 +115,32 @@ def ItemCountAPI():
 def MaxAPI():
     itemID = Item.query.all()[-1].id
     return jsonify(itemID)
+
+from datetime import datetime
+@app.route('/api/vote/set/<server>/<amount>') # type: ignore
+def setVote(server: str, amount: int):
+    obj: Votes | None = Votes.query.filter_by(ServerName = server).first() # type: ignore
+    
+    if obj:
+        obj.Amount = amount
+        obj.LastUpdated = str(datetime.now())
+    else:
+        obj = Votes(ServerName = server, Amount = amount, LastUpdated = str(datetime.now())) # type: ignore
+        db.session.add(obj)
+    db.session.commit()
+    return jsonify(True)
+
+@app.route('/api/vote/get/<server>') # type: ignore
+def getVote(server: str):
+    try:
+        obj: Votes | None = Votes.query.filter_by(ServerName = server).first() # type: ignore
+        if obj:
+            return jsonify({
+                "Server" : obj.ServerName,
+                "Amount" : obj.Amount,
+                "LastUpdated" : obj.LastUpdated
+            })
+        else:
+            return jsonify(None)
+    except Exception as e:
+        print(e)
