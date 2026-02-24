@@ -53,7 +53,8 @@ PrettyRoutes = {
     "/tag/Tools/all" : "Tools",
     "/tag/Weapons/all" : "Weapons",
     "/login" : "Login",
-    "/search" : "Advanced Search"
+    "/search" : "Advanced Search",
+    "/inventory" : "Inventory Planner"
 }
 
 tags = {
@@ -302,6 +303,9 @@ Changelog = {
         ("mc-light-purple", "Admin users now go straight to manage item screen when clicking an item preview."),
         ("mc-light-purple", "Advanced search now supports up to 3 tags in the same search."),
         ("mc-light-purple", "Add tag usage counts onto the tag page.")
+    ],
+    "2/23/2026" : [
+        ("mc-green", "Inventory planner is now a thing! Use this tool to build a loadout and share it with others! <a href=\"/inventory\">Here it is!</a>")
     ]
 }
 

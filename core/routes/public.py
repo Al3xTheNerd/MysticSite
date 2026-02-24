@@ -1,4 +1,4 @@
-from flask import render_template, request, flash
+from flask import render_template, request, flash, url_for
 from sqlalchemy import or_, and_, not_
 from core import app, db
 from core import config as c
@@ -7,7 +7,7 @@ from core.models.crates import Crate
 from random import choices
 from sys import platform
 from typing import List
-from atn import server_rarity_list
+from atn import server_rarity_list, server_name
 import json
 from collections import Counter
 
@@ -384,6 +384,22 @@ def blockspeed():
             sortedItems[type].append({ "name": item.ItemName, "efficiency" : item.EfficiencyLevel, "submerged_mining_speed" : item.SubmergedMiningSpeedAttribute, "speed" : breakSpeed})
         
     return render_template("public/blockbreakspeed.html", itemList = sortedItems, fullList = fullList, blocksToCalculate = c.blocksForBreakSpeedCalculator)
+
+
+@app.route('/inventory', methods=['POST', 'GET']) # type: ignore
+def inventory():
+    items: List[Item] = Item.query.all()
+    
+    formattedItems = []
+    blankSlot = f"""<img height='44' width='44' src="{url_for('static', filename = f"images/{server_name}_Icons/0.png")}">"""
+    for item in items:
+        hoverableHTML = f"""<img height='44' width='44' src="{url_for('static', filename = f"images/{server_name}_Icons/{item.id}.png")}" data-bs-custom-class="wide-tooltip" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="bottom" data-bs-title="<div class='give-preview-text-outer marker'><div class='give-preview-text w-100'><div class='give-preview-text-inner text-start'>{item.ItemHTML.replace('"', '&quot;')}</div></div></div>">"""
+        formattedItems.append({
+            "Name" : item.ItemName,
+            "HTML" : hoverableHTML,
+            "Tags" : [tag for tag in [item.TagPrimary, item.TagSecondary, item.TagTertiary, item.TagQuaternary, item.TagQuinary, item.TagSeptenary, item.TagSenary] if tag]
+        })
+    return render_template("public/inventory.html", items = formattedItems, validTags = c.validTags, blankSlot = blankSlot)
 
 
 @app.route('/gamble', methods=['POST', 'GET'])
