@@ -306,6 +306,9 @@ Changelog = {
     ],
     "2/23/2026" : [
         ("mc-green", "Inventory planner is now a thing! Use this tool to build a loadout and share it with others! <a href=\"/inventory\">Here it is!</a>")
+    ],
+    "3/11/2026" : [
+        ("mc-light-purple", "When an invalid item ID is used on <code>/item</code>, the site no longer tells you to fuck off.")
     ]
 }
 

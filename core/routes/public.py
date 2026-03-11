@@ -50,7 +50,7 @@ def item(itemID):
         item.CrateName = PrimaryCrate.CrateName
     if not item:
         item = Item()
-        item.ItemHTML = "Fuck"
+        item.ItemHTML = "<div class='mc-gold'>This is not a valid item id. Try again, or don't, it's not actually my problem.</div>"
         item.id = 0
         PrimaryCrate = None # type: ignore
     return render_template("public/singleItem.html", PrimaryItem = item)
