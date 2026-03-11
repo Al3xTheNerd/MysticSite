@@ -292,7 +292,16 @@ def search():
         conditions = []
         if form["Term"]:
             recentTerm = form["Term"]
-            conditions.append(Item.ItemHuman.ilike(f'%{form["Term"]}%'))
+            
+            terms = form["Term"].split("&")
+            for user_term in terms:
+                user_term = user_term.strip()
+            
+                filters = or_(*[Item.ItemHuman.contains(term) for term in [user_term, convert_int_to_roman(user_term), convert_roman_in_string(user_term)]])
+                conditions.append(filters)
+
+            
+            #conditions.append(Item.ItemHuman.ilike(f'%{form["Term"]}%'))
         if form["Crate"]:
             recentCrate = form["Crate"]
             conditions.append(Item.CrateID == int(form["Crate"]))
@@ -321,10 +330,6 @@ def search():
         
         if len(items) == 0:
             flash("No Results Found!", "dark")
-            
-        
-    
-        
     return render_template("public/search.html",
                            validTags = c.validTags,
                            currentCrates = formattedCrates,
