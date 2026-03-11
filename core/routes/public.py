@@ -4,6 +4,7 @@ from core import app, db
 from core import config as c
 from core.models.item import Item
 from core.models.crates import Crate
+from core.utils import convert_int_to_roman, convert_roman_in_string
 from random import choices
 from sys import platform
 from typing import List
@@ -27,6 +28,9 @@ def index():
         if not search: 
             flash("Try entering a query!")
         items = Item.query.filter(Item.ItemHuman.ilike(f"%{search}%")).order_by(Item.ItemOrder).all()
+        all_terms = [search, convert_int_to_roman(search), convert_roman_in_string(search)]
+        filters = [Item.ItemHuman.contains(term) for term in all_terms]
+        items = Item.query.filter(or_(*filters)).order_by(Item.ItemOrder).all()
         if not items:
             items = None
             flash("No results found!")

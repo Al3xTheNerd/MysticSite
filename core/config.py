@@ -308,7 +308,8 @@ Changelog = {
         ("mc-green", "Inventory planner is now a thing! Use this tool to build a loadout and share it with others! <a href=\"/inventory\">Here it is!</a>")
     ],
     "3/11/2026" : [
-        ("mc-light-purple", "When an invalid item ID is used on <code>/item</code>, the site no longer tells you to fuck off.")
+        ("mc-light-purple", "When an invalid item ID is used on <code>/item</code>, the site no longer tells you to fuck off."),
+        ("mc-light-purple", "Search bar now automatically handles Roman Numeral/Integer conversions. Meaning <code>Efficiency 10</code> and <code>Efficiency X</code> will return the same results.")
     ]
 }
 
