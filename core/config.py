@@ -309,7 +309,9 @@ Changelog = {
     ],
     "3/11/2026" : [
         ("mc-light-purple", "When an invalid item ID is used on <code>/item</code>, the site no longer tells you to fuck off."),
-        ("mc-light-purple", "Search bar now automatically handles Roman Numeral/Integer conversions. Meaning <code>Efficiency 10</code> and <code>Efficiency X</code> will return the same results.")
+        ("mc-light-purple", "Search bar now automatically handles Roman Numeral/Integer conversions. Meaning <code>Efficiency 10</code> and <code>Efficiency X</code> will return the same results."),
+        ("mc-light-purple", "Advanced search now automatically handles Roman Numeral/Integer conversions. Meaning <code>Efficiency 10</code> and <code>Efficiency X</code> will return the same results."),
+        ("mc-light-purple", "Advanced search now supports & for the search term. Meaning you could do a search term such as: <code>set & haste 4</code> to find all items with both haste 4, and the word set (usually means a set bonus).")
     ]
 }
 
