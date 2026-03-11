@@ -27,7 +27,6 @@ def index():
         search = request.form['search']
         if not search: 
             flash("Try entering a query!")
-        items = Item.query.filter(Item.ItemHuman.ilike(f"%{search}%")).order_by(Item.ItemOrder).all()
         all_terms = [search, convert_int_to_roman(search), convert_roman_in_string(search)]
         filters = [Item.ItemHuman.contains(term) for term in all_terms]
         items = Item.query.filter(or_(*filters)).order_by(Item.ItemOrder).all()
