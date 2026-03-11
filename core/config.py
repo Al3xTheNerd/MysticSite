@@ -307,11 +307,16 @@ Changelog = {
     "2/23/2026" : [
         ("mc-green", "Inventory planner is now a thing! Use this tool to build a loadout and share it with others! <a href=\"/inventory\">Here it is!</a>")
     ],
-    "3/11/2026" : [
+    "3/10/2026" : [
         ("mc-light-purple", "When an invalid item ID is used on <code>/item</code>, the site no longer tells you to fuck off."),
         ("mc-light-purple", "Search bar now automatically handles Roman Numeral/Integer conversions. Meaning <code>Efficiency 10</code> and <code>Efficiency X</code> will return the same results."),
         ("mc-light-purple", "Advanced search now automatically handles Roman Numeral/Integer conversions. Meaning <code>Efficiency 10</code> and <code>Efficiency X</code> will return the same results."),
         ("mc-light-purple", "Advanced search now supports & for the search term. Meaning you could do a search term such as: <code>set & haste 4</code> to find all items with both haste 4, and the word set (usually means a set bonus).")
+    ],
+    "3/11/2026" : [
+        ("mc-light-purple", "The Item Tracker has been updated to use a new export format, the old one would show incorrect data if an item was ever deleted from the database."),
+        ("mc-light-purple", "The Item Tracker now has the option to Upload Data, this is used for bot developers who are interested in doing something with people's inventory data, such as a bot that calculates your networth."),
+        ("mc-light-purple", "The Item Tracker is now condensed to have all the items on the same page, you can filter through each one with the Tag Selection tile."),
     ]
 }
 

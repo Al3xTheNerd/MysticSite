@@ -1,14 +1,22 @@
 from flask import render_template, request, flash, url_for
 from sqlalchemy import or_, and_, not_
+
 from core import app, db
 from core import config as c
+
 from core.models.item import Item
 from core.models.crates import Crate
-from core.utils import convert_int_to_roman, convert_roman_in_string
+from core.models.itemtracker import ItemTracker
+
+from core.utils import convert_int_to_roman, convert_roman_in_string, randomCode
+
+from atn import server_rarity_list, server_name
+
 from random import choices
 from sys import platform
 from typing import List
-from atn import server_rarity_list, server_name
+
+
 import json
 from collections import Counter
 
@@ -161,8 +169,52 @@ def stats():
 
 
 
+@app.route('/itemtracker', methods=('GET', 'POST'))
+def newitemtracker():
+    if request.method == 'POST':
+        code = json.loads(request.form['importCode'])
+        if len(code) < 1:
+            flash("Code must have at least one item to upload.")
+        else:
+            attemptedSearch = ItemTracker.query.filter(ItemTracker.ItemList == str(code)).first()
+            if attemptedSearch:
+                flash(f"Your upload code is: <code>{attemptedSearch.Code}</code>. Please provide this code to the bot or service requesting it to import your item tracker information.")
+            else:
+                randCode = randomCode(6)
+                if not ItemTracker.query.filter(ItemTracker.Code == randCode).first():
+                    new_entry = ItemTracker(Code = randCode, ItemList = str(code)) # type: ignore
+                    db.session.add(new_entry)
+                    db.session.commit()
+                    flash(f"Your upload code is: <code>{randCode}</code>. Please provide this code to the bot or service requesting it to import your item tracker information.")
+                else:
+                    flash("Something went wrong, please try again.")
+    sortedItems = {}
+    idToCrateList = {}
+    items: List[Item] = Item.query.filter(
+        not_(or_(col.contains("Repeat Appearance") for col in TagCols)) #type:ignore
+    ).all()
+    
+    crateList: List[Crate] = Crate.query.order_by(Crate.id).all()
+    for crate in crateList:
+        for item in items:
+            formattedItem = {
+                "Name" : item.ItemNameHTML,
+                "id" : item.id,
+                "Tags" : [tag for tag in [item.TagPrimary, item.TagSecondary, item.TagTertiary, item.TagQuaternary, item.TagQuinary, item.TagSeptenary, item.TagSenary] if tag]
+            }
+            if int(item.CrateID) == int(crate.id):
+                if crate.CrateName in sortedItems:
+                    idToCrateList[crate.CrateName].append(item.id)
+                    sortedItems[crate.CrateName].append(formattedItem)
+                else:
+                    idToCrateList[crate.CrateName] = [item.id]
+                    sortedItems[crate.CrateName] = [formattedItem]
+    return render_template("public/newtracker.html", sortedItems = sortedItems, idCrateList = idToCrateList, validTags = c.validTags, page="newtracker")
 
-@app.route('/itemtracker')
+
+
+
+@app.route('/old/itemtracker')
 def itemtracker():
     sortedItems = {}
     

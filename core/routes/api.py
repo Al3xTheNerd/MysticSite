@@ -5,8 +5,10 @@ from core import config as c
 from core.models.item import Item
 from core.models.crates import Crate
 from core.models.vote import Votes
+from core.models.itemtracker import ItemTracker
 from typing import List, Tuple
 from core import db
+import json
 
 
 TagCols = [Item.TagPrimary, Item.TagSecondary, Item.TagTertiary, Item.TagQuaternary, Item.TagQuinary, Item.TagSenary, Item.TagSeptenary]
@@ -140,6 +142,17 @@ def getVote(server: str):
                 "Amount" : obj.Amount,
                 "LastUpdated" : obj.LastUpdated
             })
+        else:
+            return jsonify(None)
+    except Exception as e:
+        print(e)
+
+@app.route('/api/itemtracker/<code>') # type: ignore
+def getItemTracker(code: str):
+    try:
+        obj: Votes | None = ItemTracker.query.filter_by(Code = code).first() # type: ignore
+        if obj:
+            return jsonify(json.loads(obj.ItemList))
         else:
             return jsonify(None)
     except Exception as e:

@@ -1,4 +1,4 @@
-import re
+import re, string, random
 
 def roman_to_int(numeral: str):
     roman_map = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
@@ -37,3 +37,6 @@ def convert_int_to_roman(text: str):
     for num, roman in map.items():
         newText = newText.replace(str(num), roman)
     return newText
+
+def randomCode(length: int) -> str:
+    return ''.join(random.choice(string.digits + string.ascii_lowercase) for _ in range(length))
