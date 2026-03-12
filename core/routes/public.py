@@ -1,4 +1,4 @@
-from flask import render_template, request, flash, url_for
+from flask import render_template, request, flash, url_for, redirect
 from sqlalchemy import or_, and_, not_
 
 from core import app, db
@@ -7,6 +7,7 @@ from core import config as c
 from core.models.item import Item
 from core.models.crates import Crate
 from core.models.itemtracker import ItemTracker
+from core.models.sets import Set
 
 from core.utils import convert_int_to_roman, convert_roman_in_string, randomCode
 
@@ -445,6 +446,27 @@ def blockspeed():
         
     return render_template("public/blockbreakspeed.html", itemList = sortedItems, fullList = fullList, blocksToCalculate = c.blocksForBreakSpeedCalculator)
 
+@app.route('/sets')
+def sets():
+    sets: List[Set] = Set.query.all()
+    sortedSets = {
+        "" : [],
+        "Armor Set" : [],
+        "Upgrade" : []
+    }
+    for set in sets:
+        sortedSets[set.Type].append(set)
+    print(sortedSets)
+    return render_template("public/sets.html", sets = sortedSets)
+
+@app.route('/set/<setID>')
+def set(setID):
+    set: Set | None = Set.query.filter(Set.id == setID).first()
+    if not set:
+        flash("That set does not exist. Try again some other day.")
+        return redirect('/sets')
+    items: List[Item] = Item.query.filter(Item.id.in_(json.loads(set.ItemList))).all()
+    return render_template("public/set.html", Items = items, set = set)
 
 @app.route('/inventory', methods=['POST', 'GET']) # type: ignore
 def inventory():

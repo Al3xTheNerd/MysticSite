@@ -1,7 +1,8 @@
 from flask import render_template, request, flash, redirect, send_file
+from sqlalchemy import not_, or_
 from core import app, db, config
 import git, json, os
-from core.models import Crate, Item
+from core.models import Crate, Item, Set
 from sqlalchemy import desc, func
 from flask_login import login_required
 from typing import List
@@ -115,7 +116,6 @@ def itemOrder():
         db.session.commit()
         items: List[Item] = Item.query.order_by(Item.ItemOrder).all()
         flash(str(changes), "dark")
-            
 
     return render_template('admin/itemOrder.html', currentItems = items)
 
@@ -202,6 +202,141 @@ def manageCrates():
 
 
 
+@app.route('/admin/setorder', methods=['GET', 'POST']) # type: ignore
+@login_required
+def setOrder():
+    sets: List[Set] = Set.query.order_by(Set.SetOrder).all()
+    if not sets:
+        flash('No sets in database.', "dark")
+    
+    if request.method == 'POST':
+        forms = request.form.to_dict()
+        ItemOrders = json.loads(forms["ItemOrder"], object_hook=intParser)
+        changes = 0
+        for set in sets:
+            oldItemOrder = set.SetOrder
+            newItemOrder = ItemOrders[set.id]
+            if oldItemOrder == newItemOrder:
+                print("wtf")
+                pass
+            else:
+                changes += 1
+                set.SetOrder = ItemOrders[set.id]
+        db.session.commit()
+        sets: List[Set] = Set.query.order_by(Set.SetOrder).all()
+        flash(str(changes), "dark")
+
+    return render_template('admin/setOrder.html', currentSets = sets)
+
+
+@app.route('/admin/setMaker', methods=('GET', 'POST'))
+@login_required
+def setMaker():
+    if request.method == 'POST':
+        code = json.loads(request.form['importCode'])
+        name = request.form['name']
+        type = request.form['type']
+        description = request.form['description']
+        if len(code) < 2:
+            flash("Set must have at least two items to create.")
+        else:
+            new_entry = Set(ItemList = str(code), Type = type, Name = name, SetDescription = description) # type: ignore
+            try:
+                new_entry.SetOrder = (db.session.query(func.max(Set.SetOrder)).scalar() + 1)
+            except:
+                new_entry.SetOrder = 1
+            
+            db.session.add(new_entry)
+            db.session.commit()
+            flash(f"Set <code>{name}</code>(<code>{type}</code>) with items {str(code)} created successfully.")
+
+    sortedItems = {}
+    idToCrateList = {}
+    items: List[Item] = Item.query.filter(
+        not_(or_(col.contains("Repeat Appearance") for col in [Item.TagPrimary, Item.TagSecondary, Item.TagTertiary, Item.TagQuaternary, Item.TagQuinary, Item.TagSenary, Item.TagSeptenary])) #type:ignore
+    ).all()
+    
+    crateList: List[Crate] = Crate.query.order_by(Crate.id).all()
+    for crate in crateList:
+        for item in items:
+            formattedItem = {
+                "Name" : item.ItemNameHTML,
+                "id" : item.id,
+                "Tags" : [tag for tag in [item.TagPrimary, item.TagSecondary, item.TagTertiary, item.TagQuaternary, item.TagQuinary, item.TagSeptenary, item.TagSenary] if tag]
+            }
+            if int(item.CrateID) == int(crate.id):
+                if crate.CrateName in sortedItems:
+                    idToCrateList[crate.CrateName].append(item.id)
+                    sortedItems[crate.CrateName].append(formattedItem)
+                else:
+                    idToCrateList[crate.CrateName] = [item.id]
+                    sortedItems[crate.CrateName] = [formattedItem]
+    return render_template("admin/setMaker.html", sortedItems = sortedItems, idCrateList = idToCrateList, validTags = config.validTags, page="newtracker")
+
+
+@app.route('/admin/setEditor/<setID>', methods=('GET', 'POST'))
+@login_required
+def editSet(setID):
+    set: Set | None = Set.query.filter(Set.id == setID).first()
+    if not set:
+        flash("Set does not exist to edit. Try again.")
+        return redirect("/admin/setorder")
+    if request.method == 'POST':
+        
+        code = json.loads(request.form['importCode'])
+        name = request.form['name']
+        type = request.form['type']
+        description = request.form['description']
+        if len(code) < 2:
+            flash("Set must have at least two items to create.")
+        else:
+            set.ItemList = str(code)
+            set.Type = type
+            set.Name = name
+            set.SetDescription = description
+            db.session.commit()
+            flash(f"Set <code>{name}</code>(<code>{type}</code>) with items {str(code)} updates successfully.")
+
+    sortedItems = {}
+    idToCrateList = {}
+    items: List[Item] = Item.query.filter(
+        not_(or_(col.contains("Repeat Appearance") for col in [Item.TagPrimary, Item.TagSecondary, Item.TagTertiary, Item.TagQuaternary, Item.TagQuinary, Item.TagSenary, Item.TagSeptenary])) #type:ignore
+    ).all()
+    
+    crateList: List[Crate] = Crate.query.order_by(Crate.id).all()
+    for crate in crateList:
+        for item in items:
+            formattedItem = {
+                "Name" : item.ItemNameHTML,
+                "id" : item.id,
+                "Tags" : [tag for tag in [item.TagPrimary, item.TagSecondary, item.TagTertiary, item.TagQuaternary, item.TagQuinary, item.TagSeptenary, item.TagSenary] if tag]
+            }
+            if int(item.CrateID) == int(crate.id):
+                if crate.CrateName in sortedItems:
+                    idToCrateList[crate.CrateName].append(item.id)
+                    sortedItems[crate.CrateName].append(formattedItem)
+                else:
+                    idToCrateList[crate.CrateName] = [item.id]
+                    sortedItems[crate.CrateName] = [formattedItem]
+    return render_template("admin/editSet.html", sortedItems = sortedItems, idCrateList = idToCrateList, validTags = config.validTags, page="newtracker", oldSet = set)
+
+
+
+@app.route('/admin/deleteset/<setID>', methods=['GET', 'POST']) # type: ignore
+@login_required
+def deleteSet(setID):
+    set: Set = Set.query.filter_by(id = setID).one()
+    if not set:
+        flash("Could Not Find Set.", "warning")
+        return redirect("/admin/setorder")
+    try:
+        db.session.delete(set)
+        db.session.commit()
+        flash(f"Set #{setID} - {set.Name} deleted successfully.", "dark")
+    except:
+        db.session.rollback()
+        flash(f"Error deleteing #{set.id} - {set.Name}")
+    return redirect("/admin/setorder")
 
 @app.route('/webhook', methods=['POST'])
 def webhook():

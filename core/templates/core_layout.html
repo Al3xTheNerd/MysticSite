@@ -45,7 +45,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    {% for loc, name in [('index', "Home"), ('all', "All Items"), ('search', "Advanced Search"), ('cratePage', "Crates"), ('tagsPage', "Tags")] %}
+                    {% for loc, name in [('index', "Home"), ('all', "All Items"), ('search', "Advanced Search"), ('cratePage', "Crates"), ('tagsPage', "Tags"), ('sets', "Sets")] %}
                     {% if request.path == url_for(loc) %}
                     <li class="nav-item"><a class="nav-link active" aria-current="page"
                             href="{{ url_for(loc) }}">{{name}}</a></li>
@@ -88,7 +88,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark">
                             {% if current_user.is_authenticated %}
-                            {% set l = [('manageCrates', "Manage Crates"), ('addItem', "Add Items"), ('itemList', "Item
+                            {% set l = [('setOrder', "Set Order"), ('manageCrates', "Manage Crates"), ('addItem', "Add Items"), ('itemList', "Item
                             List"), ('itemOrder', "Item Order"), (false, false), ('logout', "Logout")] | list%}
                             {% else %}
                             {% set l = [('login', "Login")] %}

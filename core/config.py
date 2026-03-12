@@ -317,6 +317,7 @@ Changelog = {
         ("mc-light-purple", "The Item Tracker has been updated to use a new export format, the old one would show incorrect data if an item was ever deleted from the database."),
         ("mc-light-purple", "The Item Tracker now has the option to Upload Data, this is used for bot developers who are interested in doing something with people's inventory data, such as a bot that calculates your networth."),
         ("mc-light-purple", "The Item Tracker is now condensed to have all the items on the same page, you can filter through each one with the Tag Selection tile."),
+        ("mc-green", "New sets feature has been added! This will show related items together on the same screen, such as items needed for an upgrade, or Armor Sets! Please note, it will take a while for some servers to see this actively used, and some items can/will get missed.")
     ]
 }
 
