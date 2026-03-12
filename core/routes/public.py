@@ -197,9 +197,16 @@ def newitemtracker():
     
     crateList: List[Crate] = Crate.query.order_by(Crate.id).all()
     for crate in crateList:
+        itemNames = []
         for item in items:
+            if item.ItemNameHTML in itemNames:
+                name = item.ItemName
+            else:
+                name= item.ItemNameHTML
+                itemNames.append(item.ItemNameHTML)
+                print(item.id)
             formattedItem = {
-                "Name" : item.ItemNameHTML,
+                "Name" : name,
                 "id" : item.id,
                 "Tags" : [tag for tag in [item.TagPrimary, item.TagSecondary, item.TagTertiary, item.TagQuaternary, item.TagQuinary, item.TagSeptenary, item.TagSenary] if tag]
             }
