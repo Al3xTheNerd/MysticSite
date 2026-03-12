@@ -204,7 +204,6 @@ def newitemtracker():
             else:
                 name= item.ItemNameHTML
                 itemNames.append(item.ItemNameHTML)
-                print(item.id)
             formattedItem = {
                 "Name" : name,
                 "id" : item.id,
