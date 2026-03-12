@@ -7,7 +7,7 @@ from core import config as c
 from core.models.item import Item
 from core.models.crates import Crate
 from core.models.itemtracker import ItemTracker
-from core.models.sets import Set
+from core.models.sets import Set as ItemSets
 
 from core.utils import convert_int_to_roman, convert_roman_in_string, randomCode
 
@@ -448,7 +448,7 @@ def blockspeed():
 
 @app.route('/sets')
 def sets():
-    sets: List[Set] = Set.query.all()
+    sets: List[ItemSets] = ItemSets.query.all()
     sortedSets = {
         "" : [],
         "Armor Set" : [],
@@ -456,12 +456,11 @@ def sets():
     }
     for set in sets:
         sortedSets[set.Type].append(set)
-    print(sortedSets)
     return render_template("public/sets.html", sets = sortedSets)
 
 @app.route('/set/<setID>')
-def set(setID):
-    set: Set | None = Set.query.filter(Set.id == setID).first()
+def singleSet(setID):
+    set: ItemSets | None = ItemSets.query.filter(ItemSets.id == setID).first()
     if not set:
         flash("That set does not exist. Try again some other day.")
         return redirect('/sets')
