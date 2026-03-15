@@ -8,18 +8,6 @@ from pathlib import Path
 from dataclasses import dataclass
 from typing import List, Dict
 
-
-"""
-This file is an example of the API provided by the Item Listing Website.
-Feel free to modify this however you see fit to achieve the results you desire.
-
-Be aware, pings to the api are tracked, and if used excessively (more than 3 times per minute),
-you access is liable to be revoked.
-"""
-import requests
-from dataclasses import dataclass
-from typing import List, Dict
-
 @dataclass
 class Item:
     id: int
