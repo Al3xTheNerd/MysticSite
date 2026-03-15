@@ -88,3 +88,5 @@ if len(missingImages["descriptions"]) > 0:
             cropped.save(f"/home/alexthenerd/{server_folder_name}/core/static/images/{server_name}_Descriptions/{itemID}.png")
     finally:
         browser.quit()
+else:
+    print("No missing descriptions, generation skipped.")
