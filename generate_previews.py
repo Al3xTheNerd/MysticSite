@@ -3,6 +3,7 @@ from PIL import Image, ImageOps
 from io import BytesIO
 import time, requests
 from atn import api_url, server_name, server_folder_name
+from sys import platform
 
 from pathlib import Path
 from dataclasses import dataclass
@@ -35,10 +36,15 @@ def pullItemList() -> List[Item] | None:
 missingImages = {"icons" : [], "descriptions" : []}
 items = pullItemList()
 
+if platform == "win32":
+    loc = f"core/static/images/"
+else:
+    loc = f"/home/alexthenerd/{server_folder_name}/core/static/images/"
 
 
-icon_file_list = [p.name for p in Path(f"/home/alexthenerd/{server_folder_name}/core/static/images/{server_name}_Icons").iterdir() if p.is_file()]
-desc_file_list = [p.name for p in Path(f"/home/alexthenerd/{server_folder_name}/core/static/images/{server_name}_Descriptions").iterdir() if p.is_file()]
+
+icon_file_list = [p.name for p in Path(f"{loc}{server_name}_Icons").iterdir() if p.is_file()]
+desc_file_list = [p.name for p in Path(f"{loc}{server_name}_Descriptions").iterdir() if p.is_file()]
 
 if items:
     for item in items:
@@ -73,7 +79,7 @@ if len(missingImages["descriptions"]) > 0:
             invert_im = ImageOps.invert(invert_im)
             imageBox = invert_im.getbbox()
             cropped=im.crop(imageBox)
-            cropped.save(f"/home/alexthenerd/{server_folder_name}/core/static/images/{server_name}_Descriptions/{itemID}.png")
+            cropped.save(f"{loc}{server_name}_Descriptions/{itemID}.png")
     finally:
         browser.quit()
 else:
