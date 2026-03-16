@@ -9,7 +9,7 @@ from typing import List
 from sys import platform
 from atn import server_folder_name, server_name
 from pathlib import Path
-
+from werkzeug.utils import secure_filename
 
 def verifyCrate(form):
     if form["CrateName"] == "":
@@ -358,9 +358,39 @@ def missingImages():
             missingIcons.append(item)
         if f"{item.id}.png" not in descriptionFileList:
             missingDescriptions.append(item)
-    
-    
     return render_template("/admin/missingImages.html", MissingDescriptions = missingDescriptions, MissingIcons = missingIcons)
+
+@app.route('/admin/uploadIcon/<itemID>', methods=['GET', 'POST']) # type: ignore
+@login_required
+def uploadIcon(itemID):
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            for k,v in request.files.items():
+                print(k,v)
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        
+        if file and file.filename.endswith(".png"):
+            filename = f"{itemID}.png"
+            if platform == "win32":
+                loc = f"core/static/images/{server_name}_Icons/"
+            else:
+                loc = f"/home/alexthenerd/{server_folder_name}/core/static/images/{server_name}_Icons/"
+                
+            file.save(os.path.join(loc, filename))
+            flash("Image saved successfully.")
+            return redirect("/admin/missingimages")
+    item = Item.query.filter(Item.id == itemID).first()    
+    if not item:
+        return redirect("/admin/missingimages")
+    return render_template("admin/uploadImage.html", item = item)
 
 
 @app.route('/webhook', methods=['POST'])
