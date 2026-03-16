@@ -341,9 +341,14 @@ def deleteSet(setID):
 @login_required
 def missingImages():
     items: List[Item] = Item.query.all()
+    
+    if platform == "win32":
+        loc = f"core/static/images/"
+    else:
+        loc = f"/home/alexthenerd/{server_folder_name}/core/static/images/"
 
-    iconFileList = [p.name for p in Path(f"core/static/images/{server_name}_Icons").iterdir() if p.is_file()]
-    descriptionFileList = [p.name for p in Path(f"core/static/images/{server_name}_Descriptions").iterdir() if p.is_file()]
+    iconFileList = [p.name for p in Path(f"{loc}{server_name}_Icons").iterdir() if p.is_file()]
+    descriptionFileList = [p.name for p in Path(f"{loc}{server_name}_Descriptions").iterdir() if p.is_file()]
     
     missingIcons = []
     missingDescriptions = []
