@@ -7,7 +7,8 @@ from sqlalchemy import desc, func
 from flask_login import login_required
 from typing import List
 from sys import platform
-from atn import server_folder_name
+from atn import server_folder_name, server_name
+from pathlib import Path
 
 
 def verifyCrate(form):
@@ -320,8 +321,6 @@ def editSet(setID):
                     sortedItems[crate.CrateName] = [formattedItem]
     return render_template("admin/editSet.html", sortedItems = sortedItems, idCrateList = idToCrateList, validTags = config.validTags, page="newtracker", oldSet = set)
 
-
-
 @app.route('/admin/deleteset/<setID>', methods=['GET', 'POST']) # type: ignore
 @login_required
 def deleteSet(setID):
@@ -337,6 +336,28 @@ def deleteSet(setID):
         db.session.rollback()
         flash(f"Error deleteing #{set.id} - {set.Name}")
     return redirect("/admin/setorder")
+
+@app.route('/admin/missingimages') # type: ignore
+@login_required
+def missingImages():
+    items: List[Item] = Item.query.all()
+
+    iconFileList = [p.name for p in Path(f"core/static/images/{server_name}_Icons").iterdir() if p.is_file()]
+    descriptionFileList = [p.name for p in Path(f"core/static/images/{server_name}_Descriptions").iterdir() if p.is_file()]
+    
+    missingIcons = []
+    missingDescriptions = []
+    
+    for item in items:
+        if f"{item.id}.png" not in iconFileList:
+            missingIcons.append(item)
+        if f"{item.id}.png" not in descriptionFileList:
+            missingDescriptions.append(item)
+    
+    
+    print(descriptionFileList)
+    return render_template("/admin/missingImages.html", MissingDescriptions = missingDescriptions, MissingIcons = missingIcons)
+
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
