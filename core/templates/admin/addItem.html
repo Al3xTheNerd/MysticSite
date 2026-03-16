@@ -1,154 +1,197 @@
 {% extends "core_layout.html" %}
 {% block content %}
 <script src="{{url_for('static', filename='javascript/html2canvas.js')}}"></script>
-    <div class="row gx-3 gy-3">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
-            <div class="give-preview-text-outer">
-                <div class="give-preview-text w-100">
-                    <div class="give-preview-text-inner">
-                        <form>
-                            <div class="">
-                                <textarea class="form-control" id="rawData" rows="20"></textarea>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+<div class="row gx-3 gy-3 mb-3">
+    <div class="col-12">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title">Add Item</h4>
             </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-gold bg-dark">This page is used to add brand new items to the site. Instructions at the bottom of the page.</li>
+            </ul>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
-            <div class="give-preview-text-outer" id="screenshotMarker">
-                <div class="give-preview-text w-100">
-                    <div class="give-preview-text-inner text-start" id="itemPreview">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
-            <div class="give-preview-text-outer">
-                <div class="give-preview-text w-100">
-                    <div class="give-preview-text-inner">
-                        <form method="post" action="">
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="CrateSelectEdit">Crate</label>
-                                <select name='Crate' class="form-select" id="CrateSelectEdit">
-                                    {% if currentCrates is none %}
-                                    <option value="">Create a new Crate First!</option>
-                                    {% else %}
-                                    {% for id, details in currentCrates.items() %}
-                                    <option value="{{ id }}">{{ details["CrateName"] }}</option>
-                                    {% endfor %}
-                                    {% endif %}
-                                </select>
-                            </div>
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="PrimaryTagGroup">Primary Tag</label>
-                                <select name='PrimaryTag' class="form-select" id="PrimaryTagGroup">
-                                    <option value="">None</option>
-                                    {% for tag in validTags %}
-                                    <option value="{{ tag }}">{{ tag }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="SecondaryTagGroup">Secondary Tag</label>
-                                <select name='SecondaryTag' class="form-select" id="SecondaryTagGroup">
-                                    <option value="">None</option>
-                                    {% for tag in validTags %}
-                                    <option value="{{ tag }}">{{ tag }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="TertiaryTagGroup">Tertiary Tag</label>
-                                <select name='TertiaryTag' class="form-select" id="TertiaryTagGroup">
-                                    <option value="">None</option>
-                                    {% for tag in validTags %}
-                                    <option value="{{ tag }}">{{ tag }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="QuaternaryTagGroup">Quaternary Tag</label>
-                                <select name='QuaternaryTag' class="form-select" id="QuaternaryTagGroup">
-                                    <option value="">None</option>
-                                    {% for tag in validTags %}
-                                    <option value="{{ tag }}">{{ tag }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="QuinaryTagGroup">Quinary Tag</label>
-                                <select name='QuinaryTag' class="form-select" id="QuinaryTagGroup">
-                                    <option value="">None</option>
-                                    {% for tag in validTags %}
-                                    <option value="{{ tag }}">{{ tag }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="SenaryTagGroup">Senary Tag</label>
-                                <select name='SenaryTag' class="form-select" id="SenaryTagGroup">
-                                    <option value="">None</option>
-                                    {% for tag in validTags %}
-                                    <option value="{{ tag }}">{{ tag }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="SeptenaryTagGroup">Septenary Tag</label>
-                                <select name='SeptenaryTag' class="form-select" id="SeptenaryTagGroup">
-                                    <option value="">None</option>
-                                    {% for tag in validTags %}
-                                    <option value="{{ tag }}">{{ tag }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" name='WinPercentage' id="WinPercentageGroup"
-                                    placeholder="Win Percentage">
-                                <label for="WinPercentageGroup">Win Percentage</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" name='Rarity' id="RarityGroup"
-                                    placeholder="Rarity">
-                                <label for="RarityGroup">Rarity</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" name='RarityHTML' id="RarityHTMLGroup"
-                                    placeholder="Rarity HTML">
-                                <label for="RarityHTMLGroup">Rarity HTML</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" name='ItemName' id="ItemNameGroup"
-                                    placeholder="Item Name">
-                                <label for="ItemNameGroup">Item Name</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" name='ItemNameHTML' id="ItemNameHTMLGroup"
-                                    placeholder="Item Name HTML">
-                                <label for="ItemNameHTMLGroup">Item Name HTML</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" name='Notes' placeholder="Item Notes" id="NotesGroup"
-                                    style="height: 100px"></textarea>
-                                <label for="NotesGroup">Notes</label>
-                            </div>
-                            <input type='text' name="RawData" id="RawData" hidden>
-                            <input type='text' name="HumanData" id="HumanData" hidden>
-                            <input type='text' name="HTMLData" id="HTMLData" hidden>
-
-                            <button class="btn btn-primary mb-1" type="submit">Add to DB!</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-
     </div>
+</div>
+<div class="row gx-3 gy-3">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="give-preview-text-outer">
+            <div class="give-preview-text w-100">
+                <div class="give-preview-text-inner">
+                    <form>
+                        <div class="">
+                            <textarea class="form-control" id="rawData" rows="20"></textarea>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="give-preview-text-outer" id="screenshotMarker">
+            <div class="give-preview-text w-100">
+                <div class="give-preview-text-inner text-start" id="itemPreview">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="give-preview-text-outer">
+            <div class="give-preview-text w-100">
+                <div class="give-preview-text-inner">
+                    <form method="post" action="">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="CrateSelectEdit">Crate</label>
+                            <select name='Crate' class="form-select" id="CrateSelectEdit">
+                                {% if currentCrates is none %}
+                                <option value="">Create a new Crate First!</option>
+                                {% else %}
+                                {% for id, details in currentCrates.items() %}
+                                <option value="{{ id }}">{{ details["CrateName"] }}</option>
+                                {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="PrimaryTagGroup">Primary Tag</label>
+                            <select name='PrimaryTag' class="form-select" id="PrimaryTagGroup">
+                                <option value="">None</option>
+                                {% for tag in validTags %}
+                                <option value="{{ tag }}">{{ tag }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="SecondaryTagGroup">Secondary Tag</label>
+                            <select name='SecondaryTag' class="form-select" id="SecondaryTagGroup">
+                                <option value="">None</option>
+                                {% for tag in validTags %}
+                                <option value="{{ tag }}">{{ tag }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="TertiaryTagGroup">Tertiary Tag</label>
+                            <select name='TertiaryTag' class="form-select" id="TertiaryTagGroup">
+                                <option value="">None</option>
+                                {% for tag in validTags %}
+                                <option value="{{ tag }}">{{ tag }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="QuaternaryTagGroup">Quaternary Tag</label>
+                            <select name='QuaternaryTag' class="form-select" id="QuaternaryTagGroup">
+                                <option value="">None</option>
+                                {% for tag in validTags %}
+                                <option value="{{ tag }}">{{ tag }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="QuinaryTagGroup">Quinary Tag</label>
+                            <select name='QuinaryTag' class="form-select" id="QuinaryTagGroup">
+                                <option value="">None</option>
+                                {% for tag in validTags %}
+                                <option value="{{ tag }}">{{ tag }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="SenaryTagGroup">Senary Tag</label>
+                            <select name='SenaryTag' class="form-select" id="SenaryTagGroup">
+                                <option value="">None</option>
+                                {% for tag in validTags %}
+                                <option value="{{ tag }}">{{ tag }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="SeptenaryTagGroup">Septenary Tag</label>
+                            <select name='SeptenaryTag' class="form-select" id="SeptenaryTagGroup">
+                                <option value="">None</option>
+                                {% for tag in validTags %}
+                                <option value="{{ tag }}">{{ tag }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name='WinPercentage' id="WinPercentageGroup"
+                                placeholder="Win Percentage">
+                            <label for="WinPercentageGroup">Win Percentage</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name='Rarity' id="RarityGroup" placeholder="Rarity">
+                            <label for="RarityGroup">Rarity</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name='RarityHTML' id="RarityHTMLGroup"
+                                placeholder="Rarity HTML">
+                            <label for="RarityHTMLGroup">Rarity HTML</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name='ItemName' id="ItemNameGroup"
+                                placeholder="Item Name">
+                            <label for="ItemNameGroup">Item Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name='ItemNameHTML' id="ItemNameHTMLGroup"
+                                placeholder="Item Name HTML">
+                            <label for="ItemNameHTMLGroup">Item Name HTML</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" name='Notes' placeholder="Item Notes" id="NotesGroup"
+                                style="height: 100px"></textarea>
+                            <label for="NotesGroup">Notes</label>
+                        </div>
+                        <input type='text' name="RawData" id="RawData" hidden>
+                        <input type='text' name="HumanData" id="HumanData" hidden>
+                        <input type='text' name="HTMLData" id="HTMLData" hidden>
 
+                        <button class="btn btn-primary mb-1" type="submit">Add to DB!</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row gx-3 gy-3 mb-3 mt-3">
+    <div class="col-12">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title">Initial Setup</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-gold bg-dark">You will need the <a href="https://modrinth.com/mod/component-viewer">Component Viewer</a> mod on <code>Fabric 1.21.8</code>. This has not been tested on any newer, or older versions.</li>
+                <li class="list-group-item mc-gold bg-dark">You will need to open the <code>Component Viewer</code> settings, and ensure the following settings are correct:</li>
+                <li class="list-group-item mc-gold bg-dark"><code>Clipboard>Copy: Item Stack</code></li>
+                <li class="list-group-item mc-gold bg-dark"><code>Clipboard>Formatting: JSON</code></li>
+                <li class="list-group-item mc-gold bg-dark"><code>Clipboard>Indentation: 4</code></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row gx-3 gy-3 mb-3">
+    <div class="col-12">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title">Adding An Item</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-gold bg-dark">Once you have the <code>Component Viewer</code> mod setup, you will press <code>Ctrl+C</code> to copy the data of an item.</li>
+                <li class="list-group-item mc-gold bg-dark">Then you will press <code>Ctrl+V</code> inside the large input on the left side of the screen.</li>
+                <li class="list-group-item mc-gold bg-dark">From there, you should see the middle box fill up with an item preview, as well as sme inputs on the right side prefilling themselves. If this did not happen, please reach out to AlexTheNerd on Discord and it will be looked into to see if a bug happened, or if a mistake was made.</li>
+                <li class="list-group-item mc-gold bg-dark">For most tools/armor pieces, the <code>Primary Tag</code> box will fill itself in, however if the item is a <code>Helmet</code>, then it will likely not mark itself, and you will need to do so.</li>
+                <li class="list-group-item mc-gold bg-dark">From there, you can fill in the tag slots as needed, don't worry about messing it up, they can always be fixed later.</li>
+                <li class="list-group-item mc-gold bg-dark">The <code>Item Name</code> input is the name that the Discord bot will use, if it is a duplicate of another item it will not be able to be searched. So if needed, change it.</li>
+                <li class="list-group-item mc-gold bg-dark">The <code>Notes</code> portion is shown when people click on the item, or when it is searched using the item bot on Discord. You can use Discord formatting such as lists, underlining, bold, italics etc. as you please.</li>
+                <li class="list-group-item mc-gold bg-dark">Press <code>Add to DB!</code> when finished.</li>
+                
+                
+
+            </ul>
+        </div>
+    </div>
 </div>
 <script>
     var rawDataTextarea = document.getElementById("rawData");
@@ -212,30 +255,30 @@
         "smelter": "Smelter",
 
         // BlossomCraft
-        "sonic" : "Sonic",
-        "ice_aspect" : "Ice Aspect",
-        "saturation" : "Saturation",
-        "ender_bow" : "Ender Bow",
-        "haste" : "Haste",
-        "exp_hunter" : "Exp Hunter",
+        "sonic": "Sonic",
+        "ice_aspect": "Ice Aspect",
+        "saturation": "Saturation",
+        "ender_bow": "Ender Bow",
+        "haste": "Haste",
+        "exp_hunter": "Exp Hunter",
         "rage": "Rage",
-        "wither" : "Wither",
-        "replanter" : "Replanter"
+        "wither": "Wither",
+        "replanter": "Replanter"
     };
 
     const EnchantmentsLevelOneMaxList = [
-        "mending", 
-        "vanishing_curse", 
-        "aqua_affinity", 
-        "binding_curse", 
+        "mending",
+        "vanishing_curse",
+        "aqua_affinity",
+        "binding_curse",
         "channeling",
-        "flame", 
-        "infinity", 
-        "multishot", 
+        "flame",
+        "infinity",
+        "multishot",
         "silk_touch",
 
         // MysticMC
-        "smelter", 
+        "smelter",
         "flame_walker",
 
         // BlossomCraft
@@ -354,11 +397,11 @@
             document.body.appendChild(img);
 
             // Optionally, trigger download
-             const link = document.createElement('a');
-             link.href = imageDataURL;
-             link.download = 'item.png';
-             link.click();
-             link.remove()
+            const link = document.createElement('a');
+            link.href = imageDataURL;
+            link.download = 'item.png';
+            link.click();
+            link.remove()
         });
     }
 
@@ -444,7 +487,7 @@
     function UpdatePreview() {
         const rawData = JSON.parse(rawDataTextarea.value);
         let finalItemType = convertItemTypes(rawData.id);
-        
+
         const itemName = rawData.components["minecraft:custom_name"];
         const finalItemNameHTML = convertMCLineToHTML(itemName);
         const finalItemNameHuman = convertMCLineToHumanReadable(itemName).replaceAll("§", "").replaceAll("&", "");
@@ -452,7 +495,7 @@
         let EnchantmentsHTML = [];
         let EnchantmentsHuman = [];
         if ("minecraft:enchantments" in rawData.components) {
-            const enchantments = rawData.components["minecraft:enchantments"].levels;
+            const enchantments = rawData.components["minecraft:enchantments"];
             EnchantmentsHTML = convertEnchantmentsToHTML(enchantments);
             EnchantmentsHuman = convertEnchantmentsToHumanReadable(enchantments);
         }

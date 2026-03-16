@@ -1,5 +1,20 @@
 {% extends "core_layout.html" %}
 {% block content %}
+<div class="row gx-3 gy-3 mb-3">
+    <div class="col-12">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title">Item List</h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-gold bg-dark">This page is used to edit, or delete items from the database.</li>
+                <li class="list-group-item mc-gold bg-dark">Click through the tabs to the left side of the screen to find the crate containing the item you would like to adjust. Then use your eyes to find the specific item.</li>
+                <li class="list-group-item mc-gold bg-dark">Press <code>Manage Item</code> to edit the tags of an item.</li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
 {% set keysList = currentItems.keys() | list %}
     <div class="row gx-3 gy-3">
         <div class="col-12">
