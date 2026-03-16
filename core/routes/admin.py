@@ -355,7 +355,6 @@ def missingImages():
             missingDescriptions.append(item)
     
     
-    print(descriptionFileList)
     return render_template("/admin/missingImages.html", MissingDescriptions = missingDescriptions, MissingIcons = missingIcons)
 
 

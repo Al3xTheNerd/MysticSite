@@ -20,9 +20,13 @@
                 <h4 class="card-title">Missing Icons</h4>
             </div>
             <ul class="list-group list-group-flush">
-                {% for item in MissingIcons %}
-                <li class="list-group-item mc-white bg-dark">{{ item.id }} - {{ item.ItemNameHTML | safe }}</li>
-                {% endfor %}
+                {% if MissingIcons %}
+                    {% for item in MissingIcons %}
+                    <li class="list-group-item mc-white bg-dark">{{ item.id }} - {{ item.ItemNameHTML | safe }}</li>
+                    {% endfor %}
+                {% else %}
+                    <li class="list-group-item mc-white bg-dark">Good job! All icons exist!</li>
+                {% endif %}
             </ul>
         </div>
     </div>
@@ -32,9 +36,13 @@
                 <h4 class="card-title">Missing Descriptions (Auto generation should take care of this, once an hour.)</h4>
             </div>
             <ul class="list-group list-group-flush">
-                {% for item in MissingDescriptions %}
-                <li class="list-group-item mc-white bg-dark">{{ item.id }} - {{ item.ItemNameHTML | safe }}</li>
-                {% endfor %}
+                {% if MissingDescriptions %}
+                    {% for item in MissingDescriptions %}
+                    <li class="list-group-item mc-white bg-dark">{{ item.id }} - {{ item.ItemNameHTML | safe }}</li>
+                    {% endfor %}
+                {% else %}
+                    <li class="list-group-item mc-white bg-dark">Good job! All icons exist!</li>
+                {% endif %}
             </ul>
         </div>
     </div>
