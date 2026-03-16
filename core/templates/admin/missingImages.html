@@ -22,7 +22,7 @@
             <ul class="list-group list-group-flush">
                 {% if MissingIcons %}
                     {% for item in MissingIcons %}
-                    <li class="list-group-item mc-white bg-dark"><a href = {{url_for('uploadIcon', itemID=item.id)}}>{{ item.id }}</a> - {{ item.ItemNameHTML | safe }}</li>
+                    <li class="list-group-item mc-white bg-dark"><a href = {{url_for('uploadIcon', itemID=item.id)}}>{{ item.id }}</a> - {{ item.ItemName | safe }}</li>
                     {% endfor %}
                 {% else %}
                     <li class="list-group-item mc-white bg-dark">Good job! All icons exist!</li>
@@ -38,7 +38,7 @@
             <ul class="list-group list-group-flush">
                 {% if MissingDescriptions %}
                     {% for item in MissingDescriptions %}
-                    <li class="list-group-item mc-white bg-dark">{{ item.id }} - {{ item.ItemNameHTML | safe }}</li>
+                    <li class="list-group-item mc-white bg-dark">{{ item.id }} - {{ item.ItemName | safe }}</li>
                     {% endfor %}
                 {% else %}
                     <li class="list-group-item mc-white bg-dark">Good job! All descriptions exist!</li>
