@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
 from core.models import User
 from core import db, app
+from core.decorators import permission_level_required
 
 
 @app.route('/login')
@@ -74,6 +75,36 @@ def signup_post():
     db.session.commit()
     flash(f"User successfully created! Please Login.", "info")
     return redirect(url_for('login'))
+
+@app.route('/admin/manageusers')
+@permission_level_required(90)
+def manageUsers():
+    users = User.query.order_by(User.id).all()
+    
+    return render_template('auth/manageusers.html', users=users)
+
+@app.route('/admin/manageuser/<userID>', methods=["GET", "POST"])
+@permission_level_required(90)
+def manageUser(userID: int):
+    user: User | None = User.query.filter(User.id == userID).first()
+    if not user:
+        flash("User does not exist, try again when you're not incompetent.")
+        return redirect(url_for('manageUsers'))
+    
+    if current_user.permissions > user.permissions:
+        if request.method == "POST":
+            newLevel = int(request.form.to_dict()["level"])
+            user.permissions = newLevel
+            db.session.commit()
+            flash(f"Permissions for user {user.username} set to <code>{newLevel}</code>")
+            return redirect(url_for('manageUsers'))
+        
+    else:
+        flash("You can only modify permissions of those with the same level, or less than yourself.")
+        return redirect(url_for('manageUsers'))
+    
+    return render_template('auth/manageuser.html', user=user)
+
 
 @app.route('/logout')
 @login_required

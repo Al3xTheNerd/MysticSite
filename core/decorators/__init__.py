@@ -1,0 +1,1 @@
+from core.decorators.permission_required import permission_level_required

@@ -30,18 +30,14 @@
                 <div class="give-preview-text w-100">
                     <div class="give-preview-text-inner">
                         <form method="post" action="">
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="CrateSelectEdit">Crate</label>
-                                <select name='Crate' class="form-select" id="CrateSelectEdit">
-                                    {% if currentCrates is none %}
-                                    <option value="">Create a new Crate First!</option>
-                                    {% else %}
-                                    {% for id, details in currentCrates.items() %}
-                                    <option value="{{ id }}"{% if item.CrateID == id|string %} selected{%endif%}>{{ details["CrateName"] }}</option>
-                                    {% endfor %}
-                                    {% endif %}
-                                </select>
+                            {% if current_user.permissions >= 10 %}
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" name='Notes' placeholder="Item Notes" id="NotesGroup"
+                                    style="height: 100px">{{item.Notes}}</textarea>
+                                <label for="NotesGroup">Notes</label>
                             </div>
+                            {% endif %}
+                            {% if current_user.permissions >= 20 %}
                             <div class="input-group mb-3">
                                 <label class="input-group-text" for="PrimaryTagGroup">Primary Tag</label>
                                 <select name='PrimaryTag' class="form-select" id="PrimaryTagGroup">
@@ -112,6 +108,20 @@
                                     {% endfor %}
                                 </select>
                             </div>
+                            {% endif %}
+                            {% if current_user.permissions >= 50 %}
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="CrateSelectEdit">Crate</label>
+                                <select name='Crate' class="form-select" id="CrateSelectEdit">
+                                    {% if currentCrates is none %}
+                                    <option value="">Create a new Crate First!</option>
+                                    {% else %}
+                                    {% for id, details in currentCrates.items() %}
+                                    <option value="{{ id }}"{% if item.CrateID == id|string %} selected{%endif%}>{{ details["CrateName"] }}</option>
+                                    {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" name='ItemName' id="ItemNameeGroup"
                                     placeholder="Item Name" value="{{item.ItemName}}">
@@ -122,12 +132,7 @@
                                     placeholder="Win Percentage" value="{{item.WinPercentage}}">
                                 <label for="WinPercentageGroup">Win Percentage</label>
                             </div>
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" name='Notes' placeholder="Item Notes" id="NotesGroup"
-                                    style="height: 100px">{{item.Notes}}</textarea>
-                                <label for="NotesGroup">Notes</label>
-                            </div>
-
+                            {% endif %}
                             <button class="btn btn-primary mb-1" type="submit">Submit Changes</button>
                         </form>
                     </div>

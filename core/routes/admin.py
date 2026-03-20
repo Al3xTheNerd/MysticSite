@@ -1,15 +1,14 @@
-from flask import render_template, request, flash, redirect, send_file
-from sqlalchemy import not_, or_
+from flask import render_template, request, flash, redirect
+from sqlalchemy import not_, or_, func
 from core import app, db, config
 import git, json, os
 from core.models import Crate, Item, Set
-from sqlalchemy import desc, func
-from flask_login import login_required
+from flask_login import login_required, current_user
 from typing import List
 from sys import platform
 from atn import server_folder_name, server_name
 from pathlib import Path
-from werkzeug.utils import secure_filename
+from core.decorators import permission_level_required
 
 def verifyCrate(form):
     if form["CrateName"] == "":
@@ -31,8 +30,12 @@ def currentItemsByCrate():
         #sortedItems[crate.CrateName] = Item.query.filter_by(CrateID = crate.id).order_by(Item.ItemOrder).all()
     return sortedItems
 
+
+
+
+
 @app.route('/admin/additem', methods=['POST', 'GET']) # type: ignore
-@login_required
+@permission_level_required(50)
 def addItem():
     formattedCrates = config.currentCrateData()
     if request.method == 'POST':
@@ -95,7 +98,7 @@ def intParser(numDict):
     return newItems
 
 @app.route('/admin/itemorder', methods=['GET', 'POST']) # type: ignore
-@login_required
+@permission_level_required(60)
 def itemOrder():
     items: List[Item] = Item.query.order_by(Item.ItemOrder).all()
     if not items:
@@ -122,7 +125,7 @@ def itemOrder():
 
 
 @app.route('/admin/manageitem/<itemID>', methods=['GET', 'POST']) # type: ignore
-@login_required
+@permission_level_required(10)
 def manageItem(itemID):
     formattedCrates = config.currentCrateData()
     item: Item = Item.query.filter_by(id = itemID).one()
@@ -131,18 +134,17 @@ def manageItem(itemID):
         return redirect("/admin/itemlist")
     else:
         if request.method == 'POST':
-            forms = request.form.to_dict()
-            item.CrateID = forms["Crate"]
-            item.TagPrimary = forms["PrimaryTag"]
-            item.TagSecondary = forms["SecondaryTag"]
-            item.TagTertiary = forms["TertiaryTag"]
-            item.TagQuaternary = forms["QuaternaryTag"]
-            item.TagQuinary = forms["QuinaryTag"]
-            item.TagSenary = forms["SenaryTag"]
-            item.TagSeptenary = forms["SeptenaryTag"]
-            item.WinPercentage = forms["WinPercentage"]
-            item.Notes = forms["Notes"]
-            item.ItemName = forms["ItemName"]
+            item.CrateID = request.form.get("Crate", item.CrateID)
+            item.TagPrimary = request.form.get("PrimaryTag", item.TagPrimary)
+            item.TagSecondary = request.form.get("SecondaryTag", item.TagSecondary)
+            item.TagTertiary = request.form.get("TertiaryTag", item.TagTertiary)
+            item.TagQuaternary = request.form.get("QuaternaryTag", item.TagQuaternary)
+            item.TagQuinary = request.form.get("QuinaryTag", item.TagQuinary)
+            item.TagSenary = request.form.get("SenaryTag", item.TagSenary)
+            item.TagSeptenary = request.form.get("SeptenaryTag", item.TagSeptenary)
+            item.WinPercentage = request.form.get("WinPercentage", item.WinPercentage)
+            item.Notes = request.form.get("Notes", item.Notes)
+            item.ItemName = request.form.get("ItemName", item.ItemName)
             db.session.commit()
             flash(f"{item.ItemNameHTML} updated successfully!", "dark")
             return redirect("/admin/itemlist")
@@ -152,7 +154,7 @@ def manageItem(itemID):
                            currentCrates = formattedCrates)
         
 @app.route('/admin/deleteitem/<itemID>', methods=['GET', 'POST']) # type: ignore
-@login_required
+@permission_level_required(50)
 def deleteItem(itemID):
     item: Item = Item.query.filter_by(id = itemID).one()
     if not item:
@@ -168,7 +170,7 @@ def deleteItem(itemID):
     return redirect("/admin/itemlist")
 
 @app.route('/admin/managecrates', methods=['POST', 'GET'])
-@login_required
+@permission_level_required(50)
 def manageCrates():
     queries = 0
     if request.method == 'POST':
@@ -187,7 +189,7 @@ def manageCrates():
                 crateToEdit.CrateType = forms["CrateType"]
                 db.session.commit()
                 queries += 2
-            if "Delete" in forms and forms['crate']:
+            if "Delete" in forms and forms['crate'] and current_user.permissions >= 80:
                 Crate.query.filter_by(id=forms['crate']).delete()
                 db.session.execute(
                     db.delete(Item).filter_by(CrateID = forms["crate"])
@@ -204,7 +206,7 @@ def manageCrates():
 
 
 @app.route('/admin/setorder', methods=['GET', 'POST']) # type: ignore
-@login_required
+@permission_level_required(30)
 def setOrder():
     sets: List[Set] = Set.query.order_by(Set.SetOrder).all()
     if not sets:
@@ -231,7 +233,7 @@ def setOrder():
 
 
 @app.route('/admin/setMaker', methods=('GET', 'POST'))
-@login_required
+@permission_level_required(30)
 def setMaker():
     if request.method == 'POST':
         code = json.loads(request.form['importCode'])
@@ -276,7 +278,7 @@ def setMaker():
 
 
 @app.route('/admin/setEditor/<setID>', methods=('GET', 'POST'))
-@login_required
+@permission_level_required(30)
 def editSet(setID):
     set: Set | None = Set.query.filter(Set.id == setID).first()
     if not set:
@@ -322,7 +324,7 @@ def editSet(setID):
     return render_template("admin/editSet.html", sortedItems = sortedItems, idCrateList = idToCrateList, validTags = config.validTags, page="newtracker", oldSet = set)
 
 @app.route('/admin/deleteset/<setID>', methods=['GET', 'POST']) # type: ignore
-@login_required
+@permission_level_required(30)
 def deleteSet(setID):
     set: Set = Set.query.filter_by(id = setID).one()
     if not set:
@@ -338,7 +340,7 @@ def deleteSet(setID):
     return redirect("/admin/setorder")
 
 @app.route('/admin/missingimages') # type: ignore
-@login_required
+@permission_level_required(40)
 def missingImages():
     items: List[Item] = Item.query.all()
     
@@ -361,7 +363,7 @@ def missingImages():
     return render_template("/admin/missingImages.html", MissingDescriptions = missingDescriptions, MissingIcons = missingIcons)
 
 @app.route('/admin/uploadIcon/<itemID>', methods=['GET', 'POST']) # type: ignore
-@login_required
+@permission_level_required(40)
 def uploadIcon(itemID):
     if request.method == 'POST':
         # check if the post request has the file part

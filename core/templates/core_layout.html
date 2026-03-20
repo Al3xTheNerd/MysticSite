@@ -88,22 +88,35 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark">
                             {% if current_user.is_authenticated %}
-                            {% set l = [('setOrder', "Set Order"), ('manageCrates', "Manage Crates"), ('addItem', "Add Items"), ('itemList', "Item
-                            List"), ('itemOrder', "Item Order"), ('missingImages', "Missing Images"), (false, false), ('logout', "Logout")] | list%}
+                                <li><a class="dropdown-item disabled" href="#">Hello, {{current_user.username}}</a></li>
+                                {% if current_user.permissions == 0 %}
+                                    <li><a class="dropdown-item disabled" href="#">Contact an admin for access.</a></li>
+                                {% endif %}
+                                {% if current_user.permissions >= 10 %}
+                                    <li><a class="dropdown-item{%if request.path == url_for('itemList')%} active{%endif%}" href="{{ url_for('itemList')}}">Item List</a></li>
+                                {% endif %}
+                                {% if current_user.permissions >= 30 %}
+                                    <li><a class="dropdown-item{%if request.path == url_for('setOrder')%} active{%endif%}" href="{{ url_for('setOrder')}}">Manage Sets</a></li>
+                                {% endif %}
+                                {% if current_user.permissions >= 40 %}
+                                    <li><a class="dropdown-item{%if request.path == url_for('missingImages')%} active{%endif%}" href="{{ url_for('missingImages')}}">Missing Images</a></li>
+                                {% endif %}
+                                {% if current_user.permissions >= 50 %}
+                                    <li><a class="dropdown-item{%if request.path == url_for('manageCrates')%} active{%endif%}" href="{{ url_for('manageCrates')}}">Manage Crates</a></li>
+                                    <li><a class="dropdown-item{%if request.path == url_for('addItem')%} active{%endif%}" href="{{ url_for('addItem')}}">Add Items</a></li>
+                                {% endif %}
+                                {% if current_user.permissions >= 60 %}
+                                    <li><a class="dropdown-item{%if request.path == url_for('itemOrder')%} active{%endif%}" href="{{ url_for('itemOrder')}}">Manage Item Order</a></li>
+                                {% endif %}
+                                {% if current_user.permissions >= 90 %}
+                                    <li><a class="dropdown-item{%if request.path == url_for('manageUsers')%} active{%endif%}" href="{{ url_for('manageUsers')}}">Manage Users</a></li>
+                                {% endif %}
+                                <div class="dropdown-divider"></div>
+                                <li><a class="dropdown-item{%if request.path == url_for('logout')%} active{%endif%}" href="{{ url_for('logout')}}">Logout</a></li>
                             {% else %}
-                            {% set l = [('login', "Login")] %}
+                                <li><a class="dropdown-item{%if request.path == url_for('login')%} active{%endif%}" href="{{ url_for('login')}}">Login</a></li>
+                                <li><a class="dropdown-item{%if request.path == url_for('signup')%} active{%endif%}" href="{{ url_for('signup')}}">Signup</a></li>
                             {%endif%}
-                            {% for loc, name in l %}
-                            {% if loc is false %}
-                            <div class="dropdown-divider"></div>
-                            {% else %}
-                            {% if request.path == url_for(loc) %}
-                            <li><a class="dropdown-item active" href="{{ url_for(loc) }}">{{name}}</a></li>
-                            {% else %}
-                            <li><a class="dropdown-item" href="{{ url_for(loc) }}">{{name}}</a></li>
-                            {% endif %}
-                            {% endif %}
-                            {% endfor %}
                         </ul>
                     </li>
                 </ul>
