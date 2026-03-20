@@ -14,11 +14,11 @@ def login():
 
 @app.route('/login', methods=['POST'])
 def login_post():
-    email = request.form.get('email')
+    username = request.form.get('username')
     password = request.form.get('password')
     remember = True if request.form.get('remember') else False
 
-    user = User.query.filter_by(email=email).first()
+    user = User.query.filter(User.username.ilike(username)).first()
 
     # check if user actually exists
     # take the user supplied password, hash it, and compare it to the hashed password in database
@@ -32,34 +32,47 @@ def login_post():
 
 @app.route('/signup')
 def signup():
-    if User.query.count() < 1:
-        return render_template('auth/signup.html')
-    flash("Admin User already created.", "warning")
-    return redirect(url_for('login'))
+    return render_template('auth/signup.html')
+
 
 @app.route('/signup', methods=['POST'])
 def signup_post():
+    name = request.form.get('username')
+    password = request.form.get('password')
+    confirmedPassword = request.form.get('confirmpassword')
     
+    problems = []
+    if not password or len(password) < 8:
+        problems.append("Password must be at least 8 characters long.")
+    
+    if not name or len(name) < 3:
+        problems.append("Username must be at least 3 characters long.")
+    
+    if password != confirmedPassword:
+        problems.append("Passwords must match, please try again.")
+        
+    user = User.query.filter(User.username.ilike(name)).first() # if this returns a user, then the email already exists in database
+    print(user)
+    if name and user != None: # if a user is found, we want to redirect back to signup page so user can try again  
+        problems.append("Username already exists, please choose a new one.")
+
+    if len(problems) > 0:
+        for problem in problems:
+            flash(problem, "info")
+        return redirect(url_for('signup'))
+    
+    # create new user with the form data. Hash the password so plaintext version isn't saved.
+    new_user = User(username=name, password=generate_password_hash(password, method='pbkdf2:sha256')) # type: ignore
     if User.query.count() < 1:
-        email = request.form.get('email')
-        name = request.form.get('name')
-        password = request.form.get('password')
-
-        user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
-
-        if user: # if a user is found, we want to redirect back to signup page so user can try again  
-            flash('Email address already exists')
-            return redirect(url_for('signup'))
-
-        # create new user with the form data. Hash the password so plaintext version isn't saved.
-        new_user = User(email=email, username=name, password=generate_password_hash(password, method='pbkdf2:sha256')) # type: ignore
-
-        # add the new user to the database
-        db.session.add(new_user)
-        db.session.commit()
-        flash("Admin User successfully created!", "info")
+        new_user.permissions = 100
     else:
-        flash("Admin User already created.", "warning")
+        new_user.permissions = 0
+    
+    
+    # add the new user to the database
+    db.session.add(new_user)
+    db.session.commit()
+    flash(f"User successfully created! Please Login.", "info")
     return redirect(url_for('login'))
 
 @app.route('/logout')
