@@ -31,7 +31,7 @@ class Item(db.Model):
     SubmergedMiningSpeedAttribute = db.Column(db.Float())
     
     
-    def to_dict(self, includes: List[str]) -> Dict[str, str]:
+    def to_dict(self, includes: List[str] | str) -> Dict[str, str]:
         retItem = {}
         if includes == "*":
             includes = [x for x in vars(self).keys() if not x.startswith("_")]

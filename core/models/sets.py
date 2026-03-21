@@ -9,3 +9,10 @@ class Set(db.Model):
     Type = db.Column(db.String())
     SetDescription = db.Column(db.String())
 
+    def to_dict(self, includes: List[str]) -> Dict[str, str]:
+        retItem = {}
+        if includes[0] == "*":
+            includes = [x for x in vars(self).keys() if not x.startswith("_")]
+        for inc in includes:
+            retItem[inc] = vars(self)[inc]
+        return retItem

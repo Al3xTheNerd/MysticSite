@@ -1,14 +1,15 @@
-from flask import render_template, request, flash, redirect
+from flask import render_template, request, flash, redirect, url_for
 from sqlalchemy import not_, or_, func
 from core import app, db, config
 import git, json, os
-from core.models import Crate, Item, Set
+from core.models import Crate, Item, Set, Logs
 from flask_login import login_required, current_user
 from typing import List
 from sys import platform
 from atn import server_folder_name, server_name
 from pathlib import Path
 from core.decorators import permission_level_required
+from core.utils import uploadLog
 
 def verifyCrate(form):
     if form["CrateName"] == "":
@@ -77,7 +78,7 @@ def addItem():
         try:
             db.session.add(newItem)
             db.session.commit()
-                
+            uploadLog(current_user, "Item", f"{newItem.ItemName} added to db.", newItem.ItemOrder)
             flash(f"{newItem.ItemNameHTML} added to {formattedCrates[int(newItem.CrateID)]['CrateName']} ({Item.query.filter(Item.CrateID == newItem.CrateID).count()})", "dark") # type: ignore
         except Exception as e:
             flash(f"Someting went wrong ({e})", "dark")
@@ -118,6 +119,7 @@ def itemOrder():
                 changes += 1
                 item.ItemOrder = ItemOrders[item.id]
         db.session.commit()
+        uploadLog(current_user, "Item", f"{changes} items reordered.", None)
         items: List[Item] = Item.query.order_by(Item.ItemOrder).all()
         flash(str(changes), "dark")
 
@@ -134,6 +136,7 @@ def manageItem(itemID):
         return redirect("/admin/itemlist")
     else:
         if request.method == 'POST':
+            old = item.to_dict("*")
             item.CrateID = request.form.get("Crate", item.CrateID)
             item.TagPrimary = request.form.get("PrimaryTag", item.TagPrimary)
             item.TagSecondary = request.form.get("SecondaryTag", item.TagSecondary)
@@ -145,7 +148,12 @@ def manageItem(itemID):
             item.WinPercentage = request.form.get("WinPercentage", item.WinPercentage)
             item.Notes = request.form.get("Notes", item.Notes)
             item.ItemName = request.form.get("ItemName", item.ItemName)
+            new = item.to_dict("*")
             db.session.commit()
+            for key in old.keys():
+                if old[key] != new[key]:
+                    uploadLog(current_user, "Item", f"{item.ItemName} | {key} | '{old[key]}'-->'{new[key]}'.", item.id)
+                
             flash(f"{item.ItemNameHTML} updated successfully!", "dark")
             return redirect("/admin/itemlist")
     return render_template("admin/manageItem.html", 
@@ -164,6 +172,7 @@ def deleteItem(itemID):
         db.session.delete(item)
         db.session.commit()
         flash(f"Item #{itemID} - {item.ItemNameHTML} deleted successfully.", "dark")
+        uploadLog(current_user, "Item", f"{item.ItemName} deleted from db.", None)
     except:
         db.session.rollback()
         flash(f"Error deleteing #{item.id} - {item.ItemNameHTML}")
@@ -179,22 +188,35 @@ def manageCrates():
             newCrate = Crate(CrateName=forms["CrateName"], ReleaseDate=forms["ReleaseDate"], URLTag=forms["CrateTag"], CrateType=forms["CrateType"]) # type: ignore
             db.session.add(newCrate)
             db.session.commit()
+            uploadLog(current_user, "Crate", f"added to db..", newCrate.id)
             queries += 1
         else:
             if "Edit" in forms and verifyCrate(forms):
-                crateToEdit = Crate.query.filter_by(id = forms['crate']).one()
+                crateToEdit: Crate = Crate.query.filter_by(id = forms['crate']).one()
+                old = crateToEdit.to_dict(["*"])
                 crateToEdit.CrateName = forms['CrateName']
                 crateToEdit.ReleaseDate = forms['ReleaseDate']
                 crateToEdit.URLTag = forms["CrateTag"]
                 crateToEdit.CrateType = forms["CrateType"]
+                new = crateToEdit.to_dict(["*"])
                 db.session.commit()
+                
+                for key in old.keys():
+                    if old[key] != new[key]:
+                        uploadLog(current_user, "Crate", f"{key} | '{old[key]}'-->'{new[key]}'.", crateToEdit.id)
                 queries += 2
             if "Delete" in forms and forms['crate'] and current_user.permissions >= 80:
+                crate = Crate.query.filter_by(id=forms['crate']).first()
                 Crate.query.filter_by(id=forms['crate']).delete()
+                itemsToDelete = Item.query.filter(Item.CrateID == forms["crate"]).all()
                 db.session.execute(
                     db.delete(Item).filter_by(CrateID = forms["crate"])
                 )
                 db.session.commit()
+                uploadLog(current_user, "Crate", f"{crate.CrateName} deleted from db.", None)
+                if itemsToDelete:
+                    for item in itemsToDelete:
+                        uploadLog(current_user, "Item", f"{item.ItemName} deleted from db with {crate.CrateName}.", None)
                 queries += 1
         if queries == 0:
             flash("Something Went Wrong.", "dark")
@@ -220,12 +242,12 @@ def setOrder():
             oldItemOrder = set.SetOrder
             newItemOrder = ItemOrders[set.id]
             if oldItemOrder == newItemOrder:
-                print("wtf")
                 pass
             else:
                 changes += 1
                 set.SetOrder = ItemOrders[set.id]
         db.session.commit()
+        uploadLog(current_user, "Set", f"{changes} sets reordered.", None)
         sets: List[Set] = Set.query.order_by(Set.SetOrder).all()
         flash(str(changes), "dark")
 
@@ -251,6 +273,7 @@ def setMaker():
             
             db.session.add(new_entry)
             db.session.commit()
+            uploadLog(current_user, "Set", f"{new_entry.Name} added to db.", new_entry.SetOrder)
             flash(f"Set <code>{name}</code>(<code>{type}</code>) with items {str(code)} created successfully.")
 
     sortedItems = {}
@@ -280,12 +303,12 @@ def setMaker():
 @app.route('/admin/setEditor/<setID>', methods=('GET', 'POST'))
 @permission_level_required(30)
 def editSet(setID):
-    set: Set | None = Set.query.filter(Set.id == setID).first()
-    if not set:
+    setp: Set | None = Set.query.filter(Set.id == setID).first()
+    if not setp:
         flash("Set does not exist to edit. Try again.")
         return redirect("/admin/setorder")
     if request.method == 'POST':
-        
+        old = setp.to_dict(["*"])
         code = json.loads(request.form['importCode'])
         name = request.form['name']
         type = request.form['type']
@@ -293,11 +316,15 @@ def editSet(setID):
         if len(code) < 2:
             flash("Set must have at least two items to create.")
         else:
-            set.ItemList = str(code)
-            set.Type = type
-            set.Name = name
-            set.SetDescription = description
+            setp.ItemList = str(code)
+            setp.Type = type
+            setp.Name = name
+            setp.SetDescription = description
+            new = setp.to_dict(["*"])
             db.session.commit()
+            for key in old.keys():
+                if old[key] != new[key]:
+                    uploadLog(current_user, "Set", f"{setp.Name} | {key} | '{old[key]}'-->'{new[key]}'.", setp.id)
             flash(f"Set <code>{name}</code>(<code>{type}</code>) with items {str(code)} updates successfully.")
 
     sortedItems = {}
@@ -321,7 +348,7 @@ def editSet(setID):
                 else:
                     idToCrateList[crate.CrateName] = [item.id]
                     sortedItems[crate.CrateName] = [formattedItem]
-    return render_template("admin/editSet.html", sortedItems = sortedItems, idCrateList = idToCrateList, validTags = config.validTags, page="newtracker", oldSet = set)
+    return render_template("admin/editSet.html", sortedItems = sortedItems, idCrateList = idToCrateList, validTags = config.validTags, page="newtracker", oldSet = setp)
 
 @app.route('/admin/deleteset/<setID>', methods=['GET', 'POST']) # type: ignore
 @permission_level_required(30)
@@ -334,6 +361,7 @@ def deleteSet(setID):
         db.session.delete(set)
         db.session.commit()
         flash(f"Set #{setID} - {set.Name} deleted successfully.", "dark")
+        uploadLog(current_user, "Set", f"{set.Name} deleted from db.", None)
     except:
         db.session.rollback()
         flash(f"Error deleteing #{set.id} - {set.Name}")
@@ -387,6 +415,7 @@ def uploadIcon(itemID):
                 loc = f"/home/alexthenerd/{server_folder_name}/core/static/images/{server_name}_Icons/"
                 
             file.save(os.path.join(loc, filename))
+            uploadLog(current_user, "Item", "icon image uploaded.", itemID)
             flash("Image saved successfully.")
             return redirect("/admin/missingimages")
     item = Item.query.filter(Item.id == itemID).first()    
@@ -394,6 +423,20 @@ def uploadIcon(itemID):
         return redirect("/admin/missingimages")
     return render_template("admin/uploadImage.html", item = item)
 
+@app.route('/admin/logs/<logType>')
+@permission_level_required(90)
+def viewLogs(logType):
+    validTypes = ["All", "Item", "Crate", "Set", "User"]
+    if logType in validTypes:
+        if logType == "All":
+            logs = Logs.query.order_by(Logs.id.desc()).all()
+        else:
+            logs = Logs.query.filter(Logs.Type == logType).order_by(Logs.id.desc()).all()
+        return render_template("admin/viewLogs.html", logList = logs, logType = logType)
+    
+    else:
+        flash("Please select a valid log type.")
+        return redirect(url_for("index"))
 
 @app.route('/webhook', methods=['POST'])
 def webhook():

@@ -4,6 +4,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from core.models import User
 from core import db, app
 from core.decorators import permission_level_required
+from core.utils import uploadLog
 
 
 @app.route('/login')
@@ -73,6 +74,7 @@ def signup_post():
     # add the new user to the database
     db.session.add(new_user)
     db.session.commit()
+    uploadLog(new_user, "User", "signed up.", None)
     flash(f"User successfully created! Please Login.", "info")
     return redirect(url_for('login'))
 
@@ -97,6 +99,7 @@ def manageUser(userID: int):
             user.permissions = newLevel
             db.session.commit()
             flash(f"Permissions for user {user.username} set to <code>{newLevel}</code>")
+            uploadLog(current_user, "User", f"set permissions to {newLevel} for {user.username}", user.id)
             return redirect(url_for('manageUsers'))
         
     else:

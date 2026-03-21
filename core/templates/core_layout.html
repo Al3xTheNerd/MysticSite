@@ -110,6 +110,12 @@
                                 {% endif %}
                                 {% if current_user.permissions >= 90 %}
                                     <li><a class="dropdown-item{%if request.path == url_for('manageUsers')%} active{%endif%}" href="{{ url_for('manageUsers')}}">Manage Users</a></li>
+                                    <div class="dropdown-divider"></div>
+                                    <li><a class="dropdown-item{%if request.path == url_for('viewLogs', logType='All')%} active{%endif%}" href="{{ url_for('viewLogs', logType='All')}}">All Logs</a></li>
+                                    <li><a class="dropdown-item{%if request.path == url_for('viewLogs', logType='Item')%} active{%endif%}" href="{{ url_for('viewLogs', logType='Item')}}">Item Logs</a></li>
+                                    <li><a class="dropdown-item{%if request.path == url_for('viewLogs', logType='Crate')%} active{%endif%}" href="{{ url_for('viewLogs', logType='Crate')}}">Crate Logs</a></li>
+                                    <li><a class="dropdown-item{%if request.path == url_for('viewLogs', logType='Set')%} active{%endif%}" href="{{ url_for('viewLogs', logType='Set')}}">Set Logs</a></li>
+                                    <li><a class="dropdown-item{%if request.path == url_for('viewLogs', logType='User')%} active{%endif%}" href="{{ url_for('viewLogs', logType='User')}}">User Logs</a></li>
                                 {% endif %}
                                 <div class="dropdown-divider"></div>
                                 <li><a class="dropdown-item{%if request.path == url_for('logout')%} active{%endif%}" href="{{ url_for('logout')}}">Logout</a></li>

@@ -1,5 +1,7 @@
 import re, string, random
-
+from core.models import Logs
+from datetime import datetime
+from core import db
 def roman_to_int(numeral: str):
     roman_map = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
     total = 0
@@ -40,3 +42,17 @@ def convert_int_to_roman(text: str):
 
 def randomCode(length: int) -> str:
     return ''.join(random.choice(string.digits + string.ascii_lowercase) for _ in range(length))
+
+
+
+def uploadLog(currentUser, messageType, message, relatedID):
+    new_log = Logs()
+    new_log.Username = currentUser.username
+    new_log.PermissionLevel = currentUser.permissions
+    new_log.Message = message
+    new_log.Type = messageType
+    new_log.RelatedID = relatedID
+    new_log.Time = str(datetime.now().strftime("%m/%d/%Y %H:%M"))
+    
+    db.session.add(new_log)
+    db.session.commit()

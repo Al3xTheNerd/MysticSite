@@ -49,28 +49,6 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
-        <div class="card text-white bg-dark">
-            <div class="card-body">
-                <h4 class="card-title">Permissions</h4>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item mc-gold bg-dark">All roles have all features of the ones below it.</li>
-                <li class="list-group-item mc-gold bg-dark"><code>100</code>: Literally everything, this is reserved for
-                    the site developer</li>
-                <li class="list-group-item mc-gold bg-dark"><code>90</code>: Manage permissions of those below.</li>
-                <li class="list-group-item mc-gold bg-dark"><code>80</code>: Delete Crates</li>
-                <li class="list-group-item mc-gold bg-dark"><code>70</code>: Unused, for now.</li>
-                <li class="list-group-item mc-gold bg-dark"><code>60</code>: Manage Item Order.</li>
-                <li class="list-group-item mc-gold bg-dark"><code>50</code>: Create new Crates and upload Items</li>
-                <li class="list-group-item mc-gold bg-dark"><code>40</code>: Upload Item images.</li>
-                <li class="list-group-item mc-gold bg-dark"><code>30</code>: Create and manage sets.</li>
-                <li class="list-group-item mc-gold bg-dark"><code>20</code>: Set Item Tags.</li>
-                <li class="list-group-item mc-gold bg-dark"><code>10</code>: Set Item notes.</li>
-                <li class="list-group-item mc-gold bg-dark"><code>0</code>: Nothing at all, the user can login but do
-                    nothing else afterwords.</li>
-            </ul>
-        </div>
-    </div>
+    {% include 'perms.html' %}
 </div>
 {% endblock %}
