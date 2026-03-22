@@ -193,17 +193,18 @@ def newitemtracker():
     idToCrateList = {}
     items: List[Item] = Item.query.filter(
         not_(or_(col.contains("Repeat Appearance") for col in TagCols)) #type:ignore
-    ).all()
+    ).order_by(Item.ItemOrder).all()
     
     crateList: List[Crate] = Crate.query.order_by(Crate.id).all()
     for crate in crateList:
         itemNames = []
         for item in items:
-            if item.ItemNameHTML in itemNames:
-                name = item.ItemName
-            else:
-                name= item.ItemNameHTML
-                itemNames.append(item.ItemNameHTML)
+            name = item.ItemName
+            #if item.ItemNameHTML in itemNames:
+            #    name = item.ItemName
+            #else:
+            #    name= item.ItemNameHTML
+            #    itemNames.append(item.ItemNameHTML)
             formattedItem = {
                 "Name" : name,
                 "id" : item.id,
