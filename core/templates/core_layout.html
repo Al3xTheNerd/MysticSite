@@ -29,6 +29,9 @@
         content="An easily searchable database of all custom items on the {{ ServerName }} Minecraft server." />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2108616378136203"
      crossorigin="anonymous"></script>
+
+
+
 </head>
 
 <body>
@@ -155,6 +158,21 @@
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl, {sanitize: false})
     })
+
+    const now = new Date()
+    if (now.getMonth() === 3 && now.getDate() === 1) {
+        console.log("Happy april fools!")
+        document.body.classList.add('animated-rainbow-bg')
+        var head  = document.getElementsByTagName('head')[0];
+        var link  = document.createElement('link');
+        link.rel  = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '{{url_for('static', filename='css/aprilfools.css')}}';
+        head.appendChild(link);
+    }
+
+
+
     </script>
 </body>
 
