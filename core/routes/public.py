@@ -32,7 +32,16 @@ def SingleTagQuery(tag: str) -> list[Item]:
 def getAlternateNumbers(input: str) -> List[str]:
     return [input, convert_int_to_roman(input), convert_roman_in_string(input)]
 
-
+def getTermFilters(term: str):
+    terms = term.split("&")
+    conditions = []
+    for user_term in terms:
+        user_term = user_term.strip()
+    
+        filters = or_(*[Item.ItemHuman.contains(term) for term in getAlternateNumbers(user_term)])
+        filters += or_(*[Item.Notes.contains(term) for term in getAlternateNumbers(user_term)])
+        conditions.append(filters)
+    return conditions
 
 @app.route('/', methods=('GET', 'POST'))
 def index():
@@ -41,10 +50,11 @@ def index():
         search = request.form['search']
         if not search: 
             flash("Try entering a query!")
-        altOptions = getAlternateNumbers(search)
-        filters = [Item.ItemHuman.contains(term) for term in altOptions]
-        filters += [Item.Notes.contains(term) for term in altOptions]
-        items = Item.query.filter(or_(*filters)).order_by(Item.ItemOrder).all()
+        conditions = []
+        
+        conditions += getTermFilters(search)
+            
+        items = Item.query.where(*conditions).order_by(Item.ItemOrder).all()
         if not items:
             items = None
             flash("No results found!")
@@ -65,13 +75,7 @@ def search():
         if form["Term"]:
             recentTerm = form["Term"]
             
-            terms = form["Term"].split("&")
-            for user_term in terms:
-                user_term = user_term.strip()
-            
-                filters = or_(*[Item.ItemHuman.contains(term) for term in getAlternateNumbers(user_term)])
-                filters += or_(*[Item.Notes.contains(term) for term in getAlternateNumbers(user_term)])
-                conditions.append(filters)
+            conditions += getTermFilters(recentTerm)
 
             
             #conditions.append(Item.ItemHuman.ilike(f'%{form["Term"]}%'))
