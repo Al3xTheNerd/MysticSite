@@ -29,6 +29,11 @@ def noDupes(items: list[Item]) -> list[Item]:
 def SingleTagQuery(tag: str) -> list[Item]:
     return Item.query.filter(or_(col.is_(tag) for col in TagCols)).order_by(Item.ItemOrder).all() # type: ignore
 
+def getAlternateNumbers(input: str) -> List[str]:
+    return [input, convert_int_to_roman(input), convert_roman_in_string(input)]
+
+
+
 @app.route('/', methods=('GET', 'POST'))
 def index():
     items = None
@@ -36,8 +41,9 @@ def index():
         search = request.form['search']
         if not search: 
             flash("Try entering a query!")
-        all_terms = [search, convert_int_to_roman(search), convert_roman_in_string(search)]
-        filters = [Item.ItemHuman.contains(term) for term in all_terms]
+        altOptions = getAlternateNumbers(search)
+        filters = [Item.ItemHuman.contains(term) for term in altOptions]
+        filters += [Item.Notes.contains(term) for term in altOptions]
         items = Item.query.filter(or_(*filters)).order_by(Item.ItemOrder).all()
         if not items:
             items = None
@@ -45,6 +51,69 @@ def index():
     if items:
         items = noDupes(items)     
     return render_template("public/changelog.html", Items = items, ChangeLog = c.Changelog)
+
+
+@app.route('/search', methods = ['GET', 'POST']) # type: ignore
+def search():
+    formattedCrates = c.currentCrateData()
+    rarityList = server_rarity_list
+    items = []
+    recentTerm, recentCrate, recentTag, recentTagTwo, recentTagThree, recentRarity = ("", "", "", "", "", "")
+    if request.method == 'POST':
+        form = request.form.to_dict()
+        conditions = []
+        if form["Term"]:
+            recentTerm = form["Term"]
+            
+            terms = form["Term"].split("&")
+            for user_term in terms:
+                user_term = user_term.strip()
+            
+                filters = or_(*[Item.ItemHuman.contains(term) for term in getAlternateNumbers(user_term)])
+                filters += or_(*[Item.Notes.contains(term) for term in getAlternateNumbers(user_term)])
+                conditions.append(filters)
+
+            
+            #conditions.append(Item.ItemHuman.ilike(f'%{form["Term"]}%'))
+        if form["Crate"]:
+            recentCrate = form["Crate"]
+            conditions.append(Item.CrateID == int(form["Crate"]))
+        if form["Tag"]:
+            recentTag = form["Tag"]
+            conditions.append(or_(col.is_(form["Tag"]) for col in TagCols)) # type: ignore
+        if form["TagTwo"]:
+            recentTagTwo = form["TagTwo"]
+            conditions.append(or_(col.is_(form["TagTwo"]) for col in TagCols)) # type: ignore
+        if form["TagThree"]:
+            recentTagThree = form["TagThree"]
+            conditions.append(or_(col.is_(form["TagThree"]) for col in TagCols)) # type: ignore
+        if form["Rarity"]:
+            recentRarity = form["Rarity"]
+            rarity = ""
+            if form["Rarity"] in rarityList:
+                rarity = form["Rarity"]
+                conditions.append(Item.RarityHuman.ilike(f"%{rarity}%"))
+            if form["Rarity"] == "0":
+                conditions.append(Item.RarityHuman.is_(""))
+
+            
+            
+            
+        items: List[Item] = Item.query.where(*conditions).order_by(Item.ItemOrder).all()
+        
+        if len(items) == 0:
+            flash("No Results Found!", "dark")
+    return render_template("public/search.html",
+                           validTags = c.validTags,
+                           currentCrates = formattedCrates,
+                           rarityList = rarityList,
+                           Items = items,
+                           recentTerm = recentTerm,
+                           recentTag = recentTag,
+                           recentTagTwo = recentTagTwo,
+                           recentTagThree = recentTagThree,
+                           recentCrate = recentCrate,
+                           recentRarity = recentRarity)
 
 @app.route('/all')
 @app.route('/all/<int:page>/')
@@ -340,67 +409,6 @@ def weapontracker():
                 else:
                     sortedItems[crate.CrateName] = [item]
     return render_template("public/itemTracker.html", sortedItems = sortedItems, page="weapons")
-
-@app.route('/search', methods = ['GET', 'POST']) # type: ignore
-def search():
-    formattedCrates = c.currentCrateData()
-    rarityList = server_rarity_list
-    items = []
-    recentTerm, recentCrate, recentTag, recentTagTwo, recentTagThree, recentRarity = ("", "", "", "", "", "")
-    if request.method == 'POST':
-        form = request.form.to_dict()
-        conditions = []
-        if form["Term"]:
-            recentTerm = form["Term"]
-            
-            terms = form["Term"].split("&")
-            for user_term in terms:
-                user_term = user_term.strip()
-            
-                filters = or_(*[Item.ItemHuman.contains(term) for term in [user_term, convert_int_to_roman(user_term), convert_roman_in_string(user_term)]])
-                conditions.append(filters)
-
-            
-            #conditions.append(Item.ItemHuman.ilike(f'%{form["Term"]}%'))
-        if form["Crate"]:
-            recentCrate = form["Crate"]
-            conditions.append(Item.CrateID == int(form["Crate"]))
-        if form["Tag"]:
-            recentTag = form["Tag"]
-            conditions.append(or_(col.is_(form["Tag"]) for col in TagCols)) # type: ignore
-        if form["TagTwo"]:
-            recentTagTwo = form["TagTwo"]
-            conditions.append(or_(col.is_(form["TagTwo"]) for col in TagCols)) # type: ignore
-        if form["TagThree"]:
-            recentTagThree = form["TagThree"]
-            conditions.append(or_(col.is_(form["TagThree"]) for col in TagCols)) # type: ignore
-        if form["Rarity"]:
-            recentRarity = form["Rarity"]
-            rarity = ""
-            if form["Rarity"] in rarityList:
-                rarity = form["Rarity"]
-                conditions.append(Item.RarityHuman.ilike(f"%{rarity}%"))
-            if form["Rarity"] == "0":
-                conditions.append(Item.RarityHuman.is_(""))
-
-            
-            
-            
-        items: List[Item] = Item.query.where(*conditions).order_by(Item.ItemOrder).all()
-        
-        if len(items) == 0:
-            flash("No Results Found!", "dark")
-    return render_template("public/search.html",
-                           validTags = c.validTags,
-                           currentCrates = formattedCrates,
-                           rarityList = rarityList,
-                           Items = items,
-                           recentTerm = recentTerm,
-                           recentTag = recentTag,
-                           recentTagTwo = recentTagTwo,
-                           recentTagThree = recentTagThree,
-                           recentCrate = recentCrate,
-                           recentRarity = recentRarity)
 
 
 @app.route('/jobspayouts')
