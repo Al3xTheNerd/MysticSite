@@ -11,6 +11,7 @@ from pathlib import Path
 from core.decorators import permission_level_required
 from core.utils import uploadLog
 
+
 def verifyCrate(form):
     if form["CrateName"] == "":
         return False
@@ -274,7 +275,9 @@ def setMaker():
             db.session.add(new_entry)
             db.session.commit()
             uploadLog(current_user, "Set", f"{new_entry.Name} added to db.", new_entry.SetOrder)
-            flash(f"Set <code>{name}</code>(<code>{type}</code>) with items {str(code)} created successfully.")
+            setItems = Item.query.filter(Item.id.in_(code)).all()
+            itemStrings = [item.ItemNameHTML for item in setItems]
+            flash(f"Set <code>{name}</code>(<code>{type}</code>) with items <code>{str(itemStrings)}</code> created successfully.")
 
     sortedItems = {}
     idToCrateList = {}
