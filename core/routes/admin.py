@@ -633,7 +633,7 @@ def manageGroups():
                 uploadLog(current_user, "Group", f"{group['GroupName']} deleted from db.", None) # type: ignore
                 if itemsToDelete:
                     for item in itemsToDelete:
-                        uploadLog(current_user, "Misc Item", f"{item.ItemName} deleted from db with {group["GroupName"]}.", None) # type: ignore
+                        uploadLog(current_user, "Misc Item", f"{item.ItemName} deleted from db with {group['GroupName']}.", None) # type: ignore
                 queries += 1
         if queries == 0:
             flash("Something Went Wrong.", "dark")
