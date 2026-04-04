@@ -630,7 +630,7 @@ def manageGroups():
                     db.delete(MiscellaneousItem).filter_by(GroupID = forms["Group"])
                 )
                 db.session.commit()
-                uploadLog(current_user, "Group", f"{group["GroupName"]} deleted from db.", None) # type: ignore
+                uploadLog(current_user, "Group", f"{group['GroupName']} deleted from db.", None) # type: ignore
                 if itemsToDelete:
                     for item in itemsToDelete:
                         uploadLog(current_user, "Misc Item", f"{item.ItemName} deleted from db with {group["GroupName"]}.", None) # type: ignore
