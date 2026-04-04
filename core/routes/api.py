@@ -6,6 +6,7 @@ from core.models.item import Item
 from core.models.crates import Crate
 from core.models.vote import Votes
 from core.models.itemtracker import ItemTracker
+from core.models.miscItem import MiscellaneousItem
 from typing import List, Tuple
 from core import db
 import json
@@ -58,6 +59,12 @@ def ItemsAPI():
     items = [x.to_dict(inc) for x in Item.query.order_by(Item.ItemOrder).all()]
     return buildResponse(items, messages)
 
+@app.route('/api/miscitems') # type: ignore
+def MiscItemsAPI():
+    """Get all items."""
+    inc, messages = determineIncludedInfo(request.headers)
+    items = [x.to_dict(inc) for x in MiscellaneousItem.query.order_by(MiscellaneousItem.ItemOrder).all()]
+    return buildResponse(items, messages)
 
 @app.route('/api/crates') # type: ignore
 def CratesAPI():

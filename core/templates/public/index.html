@@ -1,5 +1,8 @@
 {% extends "core_layout.html" %}
 {% block content %}
-
-    {% include 'itemDisplay.html' %}
+    {% if alternativeDisplay %}
+        {% include 'altItemDisplay.html' %}
+    {% else %}
+        {% include 'itemDisplay.html' %}
+    {% endif%}
 {% endblock %}

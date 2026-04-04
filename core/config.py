@@ -1,5 +1,5 @@
 from typing import List
-from core.models import Item, Crate
+from core.models import Item, Crate, MiscellaneousGroup, MiscellaneousItem
 from sqlalchemy import desc
 from atn import server_custom_tags
 def errorMaker(errorCode: int | str = "???") -> List[Item]:
@@ -33,6 +33,22 @@ def currentCrateData():
         }
     if formattedCrates:
         return formattedCrates
+    return None
+
+def currentGroupData():
+    groups = MiscellaneousGroup.query.order_by(desc(MiscellaneousGroup.id))
+    formattedGroups = {}
+    for group in groups.all():
+        formattedGroups[group.id] = {
+            "GroupName" : group.GroupName,
+            "ReleaseDate" : group.ReleaseDate,
+            "URLTag" : group.URLTag,
+            "GroupType" : group.GroupType,
+            "Notes" : group.Notes
+            
+        }
+    if formattedGroups:
+        return formattedGroups
     return None
 
 PrettyRoutes = {
@@ -138,6 +154,17 @@ for category, tagList in tags.items():
         route = f"/tag/{category}/{tag}"
         pretty = f"{tag}"
         PrettyRoutes[route] = tag
+
+validSetTypes = [
+    "Armor Set",
+    "Upgrade"
+]
+
+validMiscGroupTypes = [
+    "Voucher",
+    "Event",
+    "Furniture"
+]
 
 
 blocksForBreakSpeedCalculator = {

@@ -4,11 +4,8 @@ from sqlalchemy import or_, and_, not_
 from core import app, db
 from core import config as c
 
-from core.models.item import Item
-from core.models.crates import Crate
-from core.models.itemtracker import ItemTracker
 from core.models.sets import Set as ItemSets
-
+from core.models import Item, Crate, ItemTracker, MiscellaneousGroup, MiscellaneousItem
 from core.utils import convert_int_to_roman, convert_roman_in_string, randomCode
 
 from atn import server_rarity_list, server_name
@@ -148,6 +145,14 @@ def rawitem(itemID):
         item = [c.errorMaker(404)]
     return render_template("public/raw.html", item = item)
 
+@app.route('/rawmiscitem/<itemID>')
+def rawMiscitem(itemID):
+    try:
+        item = MiscellaneousItem.query.filter_by(id = itemID).first() # type: ignore
+    except:
+        item = [c.errorMaker(404)]
+    return render_template("public/raw.html", item = item)
+
 @app.route('/crate/<crateTag>')
 def crate(crateTag):
     try:
@@ -174,6 +179,42 @@ def cratePage():
         if len(crateList[key]) == 0:
             del crateList[key]
     return render_template("public/crate.html", SortedCrates = crateList)
+
+
+@app.route('/group/<groupTag>')
+def group(groupTag):
+    try:
+        group = MiscellaneousGroup.query.filter_by(URLTag = groupTag).first()
+        if not group:
+            flash("Group not found.")
+            return redirect('/groups')
+        items = MiscellaneousItem.query.filter_by(GroupID = group.id).order_by(MiscellaneousItem.ItemOrder)
+        if not items:
+            flash("No items found in group.")
+            return redirect('/groups')
+    except:
+        flash("Something went wrong.")
+        return redirect('/groups')
+
+    return render_template("public/index.html", Items = items, Group = group, alternativeDisplay = True)
+
+@app.route('/groups')
+def groupPage():
+    groups: List[MiscellaneousGroup] = MiscellaneousGroup.query.all()
+    groupList = {
+        "" : []
+        }
+    for groupType in c.validMiscGroupTypes:
+        groupList[groupType] = []
+    for group in groups:
+        for key in groupList.keys():
+            if group.GroupType == key:
+                groupList[key].append(group)
+    for key in list(groupList.keys()):
+        if len(groupList[key]) == 0:
+            del groupList[key]
+    return render_template("public/groups.html", SortedGroups = groupList)
+
 
 @app.route('/tags')
 def tagsPage():
@@ -468,11 +509,9 @@ def blockspeed():
 @app.route('/sets')
 def sets():
     sets: List[ItemSets] = ItemSets.query.all()
-    sortedSets = {
-        "" : [],
-        "Armor Set" : [],
-        "Upgrade" : []
-    }
+    sortedSets = {"" : []}
+    for setType in c.validSetTypes:
+        sortedSets[setType] = []
     for set in sets:
         sortedSets[set.Type].append(set)
     return render_template("public/sets.html", sets = sortedSets)
