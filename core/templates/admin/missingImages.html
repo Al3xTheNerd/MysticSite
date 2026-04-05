@@ -22,7 +22,7 @@
             <ul class="list-group list-group-flush">
                 {% if MissingIcons %}
                     {% for item in MissingIcons %}
-                    <li class="list-group-item mc-white bg-dark"><a href = {{url_for('uploadIcon', itemID=item.id)}}>{{ item.id }}</a> - {{ item.ItemName | safe }}</li>
+                    <li class="list-group-item mc-white bg-dark"><a href = {{url_for('manageItem', itemID=item.id)}}>{{ item.id }}</a> - {{ item.ItemName | safe }}</li>
                     {% endfor %}
                 {% else %}
                     <li class="list-group-item mc-white bg-dark">Good job! All icons exist!</li>
@@ -38,7 +38,7 @@
             <ul class="list-group list-group-flush">
                 {% if MissingMiscIcons %}
                     {% for item in MissingMiscIcons %}
-                    <li class="list-group-item mc-white bg-dark"><a href = {{url_for('uploadMiscIcon', itemID=item.id)}}>{{ item.id }}</a> - {{ item.ItemName | safe }}</li>
+                    <li class="list-group-item mc-white bg-dark"><a href = {{url_for('manageMiscItem', itemID=item.id)}}>{{ item.id }}</a> - {{ item.ItemName | safe }}</li>
                     {% endfor %}
                 {% else %}
                     <li class="list-group-item mc-white bg-dark">Good job! All misc. icons exist!</li>

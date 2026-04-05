@@ -139,26 +139,50 @@ def manageItem(itemID):
         return redirect("/admin/itemlist")
     else:
         if request.method == 'POST':
-            old = item.to_dict("*")
-            item.CrateID = request.form.get("Crate", item.CrateID)
-            item.TagPrimary = request.form.get("PrimaryTag", item.TagPrimary)
-            item.TagSecondary = request.form.get("SecondaryTag", item.TagSecondary)
-            item.TagTertiary = request.form.get("TertiaryTag", item.TagTertiary)
-            item.TagQuaternary = request.form.get("QuaternaryTag", item.TagQuaternary)
-            item.TagQuinary = request.form.get("QuinaryTag", item.TagQuinary)
-            item.TagSenary = request.form.get("SenaryTag", item.TagSenary)
-            item.TagSeptenary = request.form.get("SeptenaryTag", item.TagSeptenary)
-            item.WinPercentage = request.form.get("WinPercentage", item.WinPercentage)
-            item.Notes = request.form.get("Notes", item.Notes)
-            item.ItemName = request.form.get("ItemName", item.ItemName)
-            new = item.to_dict("*")
-            db.session.commit()
-            for key in old.keys():
-                if old[key] != new[key]:
-                    uploadLog(current_user, "Item", f"{item.ItemName} | {key} | '{old[key]}'-->'{new[key]}'.", item.id)
+            if "FileForm" in request.form.to_dict():
+                # check if the post request has the file part
+                if 'file' not in request.files:
+                    for k,v in request.files.items():
+                        print(k,v)
+                    flash('No file part')
+                    return redirect(request.url)
+                file = request.files['file']
+                # If the user does not select a file, the browser submits an
+                # empty file without a filename.
+                if file.filename == '':
+                    flash('No selected file')
+                    return redirect(request.url)
                 
-            flash(f"{item.ItemNameHTML} updated successfully!", "dark")
-            return redirect("/admin/itemlist")
+                if file and file.filename and file.filename.endswith(".png"):
+                    filename = f"{itemID}.png"
+                    if platform == "win32":
+                        loc = f"core/static/images/{server_name}_Icons/"
+                    else:
+                        loc = f"/home/alexthenerd/{server_folder_name}/core/static/images/{server_name}_Icons/"
+                        
+                    file.save(os.path.join(loc, filename))
+                    uploadLog(current_user, "Item", "icon image uploaded.", itemID)
+                    flash("Image saved successfully.")
+            else:
+                old = item.to_dict("*")
+                item.CrateID = request.form.get("Crate", item.CrateID)
+                item.TagPrimary = request.form.get("PrimaryTag", item.TagPrimary)
+                item.TagSecondary = request.form.get("SecondaryTag", item.TagSecondary)
+                item.TagTertiary = request.form.get("TertiaryTag", item.TagTertiary)
+                item.TagQuaternary = request.form.get("QuaternaryTag", item.TagQuaternary)
+                item.TagQuinary = request.form.get("QuinaryTag", item.TagQuinary)
+                item.TagSenary = request.form.get("SenaryTag", item.TagSenary)
+                item.TagSeptenary = request.form.get("SeptenaryTag", item.TagSeptenary)
+                item.WinPercentage = request.form.get("WinPercentage", item.WinPercentage)
+                item.Notes = request.form.get("Notes", item.Notes)
+                item.ItemName = request.form.get("ItemName", item.ItemName)
+                new = item.to_dict("*")
+                db.session.commit()
+                for key in old.keys():
+                    if old[key] != new[key]:
+                        uploadLog(current_user, "Item", f"{item.ItemName} | {key} | '{old[key]}'-->'{new[key]}'.", item.id)
+                    
+                flash(f"{item.ItemNameHTML} updated successfully!", "dark")
     return render_template("admin/crateitems/manageItem.html", 
                            item = item,
                            validTags = config.validTags,
@@ -227,40 +251,6 @@ def manageCrates():
     queries += 1
 
     return render_template("admin/crateitems/manageCrates.html", currentCrates = formattedCrates)
-
-@app.route('/admin/uploadIcon/<itemID>', methods=['GET', 'POST']) # type: ignore
-@permission_level_required(40)
-def uploadIcon(itemID):
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            for k,v in request.files.items():
-                print(k,v)
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        
-        if file and file.filename and file.filename.endswith(".png"):
-            filename = f"{itemID}.png"
-            if platform == "win32":
-                loc = f"core/static/images/{server_name}_Icons/"
-            else:
-                loc = f"/home/alexthenerd/{server_folder_name}/core/static/images/{server_name}_Icons/"
-                
-            file.save(os.path.join(loc, filename))
-            uploadLog(current_user, "Item", "icon image uploaded.", itemID)
-            flash("Image saved successfully.")
-            return redirect("/admin/missingimages")
-    item = Item.query.filter(Item.id == itemID).first()    
-    if not item:
-        return redirect("/admin/missingimages")
-    return render_template("admin/crateitems/uploadImage.html", item = item)
-
 
 @app.route('/admin/setorder', methods=['GET', 'POST']) # type: ignore
 @permission_level_required(30)
@@ -550,18 +540,42 @@ def manageMiscItem(itemID):
         return redirect("/admin/misc/itemlist")
     else:
         if request.method == 'POST':
-            old = item.to_dict("*")
-            item.GroupID = request.form.get("Group", item.GroupID)
-            item.Notes = request.form.get("Notes", item.Notes)
-            item.ItemName = request.form.get("ItemName", item.ItemName)
-            new = item.to_dict("*")
-            db.session.commit()
-            for key in old.keys():
-                if old[key] != new[key]:
-                    uploadLog(current_user, "Misc Item", f"{item.ItemName} | {key} | '{old[key]}'-->'{new[key]}'.", item.id)
+            if "FileForm" in request.form.to_dict():
+                # check if the post request has the file part
+                if 'file' not in request.files:
+                    for k,v in request.files.items():
+                        print(k,v)
+                    flash('No file part')
+                    return redirect(request.url)
+                file = request.files['file']
+                # If the user does not select a file, the browser submits an
+                # empty file without a filename.
+                if file.filename == '':
+                    flash('No selected file')
+                    return redirect(request.url)
                 
-            flash(f"{item.ItemNameHTML} updated successfully!", "dark")
-            return redirect("/admin/misc/itemlist")
+                if file and file.filename and file.filename.endswith(".png"):
+                    filename = f"{itemID}.png"
+                    if platform == "win32":
+                        loc = f"core/static/images/{server_name}_Misc_Icons/"
+                    else:
+                        loc = f"/home/alexthenerd/{server_folder_name}/core/static/images/{server_name}_Misc_Icons/"
+                        
+                    file.save(os.path.join(loc, filename))
+                    uploadLog(current_user, "Misc Item", "icon image uploaded.", itemID)
+                    flash("Image saved successfully.")
+            else:
+                old = item.to_dict("*")
+                item.GroupID = request.form.get("Group", item.GroupID)
+                item.Notes = request.form.get("Notes", item.Notes)
+                item.ItemName = request.form.get("ItemName", item.ItemName)
+                new = item.to_dict("*")
+                db.session.commit()
+                for key in old.keys():
+                    if old[key] != new[key]:
+                        uploadLog(current_user, "Misc Item", f"{item.ItemName} | {key} | '{old[key]}'-->'{new[key]}'.", item.id)
+                    
+                flash(f"{item.ItemNameHTML} updated successfully!", "dark")
     return render_template("admin/miscitems/manageItem.html", 
                            item = item,
                            currentGroups = formattedGroups)
@@ -642,9 +656,6 @@ def manageGroups():
 
     return render_template("admin/miscitems/manageGroups.html", currentGroups = formattedGroups, validGroupTypes = config.validMiscGroupTypes)
 
-@app.route('/admin/misc/uploadIcon/<itemID>', methods=['GET', 'POST']) # type: ignore
-@permission_level_required(40)
-def uploadMiscIcon(itemID):
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
