@@ -7,6 +7,8 @@ from core.models.crates import Crate
 from core.models.vote import Votes
 from core.models.itemtracker import ItemTracker
 from core.models.miscItem import MiscellaneousItem
+from core.models.sets import Set as ItemSet
+from core.models.miscGroup import MiscellaneousGroup
 from typing import List, Tuple
 from core import db
 import json
@@ -59,13 +61,6 @@ def ItemsAPI():
     items = [x.to_dict(inc) for x in Item.query.order_by(Item.ItemOrder).all()]
     return buildResponse(items, messages)
 
-@app.route('/api/miscitems') # type: ignore
-def MiscItemsAPI():
-    """Get all items."""
-    inc, messages = determineIncludedInfo(request.headers)
-    items = [x.to_dict(inc) for x in MiscellaneousItem.query.order_by(MiscellaneousItem.ItemOrder).all()]
-    return buildResponse(items, messages)
-
 @app.route('/api/crates') # type: ignore
 def CratesAPI():
     """Get all crates."""
@@ -73,9 +68,45 @@ def CratesAPI():
         "id",
         "CrateName",
         "ReleaseDate",
-        "URLTag"
+        "URLTag",
+        "CrateType"
     ]
     crates = [x.to_dict(inc) for x in Crate.query.order_by(Crate.id).all()]
+    return jsonify(crates)
+
+@app.route('/api/miscitems') # type: ignore
+def MiscItemsAPI():
+    """Get all items."""
+    inc, messages = determineIncludedInfo(request.headers)
+    items = [x.to_dict(inc) for x in MiscellaneousItem.query.order_by(MiscellaneousItem.ItemOrder).all()]
+    return buildResponse(items, messages)
+
+@app.route('/api/miscgroups') # type: ignore
+def MiscGroupsAPI():
+    """Get all crates."""
+    inc = [
+        "id",
+        "GroupName",
+        "ReleaseDate",
+        "URLTag",
+        "GroupType",
+        "GroupOrder"
+    ]
+    crates = [x.to_dict(inc) for x in MiscellaneousGroup.query.order_by(MiscellaneousGroup.id).all()]
+    return jsonify(crates)
+
+@app.route('/api/sets') # type: ignore
+def SetsAPI():
+    """Get all crates."""
+    inc = [
+        "id",
+        "Name",
+        "ItemList",
+        "Type",
+        "SetDescription",
+        "SetOrder"
+    ]
+    crates = [x.to_dict(inc) for x in ItemSet.query.order_by(ItemSet.id).all()]
     return jsonify(crates)
 
 
@@ -109,6 +140,8 @@ def TagSearchAPI(tag : str):
     if not items:
         items = None
     return buildResponse(items, messages)
+
+
 
 
 @app.route('/api/tags') # type: ignore
