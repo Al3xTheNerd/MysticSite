@@ -110,7 +110,8 @@ def MiscGroupsAPI():
         "ReleaseDate",
         "URLTag",
         "GroupType",
-        "GroupOrder"
+        "Notes",
+        "GroupOrder",
     ]
     crates = [x.to_dict(inc) for x in MiscellaneousGroup.query.order_by(MiscellaneousGroup.id).all()]
     return jsonify(crates)
