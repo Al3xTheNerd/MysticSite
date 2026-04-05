@@ -381,6 +381,7 @@ Changelog = {
     ],
     "4/4/2026" : [
         ("mc-gold", "Icon images implemented into <code>/admin/manageItem</code> for both miscellaneous items and for crate items."),
+        ("mc-gold", "Item lists now show current icon when hovering.")
     ],
     
 }
