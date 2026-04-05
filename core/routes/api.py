@@ -46,6 +46,26 @@ def determineIncludedInfo(headers: dict):
         "ItemName"
         ], messages
 
+def determineMiscIncludedInfo(headers: dict):
+    inc = headers.get("I-INCLUDED-INFO")
+    messages = []
+    if inc:
+        if inc != "*":
+            eventualReturn = str(inc).split(";")
+            toRemove = []
+            for ret in eventualReturn:
+                if ret not in vars(MiscellaneousItem).keys():
+                    toRemove.append(ret)
+                    messages.append(APIErrorHandler.process(APIErrors.INVALID_COLUMN, ret))
+            eventualReturn = [x for x in eventualReturn if x not in toRemove]
+        else: eventualReturn = "*"
+        return eventualReturn, messages
+    else:
+        return [
+        "id",
+        "ItemName"
+        ], messages
+
 
 def buildResponse(data: List[dict] | None, messages: List[str]) -> Response:
     return jsonify({
@@ -77,7 +97,7 @@ def CratesAPI():
 @app.route('/api/miscitems') # type: ignore
 def MiscItemsAPI():
     """Get all items."""
-    inc, messages = determineIncludedInfo(request.headers)
+    inc, messages = determineMiscIncludedInfo(request.headers)
     items = [x.to_dict(inc) for x in MiscellaneousItem.query.order_by(MiscellaneousItem.ItemOrder).all()]
     return buildResponse(items, messages)
 
