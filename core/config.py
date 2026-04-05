@@ -345,7 +345,44 @@ Changelog = {
         ("mc-light-purple", "The Item Tracker now has the option to Upload Data, this is used for bot developers who are interested in doing something with people's inventory data, such as a bot that calculates your networth."),
         ("mc-light-purple", "The Item Tracker is now condensed to have all the items on the same page, you can filter through each one with the Tag Selection tile."),
         ("mc-green", "New sets feature has been added! This will show related items together on the same screen, such as items needed for an upgrade, or Armor Sets! Please note, it will take a while for some servers to see this actively used, and some items can/will get missed.")
-    ]
+    ],
+    "3/12/2026" : [
+        ("mc-light-purple", "Fixed <code>/gambling</code>"),
+        ("mc-light-purple", "Fixed <code>/blockspeed</code>"),
+        ("mc-green", "New sets feature added! This is intended for Armor Sets with a bonus, or for item required for an Upgrade Quest"),
+        ("mc-gold", "Debug mode discovered and enabled in dev environment.")
+    ],
+    "3/15/2026" : [
+        ("mc-gold", "Item description images used by the bot are now generated automatically once an hour, if needed."),
+        ("mc-light-purple", "Instructions and explanations have been added to nearly every page on the site."),
+        ("mc-gold", "Item Icon images can now be uploaded directly to the website, rather than git commits being used.")
+    ],
+    "3/20/2026" : [
+        ("mc-gold", "Login system has been updated to actually have minimum safety requirements."),
+        ("mc-gold", "Permission system has been implemented, so different people can have different levels of access to the site."),
+        ("mc-gold", "Admin actions are now logged in the database. This is incase someone decides to be a piece of shit and grief the site.")
+    ],
+    "3/21/2026" : [
+        ("mc-light-purple", "Items on the item tracker are now sorted by the custom Item Order I've setup.")
+    ],
+    "3/27/2026" : [
+        ("mc-light-purple", "Search bar and <code>/search</code> now search item notes as well."),
+        ("mc-light-purple", "Search bar now supports <code>&</code> in searches.")
+    ],
+    "3/28/2026" : [
+        ("mc-gold", "<code>/admin/uploadIcon</code> now shows item preview to make things easier.")
+    ],
+    "3/29/2026" : [
+        ("mc-gold", "<code>/admin/setMaker</code> now shows item names when making a set instead of item ids."),
+        ("mc-gold", "<code>/admin/manageItem</code> now shows item icons."),
+    ],
+    "4/3/2026" : [
+        ("mc-green", "Miscellaneous item support is now added! This will primarily be used for Voucher items such as plushies, event items/rewards, and possibly furniture in the future."),
+    ],
+    "4/4/2026" : [
+        ("mc-gold", "Icon images implemented into <code>/admin/manageItem</code> for both miscellaneous items and for crate items."),
+    ],
+    
 }
 
         
