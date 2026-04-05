@@ -200,7 +200,7 @@ def group(groupTag):
 
 @app.route('/groups')
 def groupPage():
-    groups: List[MiscellaneousGroup] = MiscellaneousGroup.query.all()
+    groups: List[MiscellaneousGroup] = MiscellaneousGroup.query.order_by(MiscellaneousGroup.GroupOrder).all()
     groupList = {
         "" : []
         }
