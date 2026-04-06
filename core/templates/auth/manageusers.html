@@ -25,6 +25,8 @@
                                 <th scope="col">Username</th>
                                 <th scope="col">Permissions Integer</th>
                                 <th scope="col">Manage User</th>
+                                <th scope="col">Password</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -34,6 +36,7 @@
                                 <td scope="col">{{user.username}}</td>
                                 <td scope="col">{{user.permissions}}</td>
                                 <td scope="col"><a href='{{url_for('manageUser', userID=user.id)}}'>Manage User</a></td>
+                                <td scope="col"><a href='{{url_for('forceResetPass', userID=user.id)}}'>Force reset password.</a></td>
                             </tr>
                             {% endfor %}
                         </tbody>

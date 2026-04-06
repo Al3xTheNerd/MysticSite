@@ -383,6 +383,10 @@ Changelog = {
         ("mc-gold", "Icon images implemented into <code>/admin/manageItem</code> for both miscellaneous items and for crate items."),
         ("mc-gold", "Item lists now show current icon when hovering.")
     ],
+    "4/5/2026" : [
+        ("mc-gold", "Users now have the ability to reset their passwords when logged in."),
+        ("mc-gold", "Site admins can now force a password reset if a user cannot log in for some reason or another."),
+    ]
     
 }
 

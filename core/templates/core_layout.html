@@ -132,8 +132,10 @@
                                     <li><a class="dropdown-item{%if request.path == url_for('viewLogs', logType='User')%} active{%endif%}" href="{{ url_for('viewLogs', logType='User')}}">User Logs</a></li>
                                 {% endif %}
                                 <div class="dropdown-divider"></div>
+                                <li><a class="dropdown-item{%if request.path == url_for('resetPass')%} active{%endif%}" href="{{ url_for('resetPass')}}">Reset Password</a></li>
                                 <li><a class="dropdown-item{%if request.path == url_for('logout')%} active{%endif%}" href="{{ url_for('logout')}}">Logout</a></li>
                             {% else %}
+
                                 <li><a class="dropdown-item{%if request.path == url_for('login')%} active{%endif%}" href="{{ url_for('login')}}">Login</a></li>
                                 <li><a class="dropdown-item{%if request.path == url_for('signup')%} active{%endif%}" href="{{ url_for('signup')}}">Signup</a></li>
                             {%endif%}
