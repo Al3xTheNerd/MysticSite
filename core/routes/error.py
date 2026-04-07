@@ -9,6 +9,8 @@ def handle_http_exception(e):
     """Return JSON instead of HTML for HTTP errors."""
     response = e.get_response()
     response.content_type = "application/json"
+    print(e.description)
+    print(e)
     return render_template("public/index.html", Items = c.errorMaker(errorCode = e.code))
 
 @login_manager.unauthorized_handler
