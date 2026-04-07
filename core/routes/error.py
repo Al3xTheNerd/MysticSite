@@ -17,4 +17,4 @@ def handle_http_exception(e):
 def unauthorized():
     items = [c.errorMaker(errorCode = "Unauthorized User")]
     flash("You are not authorized to be there, you dirty dog!", "warning")
-    return redirect(url_for('index'))
+    return redirect(url_for('index')) 
