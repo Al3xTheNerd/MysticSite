@@ -69,6 +69,7 @@
                                 <th scope="col">Group ID</th>
                                 {% elif name == "Group" %}
                                 <th scope="col">Tag</th>
+                                <th scope="col">Release Date</th>
                                 {% endif%}
                                 <th scope="col">Order</th>
                             </tr>
@@ -86,6 +87,8 @@
                                 <td scope="col"><span id='id'>{{item.id}}</span></td>
                                 <td scope="col">{{item.GroupName}}</td>
                                 <td scope="col">{{item.URLTag}}</td>
+                                <td scope="col">{{item.ReleaseDate}}</td>
+                                
                                 <td scope="col"><span id='io'>{{item.GroupOrder}}</span></td>
                                 {% endif %}
                             </tr>
