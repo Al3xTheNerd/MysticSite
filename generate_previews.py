@@ -63,7 +63,6 @@ if items:
         if f"{item.id}.png" not in desc_file_list:
             print(f"Missing Description for {item.id}")
             missingImages["descriptions"].append(item.id)
-missingImages["descriptions"] = []
 if miscItems:
     for item in miscItems:
         if f"{item.id}.png" not in misc_file_list:
