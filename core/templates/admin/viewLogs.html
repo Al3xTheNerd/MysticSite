@@ -47,6 +47,10 @@
                                     <td scope="col"><a href='{{url_for('editSet', setID=log.RelatedID)}}'>Manage Set</a></td>
                                 {% elif log.Type == "User" and log.RelatedID %}
                                     <td scope="col"><a href='{{url_for('manageUser', userID=log.RelatedID)}}'>Manage User</a></td>
+                                {% elif log.Type == "Group" and log.RelatedID %}
+                                    <td scope="col"><a href='{{url_for('manageGroups'}}'>Manage Groups</a></td>
+                                {% elif log.Type == "Misc Item" and log.RelatedID %}
+                                    <td scope="col"><a href='{{url_for('manageMiscItem', itemID=log.RelatedID}}'>Manage Misc Item</a></td>
                                 {% else %}
                                     <td scope="col"></td>
                                 {% endif %}
