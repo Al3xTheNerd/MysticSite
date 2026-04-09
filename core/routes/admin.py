@@ -36,7 +36,7 @@ def currentItemsByCrate():
     return sortedItems
 
 def currentItemsByGroup():
-    groups: List[MiscellaneousGroup]= MiscellaneousGroup.query.order_by(MiscellaneousGroup.id).all()
+    groups: List[MiscellaneousGroup]= MiscellaneousGroup.query.order_by(MiscellaneousGroup.GroupOrder).all()
     items: List[MiscellaneousItem] = MiscellaneousItem.query.order_by(MiscellaneousItem.ItemOrder).all()
     sortedItems = {}
     for group in groups:
