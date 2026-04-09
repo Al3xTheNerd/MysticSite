@@ -39,8 +39,12 @@ def currentItemsByGroup():
     groups: List[MiscellaneousGroup]= MiscellaneousGroup.query.order_by(MiscellaneousGroup.GroupOrder).all()
     items: List[MiscellaneousItem] = MiscellaneousItem.query.order_by(MiscellaneousItem.ItemOrder).all()
     sortedItems = {}
+    groupIDToName = {}
     for group in groups:
-        sortedItems[group.GroupName] = [item for item in items if int(group.id) == int(item.GroupID)]
+        sortedItems[group.GroupName] = []
+        groupIDToName[group.id] = group.GroupName
+    for item in items:
+        sortedItems[groupIDToName[int(item.GroupID)]].append(item)
     return sortedItems
 
 
