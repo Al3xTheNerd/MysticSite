@@ -235,8 +235,10 @@
             checkboxes[i].checked = false
         }
         for (const itemId of currentValues) {
-            checkbox = document.getElementById(`Item-${itemId}`).children[0]
-            checkbox.checked = true
+            try {
+                checkbox = document.getElementById(`Item-${itemId}`).children[0]
+                checkbox.checked = true
+            } catch {}
         }
         /*for (let itemID in currentValues) {
             checkbox = document.getElementById(`Item-${itemID}`).children[0]
