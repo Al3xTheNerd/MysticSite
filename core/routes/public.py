@@ -9,7 +9,11 @@ from core.models import Item, Crate, ItemTracker, MiscellaneousGroup, Miscellane
 from core.utils import convert_int_to_roman, convert_roman_in_string, randomCode
 
 from atn import server_rarity_list, server_name
-
+try:
+    from atn import jobsInfo, JobsSecrets
+except:
+    jobsInfo = None
+    JobsSecrets = None
 from random import choices
 from sys import platform
 from typing import List
@@ -458,7 +462,7 @@ def weapontracker():
 
 @app.route('/jobspayouts')
 def jobspayouts():
-    return render_template("public/jobspayout.html")
+    return render_template("public/jobspayout.html", Info = jobsInfo, Secrets = JobsSecrets)
 
 @app.route('/blockspeed')
 def blockspeed():
