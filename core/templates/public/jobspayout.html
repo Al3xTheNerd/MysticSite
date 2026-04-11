@@ -5,12 +5,12 @@
     <div class="col-12 bg-dark text-info rounded">
         <form>
             <div class="mb-3">
-                <label for="job-level" class="form-label">Level: <span id="job-level-display">1</span></label>
+                <label for="job-level" class="form-label">Current Level (<code>/jobs stats</code>):<span id="job-level-display">1</span></label>
                 <input type="range" class="form-range" min="1" max="101" value="1" id="job-level"
                     oninput="updateValues()" onchange="updateValues()">
             </div>
             <div class="mb-3">
-                <label for="job-bonus" class="form-label">Bonus: <span id="job-bonus-display">0</span>%</label>
+                <label for="job-bonus" class="form-label">Bonus % (<code>/jobs bonus [Job Name]</code>):<span id="job-bonus-display">0</span>%</label>
                 <input type="range" class="form-range" min="0" max="40" value="0" step="5" id="job-bonus"
                     oninput="updateValues()" onchange="updateValues()">
             </div>
@@ -63,10 +63,11 @@
                                     <thead>
                                         <tr id="skip">
                                             <th scope="col">Item/Entity</th>
-                                            <th scope="col">Experience</th>
+                                            <th scope="col">Base Experience</th>
                                             <th scope="col">Base Pay</th>
+                                            <th scope="col">Buffed XP</th>
                                             <th cope="col">Actions Needed for Goal</th>
-                                            <th scope="col">Final Pay</th>
+                                            <th scope="col">Current Level Pay</th>
                                             <th scope="col">Goal Pay</th>
                                             
                                         </tr>
@@ -75,8 +76,9 @@
                                         {% for JobItemName, JobItemInfo in Info[JobName][JobAction].items() %}
                                         <tr>
                                             <th scope='col'>{{JobItemName}}</th>
-                                            <td scope='col'><span id='xp'>{{JobItemInfo['xp']}}</span></th>
-                                            <td scope='col'>$<span id='base'>{{JobItemInfo['basepay']}}</span></td>
+                                            <th scope='col'><span id='xp'>{{JobItemInfo['xp']}}</span></th>
+                                            <th scope='col'>$<span id='base'>{{JobItemInfo['basepay']}}</span></td>
+                                            <td scope='col'><span id='buffedxp'>{{JobItemInfo['xp']}}</span></td>
                                             <td scope='col'><span id='goal'>0</span></td>
                                             <td scope='col'>$<span id='final'>{{JobItemInfo['basepay']}}</span></td>
                                             <td scope='col'>$<span id='goalpay'>{{JobItemInfo['basepay']}}</span></td>
@@ -111,6 +113,7 @@
             }
             goalXP = goalXP-totalXPEarned
             jobElement.textContent = goalXP
+            
         }
     }
 
@@ -139,18 +142,21 @@
                 let tempBase = row.querySelector("#base").textContent;
                 tempBase = tempBase * (1 + (bonus / 100));
                 let payout = tempBase + (tempBase * (level - 1) * 0.01);
-                let goalPayout = tempBase + (tempBase * (goalLevel.value - 1) * 0.01);
                 payout = Math.round(payout * 100) / 100
-                goalPayout = Math.round(goalPayout * 100) / 100
                 let tempFinal = row.querySelector("#final");
                 tempFinal.textContent = payout;
+                
+                let goalPayout = tempBase + (tempBase * (goalLevel.value - 1) * 0.01);
+                goalPayout = Math.round(goalPayout * 100) / 100
                 let tempGoalPay = row.querySelector("#goalpay");
                 tempGoalPay.textContent = goalPayout;
 
 
-                let tempXP = row.querySelector("#xp").textContent;
+                let tempXP = row.querySelector("#xp").textContent * (1 + (bonus / 100));
+                let buffedXP = row.querySelector("#buffedxp")
                 let neededForGoal = row.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[3].textContent
                 let actionsNeeded = neededForGoal/tempXP
+                buffedXP.textContent = tempXP
                 let goalOutput = row.querySelector("#goal")
                 goalOutput.textContent = Math.round(actionsNeeded * 100) / 100
 
