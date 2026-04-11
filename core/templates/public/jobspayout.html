@@ -64,12 +64,11 @@
                                         <tr id="skip">
                                             <th scope="col">Item/Entity</th>
                                             <th scope="col">Base Experience</th>
-                                            <th scope="col">Base Pay</th>
+                                            <th scope="col">Base Pay Rate</th>
                                             <th scope="col">Buffed XP</th>
+                                            <th scope="col">Current Level Pay Rate</th>
+                                            <th scope="col">Goal Pay Rate</th>
                                             <th cope="col">Actions Needed for Goal</th>
-                                            <th scope="col">Current Level Pay</th>
-                                            <th scope="col">Goal Pay</th>
-                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -79,10 +78,9 @@
                                             <th scope='col'><span id='xp'>{{JobItemInfo['xp']}}</span></th>
                                             <th scope='col'>$<span id='base'>{{JobItemInfo['basepay']}}</span></td>
                                             <td scope='col'><span id='buffedxp'>{{JobItemInfo['xp']}}</span></td>
-                                            <td scope='col'><span id='goal'>0</span></td>
                                             <td scope='col'>$<span id='final'>{{JobItemInfo['basepay']}}</span></td>
                                             <td scope='col'>$<span id='goalpay'>{{JobItemInfo['basepay']}}</span></td>
-                                            
+                                            <td scope='col'><span id='goal'>0</span></td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
@@ -151,15 +149,14 @@
                 let tempGoalPay = row.querySelector("#goalpay");
                 tempGoalPay.textContent = goalPayout;
 
-
                 let tempXP = row.querySelector("#xp").textContent * (1 + (bonus / 100));
                 let buffedXP = row.querySelector("#buffedxp")
+                buffedXP.textContent = Math.round(tempXP * 100) / 100
+                
                 let neededForGoal = row.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[3].textContent
                 let actionsNeeded = neededForGoal/tempXP
-                buffedXP.textContent = tempXP
                 let goalOutput = row.querySelector("#goal")
                 goalOutput.textContent = Math.round(actionsNeeded * 100) / 100
-
             }
         }
     }
