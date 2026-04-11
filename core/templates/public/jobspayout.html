@@ -67,6 +67,8 @@
                                             <th scope="col">Base Pay</th>
                                             <th cope="col">Actions Needed for Goal</th>
                                             <th scope="col">Final Pay</th>
+                                            <th scope="col">Goal Pay</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -77,6 +79,8 @@
                                             <td scope='col'>$<span id='base'>{{JobItemInfo['basepay']}}</span></td>
                                             <td scope='col'><span id='goal'>0</span></td>
                                             <td scope='col'>$<span id='final'>{{JobItemInfo['basepay']}}</span></td>
+                                            <td scope='col'>$<span id='goalpay'>{{JobItemInfo['basepay']}}</span></td>
+                                            
                                         </tr>
                                         {% endfor %}
                                     </tbody>
@@ -135,9 +139,14 @@
                 let tempBase = row.querySelector("#base").textContent;
                 tempBase = tempBase * (1 + (bonus / 100));
                 let payout = tempBase + (tempBase * (level - 1) * 0.01);
+                let goalPayout = tempBase + (tempBase * (goalLevel.value - 1) * 0.01);
                 payout = Math.round(payout * 100) / 100
+                goalPayout = Math.round(goalPayout * 100) / 100
                 let tempFinal = row.querySelector("#final");
                 tempFinal.textContent = payout;
+                let tempGoalPay = row.querySelector("#goalpay");
+                tempGoalPay.textContent = goalPayout;
+
 
                 let tempXP = row.querySelector("#xp").textContent;
                 let neededForGoal = row.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[3].textContent
