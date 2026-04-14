@@ -587,3 +587,7 @@ def gamble():
                     stats[resultCrate][item.ItemNameHTML] += 1
         stats[resultCrate] = {k: v for k,v in sorted(stats[resultCrate].items(), key=lambda i: i[1])}
     return render_template("public/gamble.html", Items = items, amount = amount, recentCrate = crate, stats = stats)
+
+@app.route('/apidocs')
+def apidocs():
+    return render_template("public/api.html")

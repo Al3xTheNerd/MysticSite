@@ -17,7 +17,7 @@ import json
 TagCols = [Item.TagPrimary, Item.TagSecondary, Item.TagTertiary, Item.TagQuaternary, Item.TagQuinary, Item.TagSenary, Item.TagSeptenary]
 class APIErrors():
     NO_RESULTS = (0, "No Results Found.")
-    INVALID_COLUMN = (1, "[{}] is not a valid column. Please fix your shit.")
+    INVALID_COLUMN = (1, "[{}] is not a valid column.")
     
     
     def process(self, error: Tuple[int, str], var: str):
