@@ -536,7 +536,7 @@ def inventory():
     formattedItems = []
     blankSlot = f"""<img height='44' width='44' src="{url_for('static', filename = f"images/{server_name}_Icons/0.png")}">"""
     for item in items:
-        hoverableHTML = f"""<img height='44' width='44' src="{url_for('static', filename = f"images/{server_name}_Icons/{item.id}.png")}" data-bs-custom-class="wide-tooltip" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="bottom" data-bs-title="<div class='give-preview-text-outer marker'><div class='give-preview-text w-100'><div class='give-preview-text-inner text-start'>{item.ItemHTML.replace('"', '&quot;')}</div></div></div>">"""
+        hoverableHTML = f"""<img height='44' width='44' src="{url_for('static', filename = f"images/{server_name}_Icons/{item.id}.{item.ImageType}")}" data-bs-custom-class="wide-tooltip" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="bottom" data-bs-title="<div class='give-preview-text-outer marker'><div class='give-preview-text w-100'><div class='give-preview-text-inner text-start'>{item.ItemHTML.replace('"', '&quot;')}</div></div></div>">"""
         formattedItems.append({
             "Name" : item.ItemName,
             "HTML" : hoverableHTML,

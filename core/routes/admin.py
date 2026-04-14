@@ -73,6 +73,7 @@ def addItem():
         newItem.RawData = form["RawData"]
         newItem.ItemHuman = form["HumanData"]
         newItem.ItemHTML = form["HTMLData"]
+        newItem.ImageType = None
         itemTags = set([newItem.TagPrimary, newItem.TagSecondary, newItem.TagTertiary, newItem.TagQuaternary, newItem.TagQuinary, newItem.TagSenary, newItem.TagSeptenary])
         if len(itemTags.intersection(set(["Pickaxe", "Axe", "Hoe", "Shovel", "Shears"]))) > 0:
             itemNBT = json.loads(newItem.RawData)
@@ -157,14 +158,23 @@ def manageItem(itemID):
                     flash('No selected file')
                     return redirect(request.url)
                 
-                if file and file.filename and file.filename.endswith(".png"):
-                    filename = f"{itemID}.png"
-                    if platform == "win32":
-                        loc = f"core/static/images/{server_name}_Icons/"
+                if file and file.filename:
+                    if file.filename.endswith(".png"):
+                        filename = f"{itemID}.png"
+                        item.ImageType = "png"
+                    elif file.filename.endswith(".gif"):
+                        filename = f"{itemID}.gif"
+                        item.ImageType = "gif"
                     else:
-                        loc = f"/home/alexthenerd/{server_folder_name}/core/static/images/{server_name}_Icons/"
+                        filename = None
+                    if filename:
+                        if platform == "win32":
+                            loc = f"core/static/images/{server_name}_Icons/"
+                        else:
+                            loc = f"/home/alexthenerd/{server_folder_name}/core/static/images/{server_name}_Icons/"
                         
-                    file.save(os.path.join(loc, filename))
+                        db.session.commit()
+                        file.save(os.path.join(loc, filename))
                     uploadLog(current_user, "Item", "icon image uploaded.", itemID)
                     flash("Image saved successfully.")
             else:
@@ -394,9 +404,9 @@ def deleteSet(setID):
         flash(f"Error deleteing #{set.id} - {set.Name}")
     return redirect("/admin/setorder")
 
-@app.route('/admin/missingimages') # type: ignore
-@permission_level_required(40)
-def missingImages():
+@app.route('/admin/fixImages') # type: ignore
+@permission_level_required(100)
+def fixImags():
     items: List[Item] = Item.query.all()
     miscItems: List[MiscellaneousItem] = MiscellaneousItem.query.all()
     
@@ -414,11 +424,27 @@ def missingImages():
     for item in items:
         if f"{item.id}.png" not in iconFileList:
             missingIcons.append(item)
+        else:
+            item.ImageType = "png"
+        
     
     for item in miscItems:
         if f"{item.id}.png" not in miscIconFileList:
             missingMiscIcons.append(item)
-    return render_template("/admin/missingImages.html", MissingMiscIcons = missingMiscIcons, MissingIcons = missingIcons)
+        else:
+            item.ImageType = "png"
+        
+    db.session.commit()
+    return redirect('missingimages')
+
+
+@app.route('/admin/missingimages') # type: ignore
+@permission_level_required(40)
+def missingImages():
+    items: List[Item] = Item.query.filter(Item.ImageType == None).all()
+    miscItems: List[MiscellaneousItem] = MiscellaneousItem.query.filter(MiscellaneousItem.ImageType == None).all()
+
+    return render_template("/admin/missingImages.html", MissingMiscIcons = miscItems, MissingIcons = items)
 
 @app.route('/admin/logs/<logType>')
 @permission_level_required(90)
@@ -460,6 +486,7 @@ def addMiscItem():
         newItem.RawData = form["RawData"]
         newItem.ItemHuman = form["HumanData"]
         newItem.ItemHTML = form["HTMLData"]
+        newItem.ImageType = None
         try:
             newItem.ItemOrder = (db.session.query(func.max(MiscellaneousItem.ItemOrder)).scalar() + 1)
         except:
@@ -558,16 +585,25 @@ def manageMiscItem(itemID):
                     flash('No selected file')
                     return redirect(request.url)
                 
-                if file and file.filename and file.filename.endswith(".png"):
-                    filename = f"{itemID}.png"
-                    if platform == "win32":
-                        loc = f"core/static/images/{server_name}_Misc_Icons/"
+                if file and file.filename:
+                    if file.filename.endswith(".png"):
+                        filename = f"{itemID}.png"
+                        item.ImageType = "png"
+                    elif file.filename.endswith(".gif"):
+                        filename = f"{itemID}.gif"
+                        item.ImageType = "gif"
                     else:
-                        loc = f"/home/alexthenerd/{server_folder_name}/core/static/images/{server_name}_Misc_Icons/"
+                        filename = None
+                    if filename:
+                        if platform == "win32":
+                            loc = f"core/static/images/{server_name}_Misc_Icons/"
+                        else:
+                            loc = f"/home/alexthenerd/{server_folder_name}/core/static/images/{server_name}_Misc_Icons/"
                         
-                    file.save(os.path.join(loc, filename))
-                    uploadLog(current_user, "Misc Item", "icon image uploaded.", itemID)
-                    flash("Image saved successfully.")
+                        db.session.commit()
+                        file.save(os.path.join(loc, filename))
+                        uploadLog(current_user, "Misc Item", "icon image uploaded.", itemID)
+                        flash("Image saved successfully.")
             else:
                 old = item.to_dict("*")
                 item.GroupID = request.form.get("Group", item.GroupID)
@@ -659,33 +695,3 @@ def manageGroups():
     queries += 1
 
     return render_template("admin/miscitems/manageGroups.html", currentGroups = formattedGroups, validGroupTypes = config.validMiscGroupTypes)
-
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            for k,v in request.files.items():
-                print(k,v)
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        
-        if file and file.filename and file.filename.endswith(".png"):
-            filename = f"{itemID}.png"
-            if platform == "win32":
-                loc = f"core/static/images/{server_name}_Misc_Icons/"
-            else:
-                loc = f"/home/alexthenerd/{server_folder_name}/core/static/images/{server_name}_Misc_Icons/"
-                
-            file.save(os.path.join(loc, filename))
-            uploadLog(current_user, "Misc Item", "icon image uploaded.", itemID)
-            flash("Image saved successfully.")
-            return redirect("/admin/missingimages")
-    item = MiscellaneousItem.query.filter(MiscellaneousItem.id == itemID).first()    
-    if not item:
-        return redirect("/admin/missingimages")
-    return render_template("admin/miscitems/uploadImage.html", item = item)

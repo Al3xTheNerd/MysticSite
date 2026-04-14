@@ -71,9 +71,9 @@
             <div class="card-body weird-margins" id="colorsContainer">
                 <form method="post" id="exportForm" enctype=multipart/form-data>
                     <div class="mb-3">
-                        <label for="DescriptionGroup">.png File</label>
+                        <label for="DescriptionGroup">.png or .gif File</label>
                         <input type="file" class="form-control" name='file' id="DescriptionGroup"
-                            placeholder="Select .png file">
+                            placeholder="Select .png or .gif file">
                     </div>
                     <button type="submit" name="FileForm" class="btn btn-danger">
                         Upload Data
@@ -88,7 +88,7 @@
             <div class="give-preview-text w-100">
                 <div class="give-preview-text-inner">
                     <img height='108' width='108'
-                        src="{{url_for('static', filename='images/' ~ ServerName ~ '_Misc_Icons/' ~ item.id ~ '.png')}}">
+                        src="{{url_for('static', filename='images/' ~ ServerName ~ '_Misc_Icons/' ~ item.id ~ '.' ~ item.ImageType)}}">
                 </div>
             </div>
         </div>

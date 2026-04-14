@@ -29,6 +29,7 @@ class Item(db.Model):
     EfficiencyLevel = db.Column(db.Integer())
     
     SubmergedMiningSpeedAttribute = db.Column(db.Float())
+    ImageType = db.Column(db.String())
     
     
     def to_dict(self, includes: List[str] | str) -> Dict[str, str]:

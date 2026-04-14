@@ -16,7 +16,7 @@ class MiscellaneousItem(db.Model):
     ItemHTML = db.Column(db.String())
     
     ItemOrder = db.Column(db.Integer())
-
+    ImageType = db.Column(db.String())
     
     
     def to_dict(self, includes: List[str] | str) -> Dict[str, str]:
@@ -28,7 +28,7 @@ class MiscellaneousItem(db.Model):
         return retItem
     
     def icon_based_image(self) -> str:
-        return f"""<img class="w-100" src="{url_for('static', filename = f"images/{server_name}_Misc_Icons/{self.id}.png")}" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="bottom" data-bs-title="<div class='give-preview-text-outer marker'><div class='give-preview-text w-100'><div class='give-preview-text-inner text-start'>{self.ItemHTML.replace('"', '&quot;')}</div></div></div>">"""
+        return f"""<img class="w-100" src="{url_for('static', filename = f"images/{server_name}_Misc_Icons/{self.id}.{self.ImageType}")}" data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="bottom" data-bs-title="<div class='give-preview-text-outer marker'><div class='give-preview-text w-100'><div class='give-preview-text-inner text-start'>{self.ItemHTML.replace('"', '&quot;')}</div></div></div>">"""
         
         
 

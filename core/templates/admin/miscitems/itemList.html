@@ -46,7 +46,7 @@
                                     </thead>
                                     <tbody>
                                         {% for item in currentItems[keysList[num]] %}
-                                        <tr data-bs-toggle="tooltip"data-bs-html="true" data-bs-placement="bottom" data-bs-title="<img height='108' width='108' src='{{url_for('static', filename='images/' ~ ServerName ~ '_Misc_Icons/' ~ item.id ~ '.png')}}'>">
+                                        <tr data-bs-toggle="tooltip"data-bs-html="true" data-bs-placement="bottom" data-bs-title="<img height='108' width='108' src='{{url_for('static', filename='images/' ~ ServerName ~ '_Misc_Icons/' ~ item.id ~ '.' ~ item.ImageType)}}'>">
                                             <td scope="col">{{item.ItemNameHTML | safe}}</td>
                                             <td scope="col">{{item.ItemName}}</td>
                                             <td scope="col">{{item.ItemOrder}}</td>
