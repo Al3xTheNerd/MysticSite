@@ -33,14 +33,14 @@ def SingleTagQuery(tag: str) -> list[Item]:
 def getAlternateNumbers(input: str) -> List[str]:
     return [input, convert_int_to_roman(input), convert_roman_in_string(input)]
 
-def getTermFilters(term: str):
+def getTermFilters(term: str, itemType: Item | MiscellaneousItem):
     terms = term.split("&")
     conditions = []
     for user_term in terms:
         user_term = user_term.strip()
     
-        filters = or_(*[Item.ItemHuman.contains(term) for term in getAlternateNumbers(user_term)])
-        filters += or_(*[Item.Notes.contains(term) for term in getAlternateNumbers(user_term)])
+        filters = or_(*[itemType.ItemHuman.contains(term) for term in getAlternateNumbers(user_term)])
+        filters += or_(*[itemType.Notes.contains(term) for term in getAlternateNumbers(user_term)])
         conditions.append(filters)
     return conditions
 
@@ -53,7 +53,7 @@ def index():
             flash("Try entering a query!")
         conditions = []
         
-        conditions += getTermFilters(search)
+        conditions += getTermFilters(search, Item)
             
         items = Item.query.where(*conditions).order_by(Item.ItemOrder).all()
         if not items:
@@ -69,16 +69,17 @@ def search():
     formattedCrates = c.currentCrateData()
     rarityList = server_rarity_list
     items = []
+    miscItems = []
     recentTerm, recentCrate, recentTag, recentTagTwo, recentTagThree, recentRarity = ("", "", "", "", "", "")
     if request.method == 'POST':
         form = request.form.to_dict()
         conditions = []
+        miscConditions = []
         if form["Term"]:
             recentTerm = form["Term"]
             
-            conditions += getTermFilters(recentTerm)
-
-            
+            conditions += getTermFilters(recentTerm, Item)
+            miscConditions += getTermFilters(recentTerm, MiscellaneousItem)
             #conditions.append(Item.ItemHuman.ilike(f'%{form["Term"]}%'))
         if form["Crate"]:
             recentCrate = form["Crate"]
@@ -105,14 +106,15 @@ def search():
             
             
         items: List[Item] = Item.query.where(*conditions).order_by(Item.ItemOrder).all()
-        
-        if len(items) == 0:
+        miscItems: List[MiscellaneousItem] = MiscellaneousItem.query.where(*miscConditions).order_by(MiscellaneousItem.ItemOrder).all()
+        if len(items) == 0 and len(miscItems) == 0:
             flash("No Results Found!", "dark")
     return render_template("public/search.html",
                            validTags = c.validTags,
                            currentCrates = formattedCrates,
                            rarityList = rarityList,
                            Items = items,
+                           MiscItems = miscItems,
                            recentTerm = recentTerm,
                            recentTag = recentTag,
                            recentTagTwo = recentTagTwo,
