@@ -106,7 +106,8 @@ def search():
             
             
         items: List[Item] = Item.query.where(*conditions).order_by(Item.ItemOrder).all()
-        miscItems: List[MiscellaneousItem] = MiscellaneousItem.query.where(*miscConditions).order_by(MiscellaneousItem.ItemOrder).all()
+        if recentTerm:
+            miscItems: List[MiscellaneousItem] = MiscellaneousItem.query.where(*miscConditions).order_by(MiscellaneousItem.ItemOrder).all()
         if len(items) == 0 and len(miscItems) == 0:
             flash("No Results Found!", "dark")
     return render_template("public/search.html",
