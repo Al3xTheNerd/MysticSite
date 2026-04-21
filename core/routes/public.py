@@ -106,7 +106,20 @@ def search():
             
             
         items: List[Item] = Item.query.where(*conditions).order_by(Item.ItemOrder).all()
-        if recentTerm:
+        
+        inputs = [
+            recentCrate,
+            recentTag,
+            recentTagTwo,
+            recentTagThree,
+            recentRarity
+        ]
+        doMisc = True
+        for inp in inputs:
+            if inp != "":
+                doMisc = False
+                break
+        if recentTerm and doMisc:
             miscItems: List[MiscellaneousItem] = MiscellaneousItem.query.where(*miscConditions).order_by(MiscellaneousItem.ItemOrder).all()
         if len(items) == 0 and len(miscItems) == 0:
             flash("No Results Found!", "dark")
