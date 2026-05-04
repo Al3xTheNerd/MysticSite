@@ -407,7 +407,7 @@ def deleteSet(setID):
 @app.route('/admin/fixImages') # type: ignore
 @permission_level_required(100)
 def fixImags():
-    items: List[Item] = Item.query.all()
+    items: List[Item] = Item.query.order_by(Item.ItemOrder).all()
     miscItems: List[MiscellaneousItem] = MiscellaneousItem.query.all()
     
     if platform == "win32":
