@@ -79,8 +79,8 @@ def addItem():
             itemNBT = json.loads(newItem.RawData)
             if "components" in itemNBT:
                 if "minecraft:enchantments" in itemNBT["components"]:
-                    if "minecraft:efficiency" in itemNBT["components"]["minecraft:enchantments"]["levels"]:
-                        newItem.EfficiencyLevel = itemNBT["components"]["minecraft:enchantments"]["levels"]["minecraft:efficiency"]
+                    if "minecraft:efficiency" in itemNBT["components"]["minecraft:enchantments"]:
+                        newItem.EfficiencyLevel = itemNBT["components"]["minecraft:enchantments"]["minecraft:efficiency"]
                 if "minecraft:attribute_modifiers" in itemNBT["components"]:
                     if "modifiers" in itemNBT["components"]["minecraft:attribute_modifiers"]:
                         for modifier in itemNBT["components"]["minecraft:attribute_modifiers"]["modifiers"]:
