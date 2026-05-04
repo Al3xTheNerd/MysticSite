@@ -441,7 +441,7 @@ def fixImags():
 @app.route('/admin/missingimages') # type: ignore
 @permission_level_required(40)
 def missingImages():
-    items: List[Item] = Item.query.filter(Item.ImageType == None).all()
+    items: List[Item] = Item.query.filter(Item.ImageType == None).order_by(Item.ItemOrder).all()
     miscItems: List[MiscellaneousItem] = MiscellaneousItem.query.filter(MiscellaneousItem.ImageType == None).all()
 
     return render_template("/admin/missingImages.html", MissingMiscIcons = miscItems, MissingIcons = items)
