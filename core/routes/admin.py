@@ -695,3 +695,16 @@ def manageGroups():
     queries += 1
 
     return render_template("admin/miscitems/manageGroups.html", currentGroups = formattedGroups, validGroupTypes = config.validMiscGroupTypes)
+
+
+@app.route('/admin/fixShit')
+@permission_level_required(100)
+def fixLackOfItemIDS():
+    items: List[Item] = Item.query.all()
+    
+    for item in items:
+        item.ItemHuman += f" {json.loads(item.RawData)["id"].replace("minecraft:", "")}"
+    
+    print(items[0].ItemHuman)
+    
+    db.session.commit()
