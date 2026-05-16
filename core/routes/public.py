@@ -357,6 +357,56 @@ def newitemtracker():
     return render_template("public/newtracker.html", sortedItems = sortedItems, idCrateList = idToCrateList, validTags = c.validTags, page="newtracker")
 
 
+@app.route('/miscitemtracker', methods=('GET', 'POST'))
+def miscitemtracker():
+    if request.method == 'POST':
+        code = json.loads(request.form['importCode'])
+        if len(code) < 1:
+            flash("Code must have at least one item to upload.")
+        else:
+            attemptedSearch = ItemTracker.query.filter(ItemTracker.ItemList == str(code)).first()
+            if attemptedSearch:
+                flash(f"Your upload code is: <code>{attemptedSearch.Code}</code>. Please provide this code to the bot or service requesting it to import your item tracker information.")
+            else:
+                randCode = randomCode(6)
+                if not ItemTracker.query.filter(ItemTracker.Code == randCode).first():
+                    new_entry = ItemTracker(Code = randCode, ItemList = str(code)) # type: ignore
+                    db.session.add(new_entry)
+                    db.session.commit()
+                    flash(f"Your upload code is: <code>{randCode}</code>. Please provide this code to the bot or service requesting it to import your item tracker information.")
+                else:
+                    flash("Something went wrong, please try again.")
+    sortedItems = {}
+    idToCrateList = {}
+    items: List[MiscellaneousItem] = MiscellaneousItem.query.order_by(MiscellaneousItem.ItemOrder).all()
+
+    
+    groupList: List[MiscellaneousGroup] = MiscellaneousGroup.query.order_by(MiscellaneousGroup.GroupOrder).all()
+    for group in groupList:
+        itemNames = []
+        for item in items:
+            name = item.ItemName
+            #if item.ItemNameHTML in itemNames:
+            #    name = item.ItemName
+            #else:
+            #    name= item.ItemNameHTML
+            #    itemNames.append(item.ItemNameHTML)
+            formattedItem = {
+                "Name" : name,
+                "id" : item.id,
+                "Tags" : [""]
+            }
+            if int(item.GroupID) == int(group.id):
+                if group.GroupName in sortedItems:
+                    idToCrateList[group.GroupName].append(item.id)
+                    sortedItems[group.GroupName].append(formattedItem)
+                else:
+                    idToCrateList[group.GroupName] = [item.id]
+                    sortedItems[group.GroupName] = [formattedItem]
+    return render_template("public/newtracker.html", sortedItems = sortedItems, idCrateList = idToCrateList, validTags = [], page="miscitemtracker")
+
+
+
 @app.route('/jobspayouts')
 def jobspayouts():
     return render_template("public/jobspayout.html", Info = jobsInfo, Secrets = JobsSecrets)
