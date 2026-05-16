@@ -35,7 +35,8 @@ div.input-group input.form-control {
     font-size: 24px;
 }
 body {
-    background-color: #6d4397;
+    /*background-color: #6d4397;*/
+    background-color: #80186e;
 }
 div.cont {
     --bs-gutter-x: 1.5rem;
