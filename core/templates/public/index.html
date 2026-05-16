@@ -1,8 +1,143 @@
 {% extends "core_layout.html" %}
 {% block content %}
-    {% if alternativeDisplay %}
-        {% include 'altItemDisplay.html' %}
-    {% else %}
-        {% include 'itemDisplay.html' %}
-    {% endif%}
+{% if Items is not none %}
+{% include 'itemDisplay.html' %}
+{% else %}
+<div class="row gx-3 gy-3 mb-3">
+    <div class="col-12">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h2 class="card-title">{{ ServerItemName }} List</h2>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-gold bg-dark">This website is a complete list of every custom item on {{
+                    ServerName }}, use it to track your item collection, discover new items to collect, or do some
+                    pretend gambling!</li>
+                <li class="list-group-item mc-gold bg-dark">Below is a list of features you can expect to find on the
+                    website.</li>
+
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title"><a href='/crates'>Crates</a></h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-gold bg-dark">Check what items are in each crate, as well as get the
+                    release date of every crate!</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title"><a href='/tags'>Tags</a></h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-gold bg-dark">Get a list of all items under a given tag, such as a list of
+                    all infinite blocks on the server, or all items that give the speed attribute.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title"><a href='/sets'>Sets</a></h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-gold bg-dark">Sets are going to either be Armor sets with a set bonus, or
+                    groups of items that pair so well together that nearly everybody knows the combination.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title"><a href='/groups'>Misc. Items</a></h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-gold bg-dark">Misc. Items are all the custom items that are not directly
+                    in a crate, including but not limited to: the 10x key purchase bonuses, furniture items, currency,
+                    or event items.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title"><a href='/itemtracker'>Item Tracker</a></h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-gold bg-dark">This tool will give you a list of every item on the server,
+                    and you can use this to check off which items you already have, at the bottom of the screen it will
+                    give you a list of missing items that you can copy/paste directly into Discord for a nicely
+                    formatted list.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title"><a href='/inventory'>Inventory Planner</a></h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-gold bg-dark">You can use this tool to plan out which items you would like to use in your inventory, then copy the code to share with others and show off you're beautiful loadout.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title"><a href='/blockspeed'>Block Break Speed Calculator</a></h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-gold bg-dark">This tool is to do the math for you, to see which tools can instamine which blocks, and in which conditions.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title"><a href='/stats'>Site Stats</a></h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-gold bg-dark">Ever been curious about the total number of {{ ServerItemName }}? Or perhaps how many infinite blocks exist? You can check that on this screen.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title"><a href='/gamble'>Gambling</a></h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-gold bg-dark">Are you perhaps a broke, penniless individual but want to gamble anyways? Use this page to live out your wildest dreams and gamble 1k keys at a time, you're still gonna pull all 4% items anyways!</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title"><a href='/changelog'>Changelog</a></h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-gold bg-dark">This page lists most of the changes I've made to the Item Site since it was born, but not all of them, you nosy little buggers.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h4 class="card-title"><a href='/apidocs'>API Documentation</a></h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item mc-gold bg-dark">Interested in developing your own projects using the data on the item site, such as a Discord bot? Here's the documentation for all of the various API endpoints I've added to the site to make the Item Bot work. If that's not enough for you then reach out to <code>AlexTheNerd</code> on Discord and let's discuss solutions to all your woes.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endif %}
+</div>
 {% endblock %}

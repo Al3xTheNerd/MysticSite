@@ -1,32 +1,5 @@
 {% extends "core_layout.html" %}
 {% block content %}
-{% if Items is not none %}
-{% include 'itemDisplay.html' %}
-{% else %}
-<div class="row gx-3 gy-3 mb-3">
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
-        <div class="card text-white bg-dark">
-            <div class="card-body">
-                <h4 class="card-title">Instructions</h4>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item mc-gold bg-dark">Use the navbar at the top of the page to look for your
-                    desired items!</li>
-            </ul>
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
-        <div class="card text-white bg-dark">
-            <div class="card-body">
-                <h4 class="card-title">Contact Me!</h4>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item mc-gold bg-dark">Reach me on discord by messaging AlexTheNerd</li>
-            </ul>
-        </div>
-    </div>
-</div>
-
 <div class="row gx-3 gy-3">
     {% for Date, Logs in ChangeLog.items() %}
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
@@ -43,8 +16,5 @@
     </div>
 
     {% endfor %}
-</div>
-
-{% endif %}
 </div>
 {% endblock %}

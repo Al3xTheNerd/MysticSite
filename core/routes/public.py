@@ -53,7 +53,7 @@ def index():
             flash("Try entering a query!")
         conditions = []
         
-        conditions += getTermFilters(search, Item)
+        conditions += getTermFilters(search, Item) # type: ignore
             
         items = Item.query.where(*conditions).order_by(Item.ItemOrder).all()
         if not items:
@@ -61,8 +61,11 @@ def index():
             flash("No results found!")
     if items:
         items = noDupes(items)     
-    return render_template("public/changelog.html", Items = items, ChangeLog = c.Changelog)
+    return render_template("public/index.html", Items = items)
 
+@app.route('/changelog')
+def changelog(): 
+    return render_template("public/changelog.html", ChangeLog = c.Changelog)
 
 @app.route('/search', methods = ['GET', 'POST']) # type: ignore
 def search():
@@ -180,7 +183,7 @@ def crate(crateTag):
         items = Item.query.filter_by(CrateID = crateID).order_by(Item.ItemOrder) # type: ignore
     except:
         items = [c.errorMaker(404)]
-    return render_template("public/index.html", Items = items)
+    return render_template("public/mainDisplay.html", Items = items)
 
 @app.route('/crates')
 def cratePage():
@@ -216,7 +219,7 @@ def group(groupTag):
         flash("Something went wrong.")
         return redirect('/groups')
 
-    return render_template("public/index.html", Items = items, Group = group, alternativeDisplay = True)
+    return render_template("public/mainDisplay.html", Items = items, Group = group, alternativeDisplay = True)
 
 @app.route('/groups')
 def groupPage():
@@ -276,7 +279,7 @@ def tag(cat, tag):
             items = SingleTagQuery(tag) # type: ignore
     if cat == 'Misc':
         items = SingleTagQuery(tag) # type: ignore
-    return render_template("public/index.html", Items = noDupes(items) if tag != "Repeat Appearance" else items) # type: ignore
+    return render_template("public/mainDisplay.html", Items = noDupes(items) if tag != "Repeat Appearance" else items) # type: ignore
 
 
 @app.route('/stats')
