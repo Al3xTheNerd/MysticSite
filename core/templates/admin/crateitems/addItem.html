@@ -525,6 +525,7 @@
         finalHuman += EnchantmentsHuman.join(" ");
         finalHuman += ItemLoreHuman.join(" ");
         if (Unbreakable) finalHuman += " Unbreakable";
+        finalHuman += ` ${rawData.id}`
 
         WinPercentage = extractWinChanceFromLore(ItemLoreHuman);
         RarityHuman = extractRarityFromLore(ItemLoreHuman);
