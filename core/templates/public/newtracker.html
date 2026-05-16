@@ -76,6 +76,11 @@
     </div>
 
 </div>
+{% if page == "miscitemtracker" %}
+{% set baseURL = 'images/' ~ ServerName ~ '_Misc_Icons/' %}
+{% else %}
+{% set baseURL = 'images/' ~ ServerName ~ '_Icons/' %}
+{% endif %}
 <div class="row gx-3 gy-3 mb-3" id="grid" data-masonry='{"percentPosition": true }'>
     {% set ns = namespace(count=0) %}
     {% for crate, items in sortedItems.items() %}
@@ -89,7 +94,7 @@
                     {% for item in items %}
                     <div id="Item-{{ item['id'] }}">
                         <input type="checkbox" name="item" onclick="exportCode()">
-                        <label><span class="mc-gold">{{ item["Name"] | safe }}</span></label>
+                        <label><img height='32' width='32' src='{{url_for('static', filename=baseURL ~ item.id ~ '.' ~ item.ImageType)}}'> <span class="mc-gold">{{ item["Name"] | safe }}</span></label>
                     </div>
                     {% set ns.count = ns.count + 1 %}
                     {% endfor %}
@@ -196,7 +201,7 @@
                     crateResDiv.innerHTML = `<br><div class='mc-gold'>- ${crateName}</div>`
                     missingItems.appendChild(crateResDiv)
                 }
-                let temp = checkboxes[i].parentElement.children[1].children[0].cloneNode(true)
+                let temp = checkboxes[i].parentElement.children[1].children[1].cloneNode(true)
                 let emptyDiv = document.createElement("div")
                 let itemId = checkboxes[i].parentElement.id.replace("Item-", "")
                 emptyDiv.id = `Missing-${itemId}`

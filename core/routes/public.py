@@ -345,7 +345,8 @@ def newitemtracker():
             formattedItem = {
                 "Name" : name,
                 "id" : item.id,
-                "Tags" : [tag for tag in [item.TagPrimary, item.TagSecondary, item.TagTertiary, item.TagQuaternary, item.TagQuinary, item.TagSeptenary, item.TagSenary] if tag]
+                "Tags" : [tag for tag in [item.TagPrimary, item.TagSecondary, item.TagTertiary, item.TagQuaternary, item.TagQuinary, item.TagSeptenary, item.TagSenary] if tag],
+                "ImageType" : item.ImageType if item.ImageType else ""
             }
             if int(item.CrateID) == int(crate.id):
                 if crate.CrateName in sortedItems:
@@ -382,7 +383,10 @@ def miscitemtracker():
 
     
     groupList: List[MiscellaneousGroup] = MiscellaneousGroup.query.order_by(MiscellaneousGroup.GroupOrder).all()
+    groupTypes = []
     for group in groupList:
+        if group.GroupType not in groupTypes:
+            groupTypes.append(group.GroupType)
         itemNames = []
         for item in items:
             name = item.ItemName
@@ -394,7 +398,8 @@ def miscitemtracker():
             formattedItem = {
                 "Name" : name,
                 "id" : item.id,
-                "Tags" : [""]
+                "Tags" : [group.GroupType],
+                "ImageType" : item.ImageType if item.ImageType else ""
             }
             if int(item.GroupID) == int(group.id):
                 if group.GroupName in sortedItems:
@@ -403,7 +408,7 @@ def miscitemtracker():
                 else:
                     idToCrateList[group.GroupName] = [item.id]
                     sortedItems[group.GroupName] = [formattedItem]
-    return render_template("public/newtracker.html", sortedItems = sortedItems, idCrateList = idToCrateList, validTags = [], page="miscitemtracker")
+    return render_template("public/newtracker.html", sortedItems = sortedItems, idCrateList = idToCrateList, validTags = groupTypes, page="miscitemtracker")
 
 
 
