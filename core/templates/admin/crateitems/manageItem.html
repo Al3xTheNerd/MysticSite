@@ -125,6 +125,20 @@
                                 {% endfor %}
                                 {% endif %}
                             </select>
+                        </div> 
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="GroupSelectEdit">Grouped Items</label>
+                            <select name='ConnectedItems' class="form-select" id="GroupSelectEdit">
+                                <option value="">None</option>
+                                {% if currentMiscGroups is none %}
+                                <option value="">Create a new Group First!</option>
+                                {% else %}
+                                {% for group in currentMiscGroups %}
+                                <option value="{{ group.id }}" {% if item.ConnectedItems==group.id|string %} selected{%endif%}>{{
+                                    group.GroupName }}</option>
+                                {% endfor %}
+                                {% endif %}
+                            </select>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" name='ItemName' id="ItemNameeGroup"

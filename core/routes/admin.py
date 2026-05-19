@@ -138,6 +138,7 @@ def itemOrder():
 @permission_level_required(10)
 def manageItem(itemID):
     formattedCrates = config.currentCrateData()
+    currentMiscGroups = MiscellaneousGroup.query.order_by(MiscellaneousGroup.GroupOrder.desc()).all()
     item: Item = Item.query.filter_by(id = itemID).one()
     if not item:
         flash("Could Not Find Item.", "warning")
@@ -190,6 +191,7 @@ def manageItem(itemID):
                 item.WinPercentage = request.form.get("WinPercentage", item.WinPercentage)
                 item.Notes = request.form.get("Notes", item.Notes)
                 item.ItemName = request.form.get("ItemName", item.ItemName)
+                item.ConnectedItems = request.form.get("ConnectedItems", item.ConnectedItems)
                 new = item.to_dict("*")
                 db.session.commit()
                 for key in old.keys():
@@ -200,7 +202,8 @@ def manageItem(itemID):
     return render_template("admin/crateitems/manageItem.html", 
                            item = item,
                            validTags = config.validTags,
-                           currentCrates = formattedCrates)
+                           currentCrates = formattedCrates,
+                           currentMiscGroups = currentMiscGroups)
         
 @app.route('/admin/deleteitem/<itemID>', methods=['GET', 'POST']) # type: ignore
 @permission_level_required(50)

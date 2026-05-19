@@ -152,13 +152,15 @@ def item(itemID):
     item: Item | None = Item.query.filter_by(id = itemID).one_or_none()
     if item:
         PrimaryCrate: Crate = Crate.query.filter_by(id = item.CrateID).first() # type: ignore
+        PrimaryConnectedGroup = MiscellaneousGroup.query.filter_by(id = item.ConnectedItems).one_or_none()
         item.CrateName = PrimaryCrate.CrateName
-    if not item:
+    else:
         item = Item()
         item.ItemHTML = "<div class='mc-gold'>This is not a valid item id. Try again, or don't, it's not actually my problem.</div>"
         item.id = 0
         PrimaryCrate = None # type: ignore
-    return render_template("public/singleItem.html", PrimaryItem = item)
+        PrimaryConnectedGroup = None
+    return render_template("public/singleItem.html", PrimaryItem = item, PrimaryGroup = PrimaryConnectedGroup)
 
 @app.route('/rawitem/<itemID>')
 def rawitem(itemID):
@@ -211,6 +213,7 @@ def group(groupTag):
         if not group:
             flash("Group not found.")
             return redirect('/groups')
+        parentItems = Item.query.filter_by(ConnectedItems = group.id).all()
         items = MiscellaneousItem.query.filter_by(GroupID = group.id).order_by(MiscellaneousItem.ItemOrder)
         if not items:
             flash("No items found in group.")
@@ -219,7 +222,7 @@ def group(groupTag):
         flash("Something went wrong.")
         return redirect('/groups')
 
-    return render_template("public/mainDisplay.html", Items = items, Group = group, alternativeDisplay = True)
+    return render_template("public/mainDisplay.html", Items = items, Group = group, alternativeDisplay = True, ParentItems = parentItems)
 
 @app.route('/groups')
 def groupPage():

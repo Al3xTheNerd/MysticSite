@@ -41,7 +41,11 @@
                             <label for="NotesGroup">Notes</label>
                         </div>
                         {% endif %}
-
+                        {% if PrimaryItem.ConnectedItems %}
+                        <div class="form-floating mt-3">
+                            <span class="input-group-text">Connected Items:&nbsp;<a href="{{ url_for('group', groupTag=PrimaryGroup.URLTag) }}">{{PrimaryGroup.GroupName}}</a></span>
+                        </div>
+                        {% endif %}
                     </form>
                 </div>
             </div>
