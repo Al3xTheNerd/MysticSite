@@ -163,7 +163,8 @@ validSetTypes = [
 validMiscGroupTypes = [
     "Voucher",
     "Event",
-    "Furniture"
+    "Furniture",
+    "Crate Based Vouchers"
 ]
 
 
