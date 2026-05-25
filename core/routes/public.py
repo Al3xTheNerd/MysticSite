@@ -419,6 +419,10 @@ def miscitemtracker():
 def jobspayouts():
     return render_template("public/jobspayout.html", Info = jobsInfo, Secrets = JobsSecrets)
 
+@app.route('/staffcalc')
+def staffJobsCalc():
+    return render_template("public/staffCalc.html", Info = jobsInfo, Secrets = JobsSecrets)
+
 @app.route('/blockspeed')
 def blockspeed():
     sortedItems = {
