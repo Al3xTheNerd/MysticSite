@@ -70,6 +70,7 @@
                                             <th scope="col">Base Experience</th>
                                             <th scope="col">Base Pay Rate</th>
                                             <th scope="col">Estimated Money Earned</th>
+                                            <th scope="col">Actions Needed</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -79,7 +80,7 @@
                                             <td scope='col'><span id='xp'>{{JobItemInfo['xp']}}</span></th>
                                             <td scope='col'>$<span id='base'>{{JobItemInfo['basepay']}}</span></td>
                                             <td scope='col'>$<span id='payout'>0</span></td>
-
+                                            <td scope='col'>$<span id='actions'>0</span></td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
@@ -160,6 +161,7 @@
                 //buffedXP.textContent = Math.round(tempXP * 100) / 100
 
                 let moneyEarned = 0.0
+                let totalActionsNeeded = 0.0
 
                 for (let currentLevel = level; currentLevel <= levelEnd - 1; currentLevel++) {
                     payLevel = currentLevel
@@ -175,8 +177,11 @@
                     let totalLevelXP = updateGoalXP(currentLevel + 1, currentLevel, secret)
                     let actionsNeeded = totalLevelXP / (Math.round(tempXP * 100) / 100)
                     moneyEarned += actionsNeeded * payout
+                    totalActionsNeeded += actionsNeeded
                 }
                 row.querySelector("#payout").textContent = Math.round(moneyEarned * 100) / 100
+                row.querySelector("#actions").textContent = Math.round(totalActionsNeeded * 100) / 100
+                
             }
         }
     }
