@@ -1,5 +1,6 @@
 {% extends "core_layout.html" %}
 {% block content %}
+<link href="https://cdn.datatables.net/v/bs5/dt-2.3.8/datatables.min.css" rel="stylesheet" integrity="sha384-UclYA0TM50oo4lzbw9CylacalWmOxu+RipNT22BDrqDD9v2F0M+262NAs03TOfhw" crossorigin="anonymous">
 
 <div class="row gx-3 gy-3">
     <div class="col-12 bg-dark text-info rounded">
@@ -63,7 +64,7 @@
                             <div class="tab-pane fade {% if loop.first %}show active{% endif %}"
                                 id="{{JobName}}-{{JobAction}}-tab-pane" role="tabpanel" tabindex="0">
                                 <br>
-                                <table class="table table-dark table-striped extra-pad-top rounded">
+                                <table class="table table-dark table-striped extra-pad-top rounded" id="{{JobName}}-{{JobAction}}">
                                     <thead>
                                         <tr id="skip">
                                             <th scope="col">Item/Entity</th>
@@ -79,8 +80,8 @@
                                             <th scope='col'>{{JobItemName}}</th>
                                             <td scope='col'><span id='xp'>{{JobItemInfo['xp']}}</span></th>
                                             <td scope='col'>$<span id='base'>{{JobItemInfo['basepay']}}</span></td>
-                                            <td scope='col'>$<span id='payout'>0</span></td>
-                                            <td scope='col'><span id='actions'>0</span></td>
+                                            <td scope='col' data-order="0">$<span id='payout'>0</span></td>
+                                            <td scope='col' data-order="0"><span id='actions'>0</span></td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
@@ -180,10 +181,40 @@
                     totalActionsNeeded += actionsNeeded
                 }
                 row.querySelector("#payout").textContent = (Math.round(moneyEarned * 100) / 100).toLocaleString()
-                row.querySelector("#actions").textContent = Math.round(totalActionsNeeded).toLocaleString()
+                row.querySelector("#payout").parentElement.setAttribute('data-order', Math.round(moneyEarned * 100))
+                row.querySelector("#actions").textContent = Math.round(totalActionsNeeded)
+                row.querySelector("#actions").parentElement.setAttribute('data-order', Math.round(totalActionsNeeded))
                 
             }
         }
+        redoTables()
     }
+</script>
+<script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.3.8/datatables.min.js" integrity="sha384-pszF7QvU8ChuuhQBJGIvzVEcojfpYqQOVG2PaXES4M4Mcn+1CqfQ4r1b/mpdtn/6" crossorigin="anonymous"></script>
+<script>
+let tables = []
+{% for JobName in Info.keys() %}
+    {% for JobAction in Info[JobName].keys() %}
+let {{JobName}}{{JobAction|replace("-", "")}}Table = new DataTable('#{{JobName}}-{{JobAction}}', {
+    paging: false,
+    language: {
+        decimal: '.',
+        thousands: ','
+    },
+    columnDefs: [
+        {targets: [3,4], type: 'num-fmt'}
+    ]
+})
+tables+={{JobName}}{{JobAction|replace("-", "")}}Table
+    {% endfor %}
+{% endfor %}
+
+function redoTables(){
+    {% for JobName in Info.keys() %}
+    {% for JobAction in Info[JobName].keys() %}
+    {{JobName}}{{JobAction|replace("-", "")}}Table.rows().invalidate().draw()
+    {% endfor %}
+    {% endfor %}
+}
 </script>
 {% endblock %}
