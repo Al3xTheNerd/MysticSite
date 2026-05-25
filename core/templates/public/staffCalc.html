@@ -179,8 +179,8 @@
                     moneyEarned += actionsNeeded * payout
                     totalActionsNeeded += actionsNeeded
                 }
-                row.querySelector("#payout").textContent = Math.round(moneyEarned * 100) / 100
-                row.querySelector("#actions").textContent = Math.round(totalActionsNeeded * 100) / 100
+                row.querySelector("#payout").textContent = (Math.round(moneyEarned * 100) / 100).toLocaleString()
+                row.querySelector("#actions").textContent = Math.round(totalActionsNeeded).toLocaleString()
                 
             }
         }
