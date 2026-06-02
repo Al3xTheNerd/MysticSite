@@ -38,6 +38,7 @@ def navbarItems():
         'ServerURL' : server_url,
         'ServerRarityList' : server_rarity_list,
         'ServerTrackerScript' : server_tracker_script,
-        'ServerMaxRarity' : server_max_rarity
+        'ServerMaxRarity' : server_max_rarity,
+        'APIURL' : api_url
     }
     return config
