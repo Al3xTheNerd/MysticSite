@@ -42,3 +42,18 @@ def navbarItems():
         'APIURL' : api_url
     }
     return config
+
+@app.before_request
+def checkTesting():
+    print(request.endpoint)
+    if "Staff" in server_name:
+        if request.endpoint in ["login", "signup", "static", "login_post", "signup_post", "changelog", "logout"]:
+            return
+        if not current_user.is_authenticated:
+            flash("You must be logged in and verified to view this site.")
+            return redirect(url_for("login"))
+        if current_user.permissions < 10:
+            flash("You may not view this site without being approved by a site admin!")
+            return redirect(url_for("changelog"))
+        flash("Everything on this site is private, and NOT to be shared with others.")
+    return
