@@ -146,6 +146,9 @@
                 <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Custom Loot') }}">Custom Loot</a><code>({{stats["Custom Loot"]}})</code></li>
                 <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Furniture Dropping') }}">Furniture Dropping</a><code>({{stats["Furniture Dropping"]}})</code></li>
                 <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag='Reach Distance') }}">Reach Distance</a><code>({{stats["Reach Distance"]}})</code></li>
+                {% for tag in tags %}
+                <li class="list-group-item mc-white bg-dark"><a href="{{ url_for('tag', cat='Misc', tag=tag) }}">{{tag}}</a><code>({{stats[tag]}})</code></li>
+                {% endfor %}
             </ul>
         </div>
     </div>

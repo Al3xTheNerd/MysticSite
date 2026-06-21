@@ -260,7 +260,7 @@ def tagsPage():
         for tag in row:
             if tag:
                 stats[tag] += 1
-    return render_template("public/tags.html", stats=stats)
+    return render_template("public/tags.html", stats=stats, tags = c.server_custom_tags)
 
 @app.route('/tag/<cat>/<tag>')
 def tag(cat, tag):
