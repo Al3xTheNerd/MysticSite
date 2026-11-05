@@ -425,17 +425,18 @@ def fixImags():
     missingMiscIcons = []
     
     for item in items:
-        if f"{item.id}.png" not in iconFileList:
+        if f"{item.id}.png" not in iconFileList and f"{item.id}.gif" not in iconFileList:
             missingIcons.append(item)
+            item.ImageType = None  # <--- Fix: Set None in database!
         else:
-            item.ImageType = "png"
-        
-    
+            item.ImageType = "gif" if f"{item.id}.gif" in iconFileList else "png"
+
     for item in miscItems:
-        if f"{item.id}.png" not in miscIconFileList:
+        if f"{item.id}.png" not in miscIconFileList and f"{item.id}.gif" not in miscIconFileList:
             missingMiscIcons.append(item)
+            item.ImageType = None  # <--- Fix: Set None in database!
         else:
-            item.ImageType = "png"
+            item.ImageType = "gif" if f"{item.id}.gif" in miscIconFileList else "png"
         
     db.session.commit()
     return redirect('missingimages')
@@ -699,3 +700,36 @@ def manageGroups():
 
     return render_template("admin/miscitems/manageGroups.html", currentGroups = formattedGroups, validGroupTypes = config.validMiscGroupTypes)
 
+from flask import jsonify
+
+@app.route('/api/admin/missing_images', methods=['GET'])
+def api_missing_images():
+    if platform == "win32":
+        loc = "core/static/images/"
+    else:
+        loc = f"/home/alexthenerd/{server_folder_name}/core/static/images/"
+
+    crate_dir = Path(f"{loc}{server_name}_Icons")
+    misc_dir = Path(f"{loc}{server_name}_Misc_Icons")
+
+    # Get set of actual files present on disk (checking both png and gif)
+    crate_files = set(p.name for p in crate_dir.iterdir() if p.is_file()) if crate_dir.exists() else set()
+    misc_files = set(p.name for p in misc_dir.iterdir() if p.is_file()) if misc_dir.exists() else set()
+
+    missing_crate_ids = []
+    items = Item.query.order_by(Item.ItemOrder).all()
+    for item in items:
+        # If ImageType is None/none or neither .png nor .gif exists on disk
+        if not item.ImageType or (f"{item.id}.png" not in crate_files and f"{item.id}.gif" not in crate_files):
+            missing_crate_ids.append(item.id)
+
+    missing_misc_ids = []
+    misc_items = MiscellaneousItem.query.order_by(MiscellaneousItem.ItemOrder).all()
+    for item in misc_items:
+        if not item.ImageType or (f"{item.id}.png" not in misc_files and f"{item.id}.gif" not in misc_files):
+            missing_misc_ids.append(item.id)
+
+    return jsonify({
+        "missing_crate_ids": missing_crate_ids,
+        "missing_misc_ids": missing_misc_ids
+    })
