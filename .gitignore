@@ -5,3 +5,14 @@ atn.py
 .VSCodeCounter
 database.db
 .vscode/
+*.png
+*.gif
+
+make_token.py
+sync_images.py
+test_fetch.py
+
+core/static/images/BlossomCraft_Icons/
+core/static/images/BlossomCraft_Misc_Icons/
+core/static/images/BlossomCraft_Misc_Icons_Backup/
+.idea/

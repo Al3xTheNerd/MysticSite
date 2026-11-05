@@ -43,10 +43,3 @@ def navbarItems():
     }
     return config
 
-@app.before_request
-def checkTesting():
-    if server_name == "MysticMC":
-        flash("This website will be closed down soon. Please use <a href='https://items.mysticmc.co/'>https://items.mysticmc.co/</a> instead!")
-    if server_name == "BlossomCraft":
-        flash("This website will be closed down soon. Please use <a href='https://items.blossomcraft.org/'>https://items.blossomcraft.org/</a> instead!")
-    return
